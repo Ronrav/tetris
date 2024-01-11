@@ -1,0 +1,18 @@
+#pragma once
+class GameConfig
+{
+public:
+	enum class eKeys {
+		P1_LEFT = 'a', P1_RIGHT = 'd', P1_ROTATE = 's', P1_ROTATE_COUNTER = 'w', P1_DROP = 'x',
+		P2_LEFT = 'j', P2_RIGHT = 'l', P2_ROTATE = 'k', P2_ROTATE_COUNTER = 'i', P2_DROP = 'm', ESC = 27};
+	static constexpr int BOARD_WIDTH = 12;
+	static constexpr int BOARD_HEIGHT = 18;
+	static constexpr int BOARDS_GAP  = 40;
+
+	static constexpr int MIN_X = 20;
+	static constexpr int MIN_Y = 2;
+
+	static const int COLORS[];
+	static const int NUM_OF_COLORS;
+};
+
