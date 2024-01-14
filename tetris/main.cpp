@@ -1,8 +1,9 @@
-#include "board.h"
+#include "tetrisGame.h"
 
 void main()
 {
-	Board board;
-	board.drawBoards();
-	cout << endl;
+	run();
+	//Board board();
+	//board.drawBoardBorders();
+	//cout << endl;
 }

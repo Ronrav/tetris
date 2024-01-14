@@ -2,17 +2,25 @@
 #include "gameConfig.h"
 #include "utills.h"
 #include <stdlib.h>
-#include <iostream>
 #include <conio.h>
 #include <Windows.h>
+#include "c_char.h"
+#include <iostream>
 using namespace std;
 
-
+class Point;
 class Board
 {
-	int board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH];
+	int x;
+	int y;
+	int width;
+	int height;
+	bool colored;
+	Cchar board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH];
 public:
-	void drawBoard(int x, int y, int height, int width);
-	void drawBoards();
+	Board(int _x, int _y, int _width, int _height, bool _colored) : x(_x), y(_y), 
+		width(_width), height(_height), colored(_colored), board() {}
+	void drawBoardBorder();
+	void printBoard();
 };
 

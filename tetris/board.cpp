@@ -1,31 +1,38 @@
 #include "board.h"
 
 
-void Board::drawBoard(int x, int y, int height, int width)
+void Board::drawBoardBorder()
 {
-	for (int col = x; col <= x + width; col++)
+	for (int col = this->x; col <= this->x + this->width; col++)
 	{
-		gotoxy(col, y - 1);
+		gotoxy(col, this->y - 1);
 		cout << "-";
 
-		gotoxy(col, y + height + 1);
+		gotoxy(col, this->y + this->height + 1);
 		cout << "-";
 	}
 
-	for (int row = y - 1; row <= height + y; row++)
+	for (int row = this->y - 1; row <= this->height + this->y; row++)
 	{
-		gotoxy(x, row);
+		gotoxy(this->x, row);
 		cout << "|";
 
-		gotoxy(x + width, row);
+		gotoxy(this->x + this->width, row);
 		cout << "|";
 	}
+	cout << endl;
 }
 
-void Board::drawBoards()
+
+void Board::printBoard()
 {
-	//board 1
-	drawBoard(GameConfig::MIN_X, GameConfig::MIN_Y, GameConfig::BOARD_HEIGHT, GameConfig::BOARD_WIDTH);
-	//board 2
-	drawBoard(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, GameConfig::BOARD_HEIGHT, GameConfig::BOARD_WIDTH);
+	int i, j;
+	for (i = 0; i < GameConfig::BOARD_HEIGHT; i++)
+	{
+		for (j = 0; j < GameConfig::BOARD_WIDTH; j++)
+		{
+			gotoxy(i, j);
+			this->board[i][j].printCchar(this->colored);
+		}
+	}
 }
