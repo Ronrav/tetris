@@ -128,9 +128,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="board.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="gameConfig.h" />
+    <ClInclude Include="point.h" />
+    <ClInclude Include="shape.h" />
+    <ClInclude Include="utills.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="board.cpp" />
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="gameConfig.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="point.cpp" />
+    <ClCompile Include="shape.cpp" />
+    <ClCompile Include="utills.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
