@@ -31,8 +31,7 @@ void Board::printBoard()
 	{
 		for (j = 0; j < GameConfig::BOARD_WIDTH; j++)
 		{
-			gotoxy(i, j);
-			this->board[i][j].printCchar(this->colored);
+			printDot(this->x + j, this->y + i, this->board[i][j]);
 		}
 	}
 }

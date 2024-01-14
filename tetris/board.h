@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <Windows.h>
-#include "c_char.h"
 #include <iostream>
 using namespace std;
 
@@ -16,10 +15,11 @@ class Board
 	int width;
 	int height;
 	bool colored;
-	Cchar board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH];
+	int board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH] = {0};
 public:
 	Board(int _x, int _y, int _width, int _height, bool _colored) : x(_x), y(_y), 
-		width(_width), height(_height), colored(_colored), board() {}
+		width(_width), height(_height), colored(_colored) {}
+	Board() {}
 	void drawBoardBorder();
 	void printBoard();
 };

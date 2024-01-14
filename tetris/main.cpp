@@ -1,9 +1,9 @@
-#include "tetrisGame.h"
+#include "Game.h"
 
 void main()
 {
-	run();
-	//Board board();
-	//board.drawBoardBorders();
-	//cout << endl;
+	Game game;
+	int color = game.init();
+	if(color != 9)
+		game.play(color);
 }

@@ -43,3 +43,10 @@ int getRandom(int min, int max)
 {
 	return rand() % (max - min + 1) + min;
 }
+
+void printDot(int x, int y, int color)
+{
+	setTextColor(color);
+	gotoxy(x, y);
+	cout << "SYMBOL";
+}

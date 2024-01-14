@@ -1,13 +1,14 @@
 #include "game.h"
 
-char Game::handleStartMenu()
+int Game::handleStartMenu()
 {
-	char key;
+	int key = -1;
 	bool printed = false;
-	cout << "(1) Start a new game\n(8) Present instrcutions and keys\n (9) EXIT";
+	cout << "(1) Start a new game\n(8) Present instrcutions and keys\n(9) EXIT";
 	while (true)
 	{
-		key = getch();
+		if (_kbhit())
+			key = _getch() - '0';
 		if (key == 8 && !printed)
 		{
 			printInstructions();
@@ -18,14 +19,15 @@ char Game::handleStartMenu()
 	}
 }
 
-char Game::handlePauseMenu()
+int Game::handlePauseMenu()
 {
-	char key;
+	int key = -1;
 	bool printed = false;
 	cout << "(1) Start a new game\n(2) Continue a paused game\n(8) Present instrcutions and keys\n (9) EXIT";
 	while (true)
 	{
-		key = getch();
+		if(_kbhit())
+			key = _getch() - '0';
 		if (key == 8 && !printed)
 		{
 			printInstructions();
@@ -38,46 +40,40 @@ char Game::handlePauseMenu()
 
 void Game::printInstructions()
 {
-	cout << "\n\nLeft Player keys:\n\tLeft - a or A\n\tRight - d or D \n\tRotate clokwise - s or S";
+	cout << "\n\nLeft Player keys:\n\tLeft - a or A\n\tRight - d or D \n\tRotate clokwise - s or S \n\tRotate counterclokwise - w or W\n\tDrop - x or X";
+	cout << "\n\nRight Player keys:\n\tLeft - j or J\n\tRight - l or L \n\tRotate clokwise - k or K \n\tRotate counterclokwise - i or I\n\tDrop - m or M\n";
 }
 
-void Game::init()
+int Game::init()
 {
-}
-
-void Game::play()
-{
-	char key;
-	key = handleStartMenu();
-	if (key == 1)
+	int color, key = this->handleStartMenu();
+	if (key != 9)
 	{
-		// getColorChoice
-		//printStartingGameScreen(color)
+		cout << "\npress 1 for color or 0 for no color\n";
+		cin >> color;
+
+		clear_screen();
+		cout << "Starting Game in 1..";
+		Sleep(500);
+		cout << "2..";
+		Sleep(500);
+		cout << "3";
+		Sleep(500);
+		clear_screen();
 	}
-	bool color;
-	cout << "press 1 for color or 0 for no color\n";
-	cin >> color;
-	Board board1(GameConfig::MIN_X, GameConfig::MIN_Y, GameConfig::BOARD_WIDTH, GameConfig::BOARD_HEIGHT, color);
-	Board board2(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, GameConfig::BOARD_WIDTH, GameConfig::BOARD_HEIGHT, color);
-	board1.drawBoardBorder();
-	board2.drawBoardBorder();
-}
-
-
-
-
-char handleStartMenu()
-{
+	return key;
 	
-
-
 }
 
-char handlePauseMenu()
+void Game::play(int color)
 {
-}
-
-void printInstructions()
-{
+	Board tmp1(GameConfig::MIN_X, GameConfig::MIN_Y, GameConfig::BOARD_WIDTH, GameConfig::BOARD_HEIGHT, color);
+	Board tmp2(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, GameConfig::BOARD_WIDTH, GameConfig::BOARD_HEIGHT, color);
+	this->board1 = tmp1;
+	this->board2 = tmp2;
+	this->board1.drawBoardBorder();
+	this->board2.drawBoardBorder();
+	cout << "\nplaying game";
+	
 }
 

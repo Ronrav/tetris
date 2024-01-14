@@ -128,19 +128,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="board.h" />
-    <ClInclude Include="c_char.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameConfig.h" />
-    <ClInclude Include="tetrisGame.h" />
     <ClInclude Include="utills.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="board.cpp" />
-    <ClCompile Include="c_char.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameConfig.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="tetrisGame.cpp" />
     <ClCompile Include="utills.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
