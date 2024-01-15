@@ -17,6 +17,7 @@ public:
 	static constexpr char SYMBOL = '#';
 	static constexpr int MIN_X = 10;
 	static constexpr int MIN_Y = 2;
+	static constexpr int EMPTY = -1;
 
 	static const int COLORS[];
 	static const int NUM_OF_COLORS;

@@ -74,10 +74,12 @@ void Game::play(int color)
 	this->board1.drawBoardBorder();
 	this->board2.drawBoardBorder();
 	bool end_game = false;
-	//shape s1, s2
+	Shape s1, s2;
 	while (!end_game)
 	{
-		//s1.assign_shape(initial postion);
+		s1.assignShape(GameConfig::MIN_X + GameConfig::BOARD_WIDTH / 2, GameConfig::MIN_Y + 1);
+
+		//s1.assign_shape(this->board1);
 		//s2.assign_shape(initial postion);
 		/*
 		* if(place_shape_in_board)
