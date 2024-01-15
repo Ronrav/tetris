@@ -47,7 +47,7 @@ void Game::printInstructions()
 
 int Game::init()
 {
-	int color, key = this->handleStartMenu();
+	int key = this->handleStartMenu();
 	if (key != 9)
 	{
 		cout << "\npress 1 for color or 0 for no color\n";
@@ -62,8 +62,8 @@ int Game::init()
 		cout << "3";
 		Sleep(500);
 		clear_screen();
-		this->board1.init(GameConfig::MIN_X, GameConfig::MIN_Y, color);
-		this->board2.init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, color);
+		this->board1.init(GameConfig::MIN_X, GameConfig::MIN_Y, key-'0');
+		this->board2.init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y,key-'0');
 		this->board1.drawBoardBorder();
 		this->board2.drawBoardBorder();
 	}
@@ -73,50 +73,54 @@ int Game::init()
 
 void Game::play(int color)
 {
-
 	bool end_game = false;
-	Shape s1, s2;
+	Shape s1, s2, cpy_s1, cpy_s2;
+	int x1, y1, x2, y2;
+
+	this->board1.findStartPoint(&x1, &y1);
+	s1.getShape(x1, y1);
+	s1.copyShape(cpy_s1);
+
+	//this->board2.findStartPoint(&x2, &y2);
+	//findStartPoint(&x2, &y2);
+	//s2.getShape(x2, y2);
+	//copy
+
 	while (!end_game)
 	{
+		if (!this->board1.assignShapeToBoard(s1, cpy_s1))
+			end_game = true;
+		this->board1.printBoard();
+		Sleep(500);
+
+		while (true)
+		{
+			s1.moveDown();
+			if (!this->board1.assignShapeToBoard(s1, cpy_s1))
+				break;
+			s1.copyShape(cpy_s1);
+			this->board1.printBoard();
+			Sleep(500);
+		}
+			
 
 
-		//s1.assign_shape(initial postion);
-		//s2.assign_shape(initial postion);
-		/*
-		* if(place_shape_in_board)
-		* print_board
-		* else
-		* sleep(500)
-		* while(!end_game && !dropped)
-		* {
-		* if(_kbhit)
-		* key = _getch
-		* switch, case (left, right, drop, pause)
-		*/
 
-	}
+		/*int start_x, start_y;
+		Board cpy_board;
+		bool end_turn = false;
 
-	
-}
-
-void playTurn(int player, Board board)
-{
-	Shape s;
-	int start_x, start_y;
-	Board cpy_board;
-	bool end_turn = false; 
-
-	findStartPoint(player, &start_x, &start_y);
-	s.assignShape(start_x, start_y))
-		thisPlayerIsTheLooser(player);
-	
-
-	while (!end_turn)
-	{
 		findStartPoint(player, &start_x, &start_y);
-		if (!s.assignShape(start_x, start_y))
-			thisPlayerIsTheLooser(player);
-		
+		s.assignShape(start_x, start_y))
+		thisPlayerIsTheLooser(player);
+
+
+		while (!end_turn)
+		{
+			findStartPoint(player, &start_x, &start_y);
+			if (!s.assignShape(start_x, start_y))
+				thisPlayerIsTheLooser(player);
+
 		//s1.assign_shape(initial postion);
 		//s2.assign_shape(initial postion);
 		/*
@@ -130,40 +134,13 @@ void playTurn(int player, Board board)
 		* key = _getch
 		* switch, case (left, right, drop, pause)
 		*/
-
-	}
-
-	
-
-
-
-	
-
-
-
-
-
-
-
-}
-
-void findStartPoint(Player player, int* x, int* y)
-{
-	if (player == 1)
-	{
-		start_x = GameConfig::START_X_COORD_BOARD_1;
-		start_y = GameConfig::START_Y_COORD_BOARD_1;
-	}
-
-	else
-	{
-		start_x = GameConfig::START_X_COORD_BOARD_1;
-		start_y = GameConfig::START_Y_COORD_BOARD_1;
-
 	}
 }
+
+
+
 //get the looser player, prints results and ends the game
-void thisPlayerIsTheLooser(Player player)
+void thisPlayerIsTheLooser(int player)
 {
-
+	return;
 }

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __GAME_H
+#define __GAME_H
 #include "board.h"
 #include "utills.h"
 #include <windows.h>
@@ -16,6 +17,8 @@ public:
 	Game() {};
 	int init();
 	void play(int color);
+	
 };
 
+#endif
 

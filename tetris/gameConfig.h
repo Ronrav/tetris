@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __GAME_CONFIG_H
+#define __GAME_CONFIG_H
+
 class GameConfig
 {
 public:
@@ -28,3 +30,4 @@ public:
 	static const int NUM_OF_COLORS;
 };
 
+#endif

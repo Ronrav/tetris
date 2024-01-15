@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __BOARD_H
+#define __BOARD_H
 #include "gameConfig.h"
 #include "utills.h"
 #include <stdlib.h>
@@ -8,6 +9,7 @@
 #include "shape.h"
 using namespace std;
 
+class Shape;
 class Point;
 class Board
 {
@@ -23,6 +25,11 @@ public:
 	bool checkIfFreeCoord(int _x, int _y);
 	void copyBoardTo(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]);
 	void copyToBoard(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]);
-	bool assignShapeToBoard(Shape block);
+	bool assignShapeToBoard(Shape block, Shape copy);
+	void findStartPoint(int* _x, int* _y);
+	
+
 };
+
+#endif
 

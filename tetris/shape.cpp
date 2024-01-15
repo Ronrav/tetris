@@ -1,7 +1,9 @@
 #include "shape.h"
+#include "point.h"
 
-void Shape::assignShape(int x, int y)
+void Shape::getShape(int x, int y)
 {
+	this->rotation_state = 0;
 	this->shape_type = getRandom(1, 7);
 	int color = GameConfig::COLORS[getRandom(1, 16)];
 		//space filler
@@ -57,7 +59,6 @@ void Shape::assignShape(int x, int y)
 			this->points[3].set(x - 1, y + 2, color);
 			break;
 		}
-	
 }
 
 
@@ -352,4 +353,13 @@ void Shape::rotateJshape()
 		this->points[3].set(x - 2, y - 1, color);
 		break;
 	}
+}
+
+void Shape::copyShape(Shape& dest)
+{
+	for (int i = 0; i < 4; i++)
+		dest.points[i] = this->points[i];
+
+	dest.rotation_state = this->rotation_state;
+
 }

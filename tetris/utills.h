@@ -1,6 +1,10 @@
 #ifndef __UTILLLS_H
 #define __UTILLS_H
 #include "gameConfig.h"
+#include <windows.h> // for gotoxy
+#include <process.h> // for system
+#include <iostream>
+using namespace std;
 
 void gotoxy(int x, int y);
 void setTextColor(int color);

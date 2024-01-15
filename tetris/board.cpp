@@ -5,7 +5,7 @@
 void Board::init(int _x, int _y, int _colored)
 {
 	this->x = _x;
-	this->y = y;
+	this->y = _y;
 	this->colored = _colored;
 	for (int i = 0; i < GameConfig::BOARD_WIDTH; i++)
 	{
@@ -82,23 +82,33 @@ void Board::copyToBoard(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOA
 	}
 }
 
-bool Board::assignShapeToBoard(Shape block)
+bool Board::assignShapeToBoard(Shape block, Shape copy)
 {
 	int backup_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH];
 	this->copyBoardTo(backup_board);
-	Point* shape_arr;
-	shape_arr = block.getPoints();
+	Point* copy_arr, *block_arr;
+	copy_arr = copy.getPoints();
+	block_arr = block.getPoints();
+
+
+	for (int i = 0; i < 4; i++)
+		this->board[copy_arr[i].getX()][copy_arr[i].getY()] = GameConfig::EMPTY;
+	
 	for (int i = 0; i < 4; i++)
 	{
-		if (this->checkIfFreeCoord(shape_arr[i].getX(), shape_arr[i].getY()))
-			this->board[shape_arr[i].getX()][shape_arr[i].getY()] = shape_arr[i].getColor();
+		if (this->checkIfFreeCoord(block_arr[i].getX(), block_arr[i].getY()))
+			this->board[block_arr[i].getX()][block_arr[i].getY()] = block_arr[i].getColor();
 		else
 		{
 			this->copyToBoard(backup_board);
 			return false;
-		}
-			
+		}	
 	}
 	return true;
 }
 
+void Board::findStartPoint(int* _x, int* _y)
+{
+	*_x = this->x + GameConfig::BOARD_WIDTH / 2;
+	*_y = this->y + GameConfig::BOARD_HEIGHT / 2;
+}

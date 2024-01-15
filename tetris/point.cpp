@@ -1,12 +1,7 @@
-#include "point.h"
-#include "gameConfig.h"
-#include "utills.h"
-#include "board.h"
-#include <iostream>
-#include <Windows.h>
-using namespace std;
 
-void Point::set(int _x, int _y, int _color = )
+#include "point.h"
+
+void Point::set(int _x, int _y, int _color)
 {
 	x = _x;
 	y = _y;
