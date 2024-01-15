@@ -1,5 +1,6 @@
 #include "game.h"
 
+
 int Game::handleStartMenu()
 {
 	int key = -1;
@@ -77,9 +78,9 @@ void Game::play(int color)
 	Shape s1, s2;
 	while (!end_game)
 	{
-		s1.assignShape(GameConfig::MIN_X + GameConfig::BOARD_WIDTH / 2, GameConfig::MIN_Y + 1);
 
-		//s1.assign_shape(this->board1);
+
+		//s1.assign_shape(initial postion);
 		//s2.assign_shape(initial postion);
 		/*
 		* if(place_shape_in_board)
@@ -98,3 +99,71 @@ void Game::play(int color)
 	
 }
 
+void playTurn(int player, Board board)
+{
+	Shape s;
+	int start_x, start_y;
+	Board cpy_board;
+	bool end_turn = false; 
+
+	findStartPoint(player, &start_x, &start_y);
+	s.assignShape(start_x, start_y))
+		thisPlayerIsTheLooser(player);
+	
+
+	while (!end_turn)
+	{
+		findStartPoint(player, &start_x, &start_y);
+		if (!s.assignShape(start_x, start_y))
+			thisPlayerIsTheLooser(player);
+		
+		//s1.assign_shape(initial postion);
+		//s2.assign_shape(initial postion);
+		/*
+		* if(place_shape_in_board)
+		* print_board
+		* else
+		* sleep(500)
+		* while(!end_game && !dropped)
+		* {
+		* if(_kbhit)
+		* key = _getch
+		* switch, case (left, right, drop, pause)
+		*/
+
+	}
+
+	
+
+
+
+	
+
+
+
+
+
+
+
+}
+
+void findStartPoint(Player player, int* x, int* y)
+{
+	if (player == 1)
+	{
+		start_x = GameConfig::START_X_COORD_BOARD_1;
+		start_y = GameConfig::START_Y_COORD_BOARD_1;
+	}
+
+	else
+	{
+		start_x = GameConfig::START_X_COORD_BOARD_1;
+		start_y = GameConfig::START_Y_COORD_BOARD_1;
+
+	}
+}
+//get the looser player, prints results and ends the game
+void thisPlayerIsTheLooser(Player player)
+{
+
+}
