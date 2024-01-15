@@ -17,5 +17,6 @@ public:
 	void move(int new_x, int new_y);
 	int getY();
 	int getX();
+	int get_color();
 };
 

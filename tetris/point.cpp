@@ -52,6 +52,10 @@ int Point::getX()
 {
 	return x;
 }
+int Point::get_color()
+{
+	return this->color;
+}
 int Point::getY()
 {
 	return y;

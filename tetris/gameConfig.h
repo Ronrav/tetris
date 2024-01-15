@@ -14,7 +14,7 @@ public:
 	static constexpr int BOARD_WIDTH = 12;
 	static constexpr int BOARD_HEIGHT = 18;
 	static constexpr int BOARDS_GAP  = 40;
-
+	static constexpr char SYMBOL = '#';
 	static constexpr int MIN_X = 10;
 	static constexpr int MIN_Y = 2;
 

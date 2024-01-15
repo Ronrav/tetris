@@ -73,7 +73,26 @@ void Game::play(int color)
 	this->board2 = tmp2;
 	this->board1.drawBoardBorder();
 	this->board2.drawBoardBorder();
-	cout << "\nplaying game";
+	bool end_game = false;
+	//shape s1, s2
+	while (!end_game)
+	{
+		//s1.assign_shape(initial postion);
+		//s2.assign_shape(initial postion);
+		/*
+		* if(place_shape_in_board)
+		* print_board
+		* else
+		* sleep(500)
+		* while(!end_game && !dropped)
+		* {
+		* if(_kbhit)
+		* key = _getch
+		* switch, case (left, right, drop, pause)
+		*/
+
+	}
+
 	
 }
 
