@@ -4,7 +4,6 @@
 #include <windows.h>
 #include "gameConfig.h"
 #include "shape.h"
-
 //include block/shape
 class Game
 {

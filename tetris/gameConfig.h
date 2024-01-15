@@ -21,10 +21,7 @@ public:
 	static constexpr int START_Y_COORD_BOARD_1 = MIN_Y + (BOARD_HEIGHT / 2);
 	static constexpr int START_X_COORD_BOARD_2 = MIN_X + BOARDS_GAP + (BOARD_WIDTH / 2);
 	static constexpr int START_Y_COORD_BOARD_2 = MIN_Y + BOARDS_GAP + (BOARD_HEIGHT / 2);
-
-
-
-
+	static constexpr int EMPTY = -1;
 
 
 	static const int COLORS[];

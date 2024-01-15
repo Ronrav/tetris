@@ -60,6 +60,41 @@ void Shape::assignShape(int x, int y)
 	
 }
 
+void Shape::rotateClockWise()
+{
+	this->rotate(true);
+}
+
+void Shape::rotateCounterClockWise()
+{
+	this->rotate(false);
+}
+
+void Shape::moveDown()
+{
+	for (int i = 0; i < 4; i++)
+		this->points[i].setY(this->points[i].getY() + 1);
+}
+
+void Shape::moveLeft()
+{
+	for (int i = 0; i < 4; i++)
+		this->points[i].setX(this->points[i].getX() - 1);
+}
+
+void Shape::moveRight()
+{
+	for (int i = 0; i < 4; i++)
+		this->points[i].setX(this->points[i].getX() + 1);
+}
+
+Point* Shape::getPoints()
+{
+	return this->points;
+}
+
+
+
 void Shape::rotate(bool clockwise)
 {
 	if (clockwise)
@@ -73,32 +108,32 @@ void Shape::rotate(bool clockwise)
 		break;
 		//I shape
 	case(2):
-		this->rotateIshape(clockwise);
+		this->rotateIshape();
 		break;
 		//S shape
 	case(3):
-		this->rotateSshape(clockwise);
+		this->rotateSshape();
 		break;
 		//Z shape
 	case(4):
-		this->rotateZshape(clockwise);
+		this->rotateZshape();
 		break;
 		//T shape
 	case(5):
-		this->rotateTshape(clockwise);
+		this->rotateTshape();
 		break;
 		//L shape
 	case(6):
-		this->rotateLshape(clockwise);
+		this->rotateLshape();
 		break;
 		//J shape
 	case(7):
-		this->rotateJshape(clockwise);
+		this->rotateJshape();
 		break;
 	}
 }
 
-void Shape::rotateIshape(bool clockwise)
+void Shape::rotateIshape()
 {
 	int x, y, color;
 	x = this->points[0].getX();
@@ -132,7 +167,7 @@ void Shape::rotateIshape(bool clockwise)
 		break;
 	}
 }
-void Shape::rotateSshape(bool clockwise)
+void Shape::rotateSshape()
 {
 	int x, y, color;
 	x = this->points[0].getX();
@@ -148,25 +183,25 @@ void Shape::rotateSshape(bool clockwise)
 		break;
 		//90 shape
 	case(2):
+		this->points[1].set(x, y - 1, color);
+		this->points[2].set(x + 1, y, color);
+		this->points[3].set(x + 1, y + 1, color);
+		break;
+		//180 shape
+	case(3):
+		this->points[1].set(x - 1, y, color);
+		this->points[2].set(x, y - 1, color);
+		this->points[3].set(x + 1, y, color);
+		break;
+		//270 shape
+	case(4):
 		this->points[1].set(x, y + 1, color);
 		this->points[2].set(x - 1, y, color);
 		this->points[3].set(x - 1, y - 1, color);
 		break;
-		//180 shape
-	case(3):
-		this->points[1].set(x + 1, y, color);
-		this->points[2].set(x, y + 1, color);
-		this->points[3].set(x - 1, y + 1, color);
-		break;
-		//270 shape
-	case(4):
-		this->points[1].set(x + 1, y, color);
-		this->points[2].set(x + 2, y, color);
-		this->points[3].set(x + 3, y, color);
-		break;
 	}
 }
-void Shape::rotateZshape(bool clockwise)
+void Shape::rotateZshape()
 {
 	int x, y, color;
 	x = this->points[0].getX();
@@ -183,24 +218,24 @@ void Shape::rotateZshape(bool clockwise)
 		//90 shape
 	case(2):
 		this->points[1].set(x, y + 1, color);
-		this->points[2].set(x - 1, y, color);
-		this->points[3].set(x - 1, y - 1, color);
+		this->points[2].set(x + 1, y, color);
+		this->points[3].set(x + 1, y - 1, color);
 		break;
 		//180 shape
 	case(3):
 		this->points[1].set(x + 1, y, color);
-		this->points[2].set(x, y + 1, color);
-		this->points[3].set(x - 1, y + 1, color);
+		this->points[2].set(x, y - 1, color);
+		this->points[3].set(x - 1, y - 1, color);
 		break;
 		//270 shape
 	case(4):
-		this->points[1].set(x + 1, y, color);
-		this->points[2].set(x + 2, y, color);
-		this->points[3].set(x + 3, y, color);
+		this->points[1].set(x, y - 1, color);
+		this->points[2].set(x - 1, y, color);
+		this->points[3].set(x - 1, y + 1, color);
 		break;
 	}
 }
-void Shape::rotateTshape(bool clockwise)
+void Shape::rotateTshape()
 {
 	int x, y, color;
 	x = this->points[0].getX();
@@ -217,24 +252,24 @@ void Shape::rotateTshape(bool clockwise)
 		//90 shape
 	case(2):
 		this->points[1].set(x, y + 1, color);
-		this->points[2].set(x - 1, y, color);
-		this->points[3].set(x - 1, y - 1, color);
+		this->points[2].set(x, y - 1, color);
+		this->points[3].set(x + 1, y, color);
 		break;
 		//180 shape
 	case(3):
 		this->points[1].set(x + 1, y, color);
-		this->points[2].set(x, y + 1, color);
-		this->points[3].set(x - 1, y + 1, color);
+		this->points[2].set(x - 1, y, color);
+		this->points[3].set(x, y - 1, color);
 		break;
 		//270 shape
 	case(4):
-		this->points[1].set(x + 1, y, color);
-		this->points[2].set(x + 2, y, color);
-		this->points[3].set(x + 3, y, color);
+		this->points[1].set(x, y - 1, color);
+		this->points[2].set(x, y + 1, color);
+		this->points[3].set(x - 1, y, color);
 		break;
 	}
 }
-void Shape::rotateLshape(bool clockwise)
+void Shape::rotateLshape()
 {
 	int x, y, color;
 	x = this->points[0].getX();
@@ -244,31 +279,31 @@ void Shape::rotateLshape(bool clockwise)
 	{
 		//0 celsius
 	case(1):
-		this->points[1].set(x + 1, y, color);
-		this->points[2].set(x, y + 1, color);
-		this->points[3].set(x - 1, y + 1, color);
+		this->points[1].set(x, y + 1, color);
+		this->points[2].set(x, y + 2, color);
+		this->points[3].set(x + 1, y + 2, color);
 		break;
 		//90 shape
 	case(2):
-		this->points[1].set(x, y + 1, color);
-		this->points[2].set(x - 1, y, color);
-		this->points[3].set(x - 1, y - 1, color);
+		this->points[1].set(x + 1, y, color);
+		this->points[2].set(x + 2, y, color);
+		this->points[3].set(x + 2, y - 1, color);
 		break;
 		//180 shape
 	case(3):
-		this->points[1].set(x + 1, y, color);
-		this->points[2].set(x, y + 1, color);
-		this->points[3].set(x - 1, y + 1, color);
+		this->points[1].set(x, y - 1, color);
+		this->points[2].set(x, y - 2, color);
+		this->points[3].set(x - 1, y - 2, color);
 		break;
 		//270 shape
 	case(4):
-		this->points[1].set(x + 1, y, color);
-		this->points[2].set(x + 2, y, color);
-		this->points[3].set(x + 3, y, color);
+		this->points[1].set(x - 1, y, color);
+		this->points[2].set(x - 2, y, color);
+		this->points[3].set(x - 2, y + 1, color);
 		break;
 	}
 }
-void Shape::rotateJshape(bool clockwise)
+void Shape::rotateJshape()
 {
 	int x, y, color;
 	x = this->points[0].getX();
@@ -278,27 +313,27 @@ void Shape::rotateJshape(bool clockwise)
 	{
 		//0 celsius
 	case(1):
-		this->points[1].set(x + 1, y, color);
-		this->points[2].set(x, y + 1, color);
-		this->points[3].set(x - 1, y + 1, color);
+		this->points[1].set(x, y + 1, color);
+		this->points[2].set(x, y + 2, color);
+		this->points[3].set(x - 1, y + 2, color);
 		break;
 		//90 shape
 	case(2):
-		this->points[1].set(x, y + 1, color);
-		this->points[2].set(x - 1, y, color);
-		this->points[3].set(x - 1, y - 1, color);
+		this->points[1].set(x + 1, y, color);
+		this->points[2].set(x + 2, y, color);
+		this->points[3].set(x + 2, y + 1, color);
 		break;
 		//180 shape
 	case(3):
-		this->points[1].set(x + 1, y, color);
-		this->points[2].set(x, y + 1, color);
-		this->points[3].set(x - 1, y + 1, color);
+		this->points[1].set(x, y - 1, color);
+		this->points[2].set(x, y - 2, color);
+		this->points[3].set(x + 1, y - 2, color);
 		break;
 		//270 shape
 	case(4):
-		this->points[1].set(x + 1, y, color);
-		this->points[2].set(x + 2, y, color);
-		this->points[3].set(x + 3, y, color);
+		this->points[1].set(x - 1, y, color);
+		this->points[2].set(x - 2, y, color);
+		this->points[3].set(x - 2, y - 1, color);
 		break;
 	}
 }

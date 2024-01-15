@@ -48,7 +48,7 @@ bool Board::checkIfFreeCoord(int _x, int _y)
 
 }
 
-void Board::copyBoard(char** copy_board)
+void Board::copyBoardTo(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH])
 {
 	for (int i = 0; i < this->width; i++)
 	{
@@ -56,3 +56,33 @@ void Board::copyBoard(char** copy_board)
 			copy_board[i][j] = board[i][j];
 	}
 }
+
+void Board::copyToBoard(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH])
+{
+	for (int i = 0; i < this->width; i++)
+	{
+		for (int j = 0; j < this->height; j++)
+			 this->board[i][j] = copy_board[i][j];
+	}
+}
+
+bool Board::assignShapeToBoard(Shape block)
+{
+	int backup_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH];
+	this->copyBoardTo(backup_board);
+	Point* shape_arr;
+	shape_arr = block.getPoints();
+	for (int i = 0; i < 4; i++)
+	{
+		if (this->board[shape_arr[i].getX()][shape_arr[i].getY()] == GameConfig::EMPTY)
+			this->board[shape_arr[i].getX()][shape_arr[i].getY()] = shape_arr[i].getColor();
+		else
+		{
+			this->copyToBoard(backup_board);
+			return false;
+		}
+			
+	}
+	return true;
+}
+

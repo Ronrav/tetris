@@ -50,17 +50,25 @@ void Point::move(int new_x, int new_y)
 
 int Point::getX()
 {
-	return x;
+	return this->x;
 }
-int Point::get_color()
+int Point::getColor()
 {
 	return this->color;
 }
 int Point::getY()
 {
-	return y;
+	return this->y;
 }
 
+void Point::setX(int _x)
+{
+	this->x = _x;
+}
+void Point::setY(int _y)
+{
+	this->y = _y;
+}
 
 
 
