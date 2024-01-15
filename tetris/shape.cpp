@@ -1,5 +1,4 @@
 #include "shape.h"
-#include "point.h"
 
 void Shape::getShape(int x, int y)
 {
