@@ -1,6 +1,7 @@
 #ifndef __UTILLLS_H
 #define __UTILLS_H
-#define SYMBOL #
+#include "gameConfig.h"
+
 void gotoxy(int x, int y);
 void setTextColor(int color);
 void setBackColor(int color);

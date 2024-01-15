@@ -48,5 +48,5 @@ void printDot(int x, int y, int color)
 {
 	setTextColor(color);
 	gotoxy(x, y);
-	cout << "SYMBOL";
+	cout << GameConfig::SYMBOL;
 }

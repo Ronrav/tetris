@@ -28,12 +28,12 @@ void Board::drawBoardBorder()
 void Board::printBoard()
 {
 	int i, j;
-	for (i = 0; i < GameConfig::BOARD_HEIGHT; i++)
+	for (i = 0; i < this->height; i++)
 	{
-		for (j = 0; j < GameConfig::BOARD_WIDTH; j++)
+		for (j = 0; j < this->width; j++)
 		{
 			gotoxy(i, j);
-			//this->board[i][j].printCchar(this->colored);
+			printDot(this->x + j, this->y + i, this->board[i][j]);
 		}
 	}
 }
@@ -42,15 +42,17 @@ bool Board::checkIfFreeCoord(int _x, int _y)
 {
 	if ((_x > this->x && x < this->x + width) &&
 		(y > this->y && y < this->y + height) &&
-		(this->board[x][y] == GameConfig::EMPTY))
+		(this->board[x][y] == ' '))
+		return true;
+	return false;
 
 }
 
 void Board::copyBoard(char** copy_board)
 {
-	for (int i = 0; i < GameConfig::BOARD_WIDTH)
+	for (int i = 0; i < this->width; i++)
 	{
-		for (j = 0; j < GameConfig::BOARD_HEIGHT)
+		for (int j = 0; j < this->height; j++)
 			copy_board[i][j] = board[i][j];
 	}
 }

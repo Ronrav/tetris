@@ -19,6 +19,7 @@ class Board
 public:
 	Board(int _x, int _y, int _width, int _height, bool _colored) : x(_x), y(_y),
 		width(_width), height(_height), colored(_colored), board() {}
+	Board() {};
 	void drawBoardBorder();
 	void printBoard();
 	bool checkIfFreeCoord(int _x, int _y);
