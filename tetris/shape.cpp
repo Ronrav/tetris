@@ -60,15 +60,18 @@ void Shape::assignShape(int x, int y)
 	
 }
 
+
 void Shape::rotateClockWise()
 {
 	this->rotate(true);
 }
 
+
 void Shape::rotateCounterClockWise()
 {
 	this->rotate(false);
 }
+
 
 void Shape::moveDown()
 {
@@ -76,11 +79,13 @@ void Shape::moveDown()
 		this->points[i].setY(this->points[i].getY() + 1);
 }
 
+
 void Shape::moveLeft()
 {
 	for (int i = 0; i < 4; i++)
 		this->points[i].setX(this->points[i].getX() - 1);
 }
+
 
 void Shape::moveRight()
 {
@@ -88,11 +93,11 @@ void Shape::moveRight()
 		this->points[i].setX(this->points[i].getX() + 1);
 }
 
+
 Point* Shape::getPoints()
 {
 	return this->points;
 }
-
 
 
 void Shape::rotate(bool clockwise)
@@ -133,6 +138,7 @@ void Shape::rotate(bool clockwise)
 	}
 }
 
+
 void Shape::rotateIshape()
 {
 	int x, y, color;
@@ -167,6 +173,8 @@ void Shape::rotateIshape()
 		break;
 	}
 }
+
+
 void Shape::rotateSshape()
 {
 	int x, y, color;
@@ -201,6 +209,8 @@ void Shape::rotateSshape()
 		break;
 	}
 }
+
+
 void Shape::rotateZshape()
 {
 	int x, y, color;
@@ -235,6 +245,8 @@ void Shape::rotateZshape()
 		break;
 	}
 }
+
+
 void Shape::rotateTshape()
 {
 	int x, y, color;
@@ -269,6 +281,8 @@ void Shape::rotateTshape()
 		break;
 	}
 }
+
+
 void Shape::rotateLshape()
 {
 	int x, y, color;
@@ -303,6 +317,8 @@ void Shape::rotateLshape()
 		break;
 	}
 }
+
+
 void Shape::rotateJshape()
 {
 	int x, y, color;

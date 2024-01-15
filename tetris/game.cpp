@@ -51,8 +51,9 @@ int Game::init()
 	if (key != 9)
 	{
 		cout << "\npress 1 for color or 0 for no color\n";
-		cin >> color;
-
+		key = _getch();
+		while (key - '0' != 1 && key - '0' != 0)
+			key = _getch();
 		clear_screen();
 		cout << "Starting Game in 1..";
 		Sleep(500);
@@ -61,6 +62,10 @@ int Game::init()
 		cout << "3";
 		Sleep(500);
 		clear_screen();
+		this->board1.init(GameConfig::MIN_X, GameConfig::MIN_Y, color);
+		this->board2.init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, color);
+		this->board1.drawBoardBorder();
+		this->board2.drawBoardBorder();
 	}
 	return key;
 	
@@ -68,12 +73,7 @@ int Game::init()
 
 void Game::play(int color)
 {
-	Board tmp1(GameConfig::MIN_X, GameConfig::MIN_Y, GameConfig::BOARD_WIDTH, GameConfig::BOARD_HEIGHT, color);
-	Board tmp2(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, GameConfig::BOARD_WIDTH, GameConfig::BOARD_HEIGHT, color);
-	this->board1 = tmp1;
-	this->board2 = tmp2;
-	this->board1.drawBoardBorder();
-	this->board2.drawBoardBorder();
+
 	bool end_game = false;
 	Shape s1, s2;
 	while (!end_game)
