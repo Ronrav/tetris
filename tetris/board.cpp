@@ -47,7 +47,7 @@ void Board::printBoard()
 			if (this->board[i][j] != GameConfig::EMPTY)
 			{
 				gotoxy(i, j);
-				printDot(this->x + j, this->y + i, this->board[i][j]);
+				printDot(this->x + j, this->y + i, this->board[i][j] * this->colored);
 
 			}
 		}
