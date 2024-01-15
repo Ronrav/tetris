@@ -138,7 +138,7 @@ void Shape::rotateIshape()
 	int x, y, color;
 	x = this->points[0].getX();
 	y = this->points[0].getY();
-	color = x = this->points[0].get_color();
+	color = x = this->points[0].getColor();
 	switch (this->rotation_state)
 	{
 		//0 celsius
@@ -172,7 +172,7 @@ void Shape::rotateSshape()
 	int x, y, color;
 	x = this->points[0].getX();
 	y = this->points[0].getY();
-	color = x = this->points[0].get_color();
+	color = x = this->points[0].getColor();
 	switch (this->shape_type)
 	{
 		//0 celsius
@@ -206,7 +206,7 @@ void Shape::rotateZshape()
 	int x, y, color;
 	x = this->points[0].getX();
 	y = this->points[0].getY();
-	color = x = this->points[0].get_color();
+	color = x = this->points[0].getColor();
 	switch (this->shape_type)
 	{
 		//0 celsius
@@ -240,7 +240,7 @@ void Shape::rotateTshape()
 	int x, y, color;
 	x = this->points[0].getX();
 	y = this->points[0].getY();
-	color = x = this->points[0].get_color();
+	color = x = this->points[0].getColor();
 	switch (this->shape_type)
 	{
 		//0 celsius
@@ -274,7 +274,7 @@ void Shape::rotateLshape()
 	int x, y, color;
 	x = this->points[0].getX();
 	y = this->points[0].getY();
-	color = x = this->points[0].get_color();
+	color = x = this->points[0].getColor();
 	switch (this->shape_type)
 	{
 		//0 celsius
@@ -308,7 +308,7 @@ void Shape::rotateJshape()
 	int x, y, color;
 	x = this->points[0].getX();
 	y = this->points[0].getY();
-	color = x = this->points[0].get_color();
+	color = x = this->points[0].getColor();
 	switch (this->shape_type)
 	{
 		//0 celsius
