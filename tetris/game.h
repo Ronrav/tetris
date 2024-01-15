@@ -2,6 +2,9 @@
 #include "board.h"
 #include "utills.h"
 #include <windows.h>
+#include "gameConfig.h"
+#include "shape.h"
+
 //include block/shape
 class Game
 {

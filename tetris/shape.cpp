@@ -57,6 +57,7 @@ void Shape::assignShape(int x, int y)
 			this->points[3].set(x - 1, y + 2, color);
 			break;
 		}
+	
 }
 
 void Shape::rotate(bool clockwise)
