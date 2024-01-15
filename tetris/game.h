@@ -13,10 +13,11 @@ class Game
 	int handleStartMenu();
 	int handlePauseMenu();
 	void printInstructions();
+	int handleKbhit(char player);
 public:
-	Game() {};
-	void init();
+	int init();
 	void play(int color);
+	void playGame();
 	
 };
 

@@ -3,7 +3,7 @@
 #include "point.h"
 //#include "utills.h"
 
-//class Point;
+class Point;
 
 class Shape
 {
@@ -28,13 +28,14 @@ public:
 
 //	};
 	void getShape(int x, int y);
+	void copyShape(Shape& dest);
 	void rotateClockWise();
 	void rotateCounterClockWise();
 	void moveDown();
 	void moveLeft();
 	void moveRight();
 	Point* getPoints();
-	void copyShape(Shape& dest);
+	
 	
 };
 
