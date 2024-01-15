@@ -4,9 +4,11 @@
 class GameConfig
 {
 public:
-	enum class eKeys {
-		P1_LEFT = 'a', P1_RIGHT = 'd', P1_ROTATE = 's', P1_ROTATE_COUNTER = 'w', P1_DROP = 'x',
-		P2_LEFT = 'j', P2_RIGHT = 'l', P2_ROTATE = 'k', P2_ROTATE_COUNTER = 'i', P2_DROP = 'm', ESC = 27};
+	enum class LKeys {
+		LEFT = 'a', RIGHT = 'd', ROTATE = 's', ROTATE_COUNTER = 'w', DROP = 'x',};
+	
+	enum class RKeys {
+		LEFT = 'j', RIGHT = 'l', ROTATE = 'k', ROTATE_COUNTER = 'i', DROP = 'm',};
 
 	enum Color
 	{

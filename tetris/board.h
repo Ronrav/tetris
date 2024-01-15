@@ -18,7 +18,7 @@ class Board
 	int colored;
 	int board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH];
 public:
-	Board() {};
+	//Board() {};
 	void init(int _x, int _y, int _colored);
 	void drawBoardBorder();
 	void printBoard();

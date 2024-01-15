@@ -286,7 +286,7 @@ void Game::play(int color)
 		* key = _getch
 		* switch, case (left, right, drop, pause)
 		*/
-	}
+	}	
 }
 
 
