@@ -27,6 +27,9 @@ public:
 	void copyToBoard(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]);
 	bool assignShapeToBoard(Shape block, Shape copy);
 	void findStartPoint(int* _x, int* _y);
+	bool isFullRow(int row);
+	bool handleFullRows();
+	void deleteAndMoveRow(int row);
 	
 
 };

@@ -15,7 +15,7 @@ class Game
 	void printInstructions();
 public:
 	Game() {};
-	int init();
+	void init();
 	void play(int color);
 	
 };

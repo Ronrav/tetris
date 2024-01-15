@@ -112,3 +112,40 @@ void Board::findStartPoint(int* _x, int* _y)
 	*_x = this->x + GameConfig::BOARD_WIDTH / 2;
 	*_y = this->y + GameConfig::BOARD_HEIGHT / 2;
 }
+
+bool Board::handleFullRows()
+{
+	bool is_deleted = false;
+	for (int i = 0; i < GameConfig::BOARD_HEIGHT-1; i++)
+	{
+		if (isFullRow(i))
+		{
+			deleteAndMoveRow(i);
+			is_deleted = true;
+		}
+	}
+	return is_deleted;
+}
+
+bool Board::isFullRow(int row)
+{
+	for (int i = 0; i < GameConfig::BOARD_WIDTH; i++)
+	{
+		if (this->board[row][i] == GameConfig::EMPTY)
+			return false;
+	}
+	return true;
+}
+
+void Board::deleteAndMoveRow(int row)
+{
+	for (int i = row-1; i >= 0; i--)
+	{
+		for (int j = 0; j < GameConfig::BOARD_WIDTH; j++)
+			this->board[i + 1][j] = this->board[i][j];
+	}
+	for (int i = 0; i < GameConfig::BOARD_WIDTH; i++)
+	{
+		this->board[0][i] = GameConfig::EMPTY;
+	}
+}
