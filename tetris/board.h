@@ -13,14 +13,11 @@ class Board
 {
 	int x;
 	int y;
-	int width;
-	int height;
-	bool colored;
+	int colored;
 	int board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH];
 public:
-	Board(int _x, int _y, int _width, int _height, bool _colored) : x(_x), y(_y),
-		width(_width), height(_height), colored(_colored), board() {}
 	Board() {};
+	void init(int _x, int _y, int _colored);
 	void drawBoardBorder();
 	void printBoard();
 	bool checkIfFreeCoord(int _x, int _y);
