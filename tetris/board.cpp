@@ -78,8 +78,8 @@ bool Board::assignShapeToBoard(Shape block)
 			this->board[shape_arr[i].getX()][shape_arr[i].getY()] = shape_arr[i].getColor();
 		else
 		{
-			return false;
 			this->copyToBoard(backup_board);
+			return false;
 		}
 			
 	}
