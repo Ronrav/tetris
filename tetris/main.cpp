@@ -9,4 +9,5 @@ void main()
 	int color = game.init();
 	if(color != 9)
 		game.play(color);
+	cout << "\n\n\n";
 }

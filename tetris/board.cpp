@@ -8,9 +8,9 @@ void Board::init(int _x, int _y, int _colored)
 	this->y = _y;
 	this->colored = _colored;
 	getBlock();
-	for (int i = 0; i < GameConfig::BOARD_WIDTH; i++)
+	for (int i = 0; i < GameConfig::BOARD_HEIGHT; i++)
 	{
-		for (int j = 0; j < GameConfig::BOARD_HEIGHT; j++)
+		for (int j = 0; j < GameConfig::BOARD_WIDTH; j++)
 			this->board[i][j] = GameConfig::EMPTY;
 	}
 }
@@ -22,18 +22,18 @@ void Board::getBlock()
 
 void Board::drawBoardBorder()
 {
-	for (int col = this->x; col <= this->x + GameConfig::BOARD_WIDTH; col++)
+	for (int col = this->x - 1; col <= this->x + GameConfig::BOARD_WIDTH; col++)
 	{
 		gotoxy(col, this->y - 1);
 		cout << "-";
 
-		gotoxy(col, this->y + GameConfig::BOARD_HEIGHT + 1);
+		gotoxy(col, this->y + GameConfig::BOARD_HEIGHT);
 		cout << "-";
 	}
 
 	for (int row = this->y - 1; row <= GameConfig::BOARD_HEIGHT + this->y; row++)
 	{
-		gotoxy(this->x, row);
+		gotoxy(this->x - 1, row);
 		cout << "|";
 
 		gotoxy(this->x + GameConfig::BOARD_WIDTH, row);
@@ -51,18 +51,16 @@ void Board::printBoard()
 		for (j = 0; j < GameConfig::BOARD_WIDTH; j++)
 		{
 			if (this->board[i][j] != GameConfig::EMPTY)
-			{
-				gotoxy(i, j);
-				printDot(this->x + j, this->y + i, this->board[i][j] * this->colored);
-
-			}
+				printDot(this->x + j, this->y + i, this->board[i][j] * this->colored, true);
+			else
+				printDot(this->x + j, this->y + i, this->board[i][j] * this->colored, false);
 		}
 	}
 }
 
 bool Board::checkIfFreeCoord(int _x, int _y)
 {
-	if ((_x >= 0) && (_x < GameConfig::BOARD_WIDTH) && (y < GameConfig::BOARD_HEIGHT) && (_y >= 0) && (this->board[y][x] == GameConfig::EMPTY))
+	if ((_x >= 0) && (_x < GameConfig::BOARD_WIDTH) && (_y < GameConfig::BOARD_HEIGHT) && (_y >= 0) && (this->board[y][x] == GameConfig::EMPTY))
 		return true;
 	return false;
 
@@ -70,18 +68,18 @@ bool Board::checkIfFreeCoord(int _x, int _y)
 
 void Board::copyBoardTo(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH])
 {
-	for (int i = 0; i < GameConfig::BOARD_WIDTH; i++)
+	for (int i = 0; i < GameConfig::BOARD_HEIGHT; i++)
 	{
-		for (int j = 0; j < GameConfig::BOARD_HEIGHT; j++)
+		for (int j = 0; j < GameConfig::BOARD_WIDTH; j++)
 			copy_board[i][j] = board[i][j];
 	}
 }
 
 void Board::copyToBoard(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH])
 {
-	for (int i = 0; i < GameConfig::BOARD_WIDTH; i++)
+	for (int i = 0; i < GameConfig::BOARD_HEIGHT; i++)
 	{
-		for (int j = 0; j < GameConfig::BOARD_HEIGHT; j++)
+		for (int j = 0; j < GameConfig::BOARD_WIDTH; j++)
 			 this->board[i][j] = copy_board[i][j];
 	}
 }
@@ -96,12 +94,12 @@ bool Board::assignShapeToBoard(Shape copy)
 
 
 	for (int i = 0; i < 4; i++)
-		this->board[block_arr[i].getX()][block_arr[i].getY()] = GameConfig::EMPTY;
+		this->board[block_arr[i].getY()][block_arr[i].getX()]= GameConfig::EMPTY;
 	
 	for (int i = 0; i < 4; i++)
 	{
 		if (this->checkIfFreeCoord(copy_arr[i].getX(), copy_arr[i].getY()))
-			this->board[copy_arr[i].getX()][copy_arr[i].getY()] = this->block.getColor();
+			this->board[copy_arr[i].getY()][copy_arr[i].getX()] = this->block.getColor();
 		else
 		{
 			this->copyToBoard(backup_board);

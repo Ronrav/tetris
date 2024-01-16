@@ -56,6 +56,8 @@ void Game::printInstructions()
 
 int Game::init()
 {
+	hideCursor();
+	setTextColor(15);
 	int key = this->handleStartMenu();
 	if (key != 9)
 	{
@@ -86,13 +88,13 @@ void Game::play(int color)
 	bool end_game = false;
 	this->board1.moveBlockOnBoard(0);
 	this->board1.printBoard();
-	Sleep(2000);
+	Sleep(300);
 	while (!end_game)
 	{
 		if (!this->board1.moveBlockOnBoard('D'))
 			end_game = true;
 		this->board1.printBoard();
-		Sleep(1000);
+		Sleep(300);
 
 	}
 	return;
