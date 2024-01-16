@@ -84,125 +84,172 @@ int Game::init()
 void Game::play(int color)
 {
 	bool end_game = false;
-	Shape s1, cpy_s1;
-	int x1, y1;
-
-	this->board1.findStartPoint(&x1, &y1);
-	s1.getShape(x1, y1);
-	s1.copyShape(cpy_s1);
-
+	this->board1.moveBlockOnBoard(0);
+	this->board1.printBoard();
+	Sleep(2000);
 	while (!end_game)
 	{
-		if (!this->board1.assignShapeToBoard(s1, cpy_s1))
+		if (!this->board1.moveBlockOnBoard('D'))
 			end_game = true;
 		this->board1.printBoard();
-		Sleep(500);
+		Sleep(1000);
 
-		while (true)
-		{
-			s1.moveDown();
-			if (!this->board1.assignShapeToBoard(s1, cpy_s1))
-				break;
-			s1.copyShape(cpy_s1);
-			this->board1.printBoard();
-			Sleep(500);
-		}
 	}
-
+	return;
 }
 
 //a template to play the game without extra player class
 void Game::playGame()
 {
-	int key;
-	bool end_game1, end_game2, move1, move2;
-	Shape s1, s2, cpy_s1, cpy_s2;
-	int x1, y1, x2, y2;
-	this->board1.findStartPoint(&x1, &y1);
-	this->board2.findStartPoint(&x2, &y2);
-	while (true)
-	{
-		key = this->init();
-		if (key == 9)
-		{
-			return;
-		}
-		end_game1 = false;
-		end_game2 = false;
-		while (!end_game1 && !end_game2)
-		{
-			//generate a piece to each board
-			s1.getShape(x1, y1);
-			s1.copyShape(cpy_s1);
-			s2.getShape(x2, y2);
-			s2.copyShape(cpy_s1);
-			if (!this->board1.assignShapeToBoard(s1, cpy_s1))
-				end_game1 = true;
-			if (!this->board2.assignShapeToBoard(s2, cpy_s2))
-				end_game2 = true;
-			//if (checkAndPrintWinner(end_game1, end_game2)
-				//break;
-			this->board1.printBoard();
-			this->board2.printBoard();
-			Sleep(500);
-			move1 = true;
-			move2 = true;
-			while (move1 || move2)
-			{
-				if (move1)
-				{
-					//key = handleKbhit()
-					//if (key == 9)
-					//return
-					//if (key == 1)
-					//end_game1 = true;
-					//break;
-					s1.moveDown();
-					if (this->board1.assignShapeToBoard(s1, cpy_s1))
-					{
-						s1.copyShape(cpy_s1);
-						this->board1.printBoard();
-					}
-					else
-						move1 = false;
-				}
-				if (move2)
-				{
-					//key = handleKbhit()
-					//if (key == 9)
-					//return
-					//else if (key == 1)
-					//end_game1 = true;
-					//break;
-					s2.moveDown();
-					if (this->board1.assignShapeToBoard(s1, cpy_s1))
-					{
-						s1.copyShape(cpy_s1);
-						this->board1.printBoard();
-					}
-					else
-						move1 = false;
-				}
-				Sleep(500);
-				if(this->board1.handleFullRows())
-					this->board1.printBoard();
-				if (this->board2.handleFullRows())
-					this->board2.printBoard();
+	
+	//int key;
+	//bool end_game1, end_game2, move1, move2;
+	//Shape s1, s2, cpy_s1, cpy_s2;
+	//int x1, y1, x2, y2;
+	//this->board1.findStartPoint(&x1, &y1);
+	//this->board2.findStartPoint(&x2, &y2);
+	//while (true)
+	//{
+	//	key = this->init();
+	//	if (key == 9)
+	//	{
+	//		return;
+	//	}
+	//	end_game1 = false;
+	//	end_game2 = false;
+	//	while (!end_game1 && !end_game2)
+	//	{
+	//		//generate a piece to each board
+	//		s1.getShape(x1, y1);
+	//		s1.copyShape(cpy_s1);
+	//		s2.getShape(x2, y2);
+	//		s2.copyShape(cpy_s1);
+	//		if (!this->board1.assignShapeToBoard(s1, cpy_s1))
+	//			end_game1 = true;
+	//		if (!this->board2.assignShapeToBoard(s2, cpy_s2))
+	//			end_game2 = true;
+	//		//if (checkAndPrintWinner(end_game1, end_game2)
+	//			//break;
+	//		this->board1.printBoard();
+	//		this->board2.printBoard();
+	//		Sleep(500);
+	//		move1 = true;
+	//		move2 = true;
+	//		while (move1 || move2)
+	//		{
+	//			if (move1)
+	//			{
+	//				//key = handleKbhit()
+	//				//if (key == 9)
+	//				//return
+	//				//if (key == 1)
+	//				//end_game1 = true;
+	//				//break;
+	//				s1.moveDown();
+	//				if (this->board1.assignShapeToBoard(s1, cpy_s1))
+	//				{
+	//					s1.copyShape(cpy_s1);
+	//					this->board1.printBoard();
+	//				}
+	//				else
+	//					move1 = false;
+	//			}
+	//			if (move2)
+	//			{
+	//				//key = handleKbhit()
+	//				//if (key == 9)
+	//				//return
+	//				//else if (key == 1)
+	//				//end_game1 = true;
+	//				//break;
+	//				s2.moveDown();
+	//				if (this->board1.assignShapeToBoard(s1, cpy_s1))
+	//				{
+	//					s1.copyShape(cpy_s1);
+	//					this->board1.printBoard();
+	//				}
+	//				else
+	//					move1 = false;
+	//			}
+	//			Sleep(500);
+	//			if(this->board1.handleFullRows())
+	//				this->board1.printBoard();
+	//			if (this->board2.handleFullRows())
+	//				this->board2.printBoard();
 
-			}
+	//		}
 
-		}
-	}
+	//	}
+	//}
+	return;
 }
 
-int Game::handleKbhit(char player)
+int Game::handleKbhit()
 {
-	if (!_kbhit)
+	if (!_kbhit())
 		return GameConfig::EMPTY;
 	int key = _getch();
+	switch (key)
+	{
+		//esc
+	case(27):
+		return handlePauseMenu();
+		break;
+	case('a'):
+	case('A'):
+		//move left
+		this->board1.moveBlockOnBoard('L');
+		break;
+	case('d'):
+	case('D'):
+		//move right
+		this->board1.moveBlockOnBoard('R');
+		break;
+	case('s'):
+	case('S'):
+		//Rotate clockwise
+		this->board1.moveBlockOnBoard('T');
+		break;
+	case('w'):
+	case('W'):
+		//rotate counterclockwise
+		this->board1.moveBlockOnBoard('G');
+		break;
+	case('x'):
+	case('X'):
+		//drop block
+		this->board1.dropBlock();
+		break;
+	case('j'):
+	case('J'):
+		//move left
+		this->board2.moveBlockOnBoard('L');
+		break;
+	case('l'):
+	case('L'):
+		//move right
+		this->board2.moveBlockOnBoard('R');
+		break;
+	case('k'):
+	case('K'):
+		//Rotate clockwise
+		this->board2.moveBlockOnBoard('T');
+		break;
+	case('i'):
+	case('I'):
+		//rotate counterclockwise
+		this->board2.moveBlockOnBoard('G');
+		break;
+	case('m'):
+	case('M'):
+		//drop block
+		this->board2.dropBlock();
+		break;
+	}
 	//esc
 	if (key == 27)
 		return handlePauseMenu();
-	return;
+
+	return 0;
 
 }

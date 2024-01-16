@@ -10,10 +10,11 @@ class Game
 {
 	Board board1;
 	Board board2;
+	Board boards[2];
 	int handleStartMenu();
 	int handlePauseMenu();
 	void printInstructions();
-	int handleKbhit(char player);
+	int handleKbhit();
 public:
 	int init();
 	void play(int color);

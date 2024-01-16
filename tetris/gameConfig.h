@@ -27,9 +27,9 @@ public:
 	static constexpr int START_Y_COORD_BOARD_2 = MIN_Y + BOARDS_GAP + (BOARD_HEIGHT / 2);
 	static constexpr int EMPTY = -1;
 
-
 	static const int COLORS[];
 	static const int NUM_OF_COLORS;
+	static const int NUM_OF_SHAPES;
 };
 
 #endif

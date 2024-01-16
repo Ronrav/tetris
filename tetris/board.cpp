@@ -7,11 +7,17 @@ void Board::init(int _x, int _y, int _colored)
 	this->x = _x;
 	this->y = _y;
 	this->colored = _colored;
+	getBlock();
 	for (int i = 0; i < GameConfig::BOARD_WIDTH; i++)
 	{
 		for (int j = 0; j < GameConfig::BOARD_HEIGHT; j++)
 			this->board[i][j] = GameConfig::EMPTY;
 	}
+}
+
+void Board::getBlock()
+{
+	this->block.getShape();
 }
 
 void Board::drawBoardBorder()
@@ -56,9 +62,7 @@ void Board::printBoard()
 
 bool Board::checkIfFreeCoord(int _x, int _y)
 {
-	if ((_x > this->x && x < this->x + GameConfig::BOARD_WIDTH) &&
-		(y > this->y && y < this->y + GameConfig::BOARD_HEIGHT) &&
-		(this->board[x][y] == GameConfig::EMPTY))
+	if ((_x >= 0) && (_x < GameConfig::BOARD_WIDTH) && (y < GameConfig::BOARD_HEIGHT) && (_y >= 0) && (this->board[y][x] == GameConfig::EMPTY))
 		return true;
 	return false;
 
@@ -82,22 +86,22 @@ void Board::copyToBoard(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOA
 	}
 }
 
-bool Board::assignShapeToBoard(Shape block, Shape copy)
+bool Board::assignShapeToBoard(Shape copy)
 {
 	int backup_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH];
 	this->copyBoardTo(backup_board);
 	Point* copy_arr, *block_arr;
 	copy_arr = copy.getPoints();
-	block_arr = block.getPoints();
+	block_arr = this->block.getPoints();
 
 
 	for (int i = 0; i < 4; i++)
-		this->board[copy_arr[i].getX()][copy_arr[i].getY()] = GameConfig::EMPTY;
+		this->board[block_arr[i].getX()][block_arr[i].getY()] = GameConfig::EMPTY;
 	
 	for (int i = 0; i < 4; i++)
 	{
-		if (this->checkIfFreeCoord(block_arr[i].getX(), block_arr[i].getY()))
-			this->board[block_arr[i].getX()][block_arr[i].getY()] = block_arr[i].getColor();
+		if (this->checkIfFreeCoord(copy_arr[i].getX(), copy_arr[i].getY()))
+			this->board[copy_arr[i].getX()][copy_arr[i].getY()] = this->block.getColor();
 		else
 		{
 			this->copyToBoard(backup_board);
@@ -107,10 +111,14 @@ bool Board::assignShapeToBoard(Shape block, Shape copy)
 	return true;
 }
 
-void Board::findStartPoint(int* _x, int* _y)
+bool Board::isFullRow(int row)
 {
-	*_x = this->x + GameConfig::BOARD_WIDTH / 2;
-	*_y = this->y + GameConfig::BOARD_HEIGHT / 2;
+	for (int i = 0; i < GameConfig::BOARD_WIDTH; i++)
+	{
+		if (this->board[row][i] == GameConfig::EMPTY)
+			return false;
+	}
+	return true;
 }
 
 bool Board::handleFullRows()
@@ -127,16 +135,6 @@ bool Board::handleFullRows()
 	return is_deleted;
 }
 
-bool Board::isFullRow(int row)
-{
-	for (int i = 0; i < GameConfig::BOARD_WIDTH; i++)
-	{
-		if (this->board[row][i] == GameConfig::EMPTY)
-			return false;
-	}
-	return true;
-}
-
 void Board::deleteAndMoveRow(int row)
 {
 	for (int i = row-1; i >= 0; i--)
@@ -148,4 +146,40 @@ void Board::deleteAndMoveRow(int row)
 	{
 		this->board[0][i] = GameConfig::EMPTY;
 	}
+}
+
+bool Board::moveBlockOnBoard(char direction)
+{
+	bool moved;
+	Shape tmp;
+	this->block.copyShape(tmp);
+	switch (direction)
+	{
+	case('L'):
+		tmp.moveLeft();
+		break;
+	case('R'):
+		tmp.moveRight();
+		break;
+	case('D'):
+		tmp.moveDown();
+		break;
+	case('T'):
+		tmp.rotateClockWise();
+		break;
+	case('G'):
+		tmp.rotateCounterClockWise();
+		break;
+	default:
+		break;
+	}
+	moved = assignShapeToBoard(tmp);
+	if (moved)
+		tmp.copyShape(this->block);
+	return moved;
+}
+
+void Board::dropBlock()
+{
+	return;
 }

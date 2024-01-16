@@ -9,14 +9,14 @@
 #include "shape.h"
 using namespace std;
 
-class Shape;
-class Point;
+//class Shape;
 class Board
 {
 	int x;
 	int y;
 	int colored;
 	int board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH];
+	Shape block;
 public:
 	//Board() {};
 	void init(int _x, int _y, int _colored);
@@ -25,11 +25,13 @@ public:
 	bool checkIfFreeCoord(int _x, int _y);
 	void copyBoardTo(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]);
 	void copyToBoard(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]);
-	bool assignShapeToBoard(Shape block, Shape copy);
-	void findStartPoint(int* _x, int* _y);
+	bool assignShapeToBoard(Shape copy);
 	bool isFullRow(int row);
 	bool handleFullRows();
 	void deleteAndMoveRow(int row);
+	void getBlock();
+	bool moveBlockOnBoard(char direction);
+	void dropBlock();
 	
 
 };

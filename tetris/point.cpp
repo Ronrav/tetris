@@ -1,11 +1,10 @@
 
 #include "point.h"
 
-void Point::set(int _x, int _y, int _color)
+void Point::set(int _x, int _y)
 {
 	x = _x;
 	y = _y;
-	color = _color;
 }
 void Point::draw(char ch, int backcolor)
 {
@@ -47,10 +46,7 @@ int Point::getX()
 {
 	return this->x;
 }
-int Point::getColor()
-{
-	return this->color;
-}
+
 int Point::getY()
 {
 	return this->y;
