@@ -59,7 +59,7 @@ void Board::printBoard()
 
 bool Board::checkIfFreeCoord(int _x, int _y)
 {
-	if ((_x >= 0) && (_x < GameConfig::BOARD_WIDTH) && (_y < GameConfig::BOARD_HEIGHT) && (_y >= 0) && (this->board[y][x] == GameConfig::EMPTY))
+	if ((_x >= 0) && (_x < GameConfig::BOARD_WIDTH) && (_y < GameConfig::BOARD_HEIGHT) && (_y >= 0) && (this->board[_y][_x] == GameConfig::EMPTY))
 		return true;
 	return false;
 
@@ -178,5 +178,23 @@ bool Board::moveBlockOnBoard(char direction)
 
 void Board::dropBlock()
 {
-	return;
+	while (moveBlockOnBoard('D'))
+	{
+		printBoard();
+		Sleep(30);
+	}
+}
+
+bool Board::set_block()
+{
+	Point* arr;
+	arr = this->block.getPoints();
+	for (int i = 0; i < 4; i++)
+	{
+		if (this->board[arr[i].getY()][arr[i].getX()] == GameConfig::EMPTY)
+			this->board[arr[i].getY()][arr[i].getX()] = this->block.getColor();
+		else
+			return false;
+	}
+	return true;
 }

@@ -6,7 +6,7 @@
 void thisPlayerIsTheWinner(int player)
 {
 	clear_screen();
-	cout << "THE WINNER IS: PLAYER NUMBER " << player << endl;
+	cout << "\n\n\nTHE WINNER IS: PLAYER NUMBER " << player << endl;
 	return;
 }
 
@@ -33,7 +33,9 @@ int Game::handlePauseMenu()
 {
 	int key = -1;
 	bool printed = false;
-	cout << "(1) Start a new game\n(2) Continue a paused game\n(8) Present instrcutions and keys\n (9) EXIT";
+	setTextColor(15);
+	clear_screen();
+	cout << "(1) Start a new game\n(2) Continue a paused game\n(8) Present instrcutions and keys\n(9) EXIT";
 	while (true)
 	{
 		if(_kbhit())
@@ -56,11 +58,12 @@ void Game::printInstructions()
 
 int Game::init()
 {
+	clear_screen();
 	hideCursor();
 	//set text color white
 	setTextColor(15);
 	int key = this->handleStartMenu();
-	if (key == 9)
+	if (key != 9)
 	{
 		cout << "\npress 1 for color or 0 for no color\n";
 		key = _getch() - '0';
@@ -68,11 +71,11 @@ int Game::init()
 			key = _getch();
 		clear_screen();
 		cout << "Starting Game in 1..";
-		Sleep(500);
+		Sleep(100);
 		cout << "2..";
-		Sleep(500);
+		Sleep(100);
 		cout << "3";
-		Sleep(500);
+		Sleep(300);
 		clear_screen();
 		this->boards[0].init(GameConfig::MIN_X, GameConfig::MIN_Y, key);
 		this->boards[1].init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, key);
@@ -83,103 +86,68 @@ int Game::init()
 	
 }
 
-//for now this is to test
-void Game::play(int color)
-{
-	bool end_game = false;
-	this->board1.moveBlockOnBoard(0);
-	this->board1.printBoard();
-	Sleep(300);
-	while (!end_game)
-	{
-		if (!this->board1.moveBlockOnBoard('D'))
-			end_game = true;
-		this->board1.printBoard();
-		Sleep(300);
-
-	}
-	return;
-}
-
 //a template to play the game without extra player class
 void Game::playGame()
 {
+	srand(time(NULL));
 	int key, i;
 	bool end_game[2];
-	bool move[2];
+	bool move[2] = { false, false };
 	while (true)
 	{
-		key = this->init();
+		key = init();
 		if (key == 9)
 		{
 			return;
 		}
 		end_game[0] = false;
 		end_game[1] = false;
-		while (!end_game[0] && end_game[1])
+		while (!end_game[0] && !end_game[1])
 		{
 			
 			for (i = 0; i < 2; i++)
 			{
-				//generate a piece to each board
-				this->boards[i].getBlock();
-				//add block to board and check if possible
-				if (!this->boards[i].moveBlockOnBoard(NULL))
-					end_game[i] = true;
-				this->boards[i].printBoard();
+				if (!move[i])
+				{
+					//generate a piece to each board
+					this->boards[i].getBlock();
+					//add block to board and check if possible
+					if (!this->boards[i].set_block())
+						end_game[i] = true;
+				}
+				
 			}
-
-			
-			//if (checkAndPrintWinner(end)
-				//break;
-			
-			while (move1 || move2)
+			printBoards();
+			if (isGameEnded(end_game))
+				break;
+			for (i = 0; i < 10; i++)
 			{
-				if (move1)
+				key = handleKbhit();
+				if (key == 9)
 				{
-					//key = handleKbhit()
-					//if (key == 9)
-					//return
-					//if (key == 1)
-					//end_game1 = true;
-					//break;
-					s1.moveDown();
-					if (this->board1.assignShapeToBoard(s1, cpy_s1))
-					{
-						s1.copyShape(cpy_s1);
-						this->board1.printBoard();
-					}
-					else
-						move1 = false;
+					clear_screen();
+					return;
 				}
-				if (move2)
+				
+				else if (key == 2)
 				{
-					//key = handleKbhit()
-					//if (key == 9)
-					//return
-					//else if (key == 1)
-					//end_game1 = true;
-					//break;
-					s2.moveDown();
-					if (this->board1.assignShapeToBoard(s1, cpy_s1))
-					{
-						s1.copyShape(cpy_s1);
-						this->board1.printBoard();
-					}
-					else
-						move1 = false;
+					clear_screen();
+					printBorders();
 				}
-				Sleep(500);
-				if(this->board1.handleFullRows())
-					this->board1.printBoard();
-				if (this->board2.handleFullRows())
-					this->board2.printBoard();
-
+					
+				//Sleep(50);
+				printBoards();
 			}
-
+			for (i = 0; i < 2; i++)
+			{
+				move[i] = this->boards[i].moveBlockOnBoard('D');
+			}
+			//Sleep(100);
+			printBoards();
+			emptyKBuffer();
 		}
 	}
-	return;
+	clear_screen();
 }
 
 int Game::handleKbhit()
@@ -196,58 +164,119 @@ int Game::handleKbhit()
 	case('a'):
 	case('A'):
 		//move left
-		this->board1.moveBlockOnBoard('L');
+		this->boards[0].moveBlockOnBoard('L');
 		break;
 	case('d'):
 	case('D'):
 		//move right
-		this->board1.moveBlockOnBoard('R');
+		this->boards[0].moveBlockOnBoard('R');
 		break;
 	case('s'):
 	case('S'):
 		//Rotate clockwise
-		this->board1.moveBlockOnBoard('T');
+		this->boards[0].moveBlockOnBoard('T');
 		break;
 	case('w'):
 	case('W'):
 		//rotate counterclockwise
-		this->board1.moveBlockOnBoard('G');
+		this->boards[0].moveBlockOnBoard('G');
 		break;
 	case('x'):
 	case('X'):
 		//drop block
-		this->board1.dropBlock();
+		this->boards[0].dropBlock();
 		break;
 	case('j'):
 	case('J'):
 		//move left
-		this->board2.moveBlockOnBoard('L');
+		this->boards[1].moveBlockOnBoard('L');
 		break;
 	case('l'):
 	case('L'):
 		//move right
-		this->board2.moveBlockOnBoard('R');
+		this->boards[1].moveBlockOnBoard('R');
 		break;
 	case('k'):
 	case('K'):
 		//Rotate clockwise
-		this->board2.moveBlockOnBoard('T');
+		this->boards[1].moveBlockOnBoard('T');
 		break;
 	case('i'):
 	case('I'):
 		//rotate counterclockwise
-		this->board2.moveBlockOnBoard('G');
+		this->boards[1].moveBlockOnBoard('G');
 		break;
 	case('m'):
 	case('M'):
 		//drop block
-		this->board2.dropBlock();
+		this->boards[1].dropBlock();
 		break;
 	}
-	//esc
-	if (key == 27)
-		return handlePauseMenu();
-
+	
 	return 0;
 
+}
+
+void Game::printBoards()
+{
+	this->boards[0].printBoard();
+	this->boards[1].printBoard();
+}
+
+bool Game::isGameEnded(bool scores[])
+{
+	bool is_end = false;
+	int winner;
+	//player 2 is the winner
+	if (scores[0] != scores[1])
+	{
+		is_end = true;
+
+		if (scores[1] == true)//player 1 is the winner
+			winner = GameConfig::PLAYER1;
+
+		else //player 2 is the winner
+			winner = GameConfig::PLAYER2;
+
+		announceTheWinner(winner);
+	}
+
+	else //both players with the same score
+	{
+		if (scores[0] == true)//both players lost, its a tie
+		{
+			is_end = true;
+			winner = GameConfig::TIE;
+			announceTheWinner(winner);
+		}
+	}
+	return is_end;
+}
+
+//get the looser player, prints results and ends the game, put this function in class
+void Game::announceTheWinner(int winner)
+{
+	setTextColor(15);
+	if (winner != GameConfig::TIE)
+		cout << "\n\nTHE WINNER IS: PLAYER NUMBER " << winner << "!!!" << endl;
+	else
+		cout << "\n\nGAME ENDED, IT'S A TIE!!!" << endl;
+	cout << "\n\nPress any key to go back to main menu\n";
+	emptyKBuffer();
+	while (true)
+	{
+		if (_kbhit())
+		{
+			clear_screen();
+			break;
+		}
+			
+	}
+	return;
+}
+
+void Game::printBorders()
+{
+	this->boards[0].drawBoardBorder();
+	this->boards[1].drawBoardBorder();
 }

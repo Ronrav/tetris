@@ -35,7 +35,6 @@ void clear_screen()
 
 int getRandom(int min, int max) 
 {
-	srand(time(NULL));
 	return rand() % (max - min + 1) + min;
 }
 
@@ -48,4 +47,10 @@ void printDot(int x, int y, int color, bool fill)
 		cout << (char)GameConfig::SYMBOL;
 	else
 		cout << ' ';
+}
+
+void emptyKBuffer()
+{
+	while (_kbhit())
+		_getch();
 }
