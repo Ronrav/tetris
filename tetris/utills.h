@@ -4,6 +4,8 @@
 #include <windows.h> // for gotoxy
 #include <process.h> // for system
 #include <iostream>
+#include<cstdlib>
+#include<ctime>
 using namespace std;
 
 void gotoxy(int x, int y);

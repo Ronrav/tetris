@@ -57,9 +57,10 @@ void Game::printInstructions()
 int Game::init()
 {
 	hideCursor();
+	//set text color white
 	setTextColor(15);
 	int key = this->handleStartMenu();
-	if (key != 9)
+	if (key == 9)
 	{
 		cout << "\npress 1 for color or 0 for no color\n";
 		key = _getch() - '0';
@@ -73,10 +74,10 @@ int Game::init()
 		cout << "3";
 		Sleep(500);
 		clear_screen();
-		this->board1.init(GameConfig::MIN_X, GameConfig::MIN_Y, key);
-		this->board2.init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y,key);
-		this->board1.drawBoardBorder();
-		this->board2.drawBoardBorder();
+		this->boards[0].init(GameConfig::MIN_X, GameConfig::MIN_Y, key);
+		this->boards[1].init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, key);
+		this->boards[0].drawBoardBorder();
+		this->boards[1].drawBoardBorder();
 	}
 	return key;
 	
@@ -103,86 +104,81 @@ void Game::play(int color)
 //a template to play the game without extra player class
 void Game::playGame()
 {
-	
-	//int key;
-	//bool end_game1, end_game2, move1, move2;
-	//Shape s1, s2, cpy_s1, cpy_s2;
-	//int x1, y1, x2, y2;
-	//this->board1.findStartPoint(&x1, &y1);
-	//this->board2.findStartPoint(&x2, &y2);
-	//while (true)
-	//{
-	//	key = this->init();
-	//	if (key == 9)
-	//	{
-	//		return;
-	//	}
-	//	end_game1 = false;
-	//	end_game2 = false;
-	//	while (!end_game1 && !end_game2)
-	//	{
-	//		//generate a piece to each board
-	//		s1.getShape(x1, y1);
-	//		s1.copyShape(cpy_s1);
-	//		s2.getShape(x2, y2);
-	//		s2.copyShape(cpy_s1);
-	//		if (!this->board1.assignShapeToBoard(s1, cpy_s1))
-	//			end_game1 = true;
-	//		if (!this->board2.assignShapeToBoard(s2, cpy_s2))
-	//			end_game2 = true;
-	//		//if (checkAndPrintWinner(end_game1, end_game2)
-	//			//break;
-	//		this->board1.printBoard();
-	//		this->board2.printBoard();
-	//		Sleep(500);
-	//		move1 = true;
-	//		move2 = true;
-	//		while (move1 || move2)
-	//		{
-	//			if (move1)
-	//			{
-	//				//key = handleKbhit()
-	//				//if (key == 9)
-	//				//return
-	//				//if (key == 1)
-	//				//end_game1 = true;
-	//				//break;
-	//				s1.moveDown();
-	//				if (this->board1.assignShapeToBoard(s1, cpy_s1))
-	//				{
-	//					s1.copyShape(cpy_s1);
-	//					this->board1.printBoard();
-	//				}
-	//				else
-	//					move1 = false;
-	//			}
-	//			if (move2)
-	//			{
-	//				//key = handleKbhit()
-	//				//if (key == 9)
-	//				//return
-	//				//else if (key == 1)
-	//				//end_game1 = true;
-	//				//break;
-	//				s2.moveDown();
-	//				if (this->board1.assignShapeToBoard(s1, cpy_s1))
-	//				{
-	//					s1.copyShape(cpy_s1);
-	//					this->board1.printBoard();
-	//				}
-	//				else
-	//					move1 = false;
-	//			}
-	//			Sleep(500);
-	//			if(this->board1.handleFullRows())
-	//				this->board1.printBoard();
-	//			if (this->board2.handleFullRows())
-	//				this->board2.printBoard();
+	int key, i;
+	bool end_game[2];
+	bool move[2];
+	while (true)
+	{
+		key = this->init();
+		if (key == 9)
+		{
+			return;
+		}
+		end_game[0] = false;
+		end_game[1] = false;
+		while (!end_game[0] && end_game[1])
+		{
+			
+			for (i = 0; i < 2; i++)
+			{
+				//generate a piece to each board
+				this->boards[i].getBlock();
+				//add block to board and check if possible
+				if (!this->boards[i].moveBlockOnBoard(NULL))
+					end_game[i] = true;
+				this->boards[i].printBoard();
+			}
 
-	//		}
+			
+			//if (checkAndPrintWinner(end)
+				//break;
+			
+			while (move1 || move2)
+			{
+				if (move1)
+				{
+					//key = handleKbhit()
+					//if (key == 9)
+					//return
+					//if (key == 1)
+					//end_game1 = true;
+					//break;
+					s1.moveDown();
+					if (this->board1.assignShapeToBoard(s1, cpy_s1))
+					{
+						s1.copyShape(cpy_s1);
+						this->board1.printBoard();
+					}
+					else
+						move1 = false;
+				}
+				if (move2)
+				{
+					//key = handleKbhit()
+					//if (key == 9)
+					//return
+					//else if (key == 1)
+					//end_game1 = true;
+					//break;
+					s2.moveDown();
+					if (this->board1.assignShapeToBoard(s1, cpy_s1))
+					{
+						s1.copyShape(cpy_s1);
+						this->board1.printBoard();
+					}
+					else
+						move1 = false;
+				}
+				Sleep(500);
+				if(this->board1.handleFullRows())
+					this->board1.printBoard();
+				if (this->board2.handleFullRows())
+					this->board2.printBoard();
 
-	//	}
-	//}
+			}
+
+		}
+	}
 	return;
 }
 

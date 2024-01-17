@@ -8,8 +8,6 @@
 //include block/shape
 class Game
 {
-	Board board1;
-	Board board2;
 	Board boards[2];
 	int handleStartMenu();
 	int handlePauseMenu();

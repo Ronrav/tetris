@@ -7,7 +7,6 @@ void Board::init(int _x, int _y, int _colored)
 	this->x = _x;
 	this->y = _y;
 	this->colored = _colored;
-	getBlock();
 	for (int i = 0; i < GameConfig::BOARD_HEIGHT; i++)
 	{
 		for (int j = 0; j < GameConfig::BOARD_WIDTH; j++)

@@ -1,13 +1,14 @@
 #include "Game.h"
-#include<cstdlib>
-#include<ctime>
 
-void main()
+
+int main()
 {
-	//srand(0);
-	Game game;
+	/*Game game;
 	int color = game.init();
 	if(color != 9)
 		game.play(color);
-	cout << "\n\n\n";
+	cout << "\n\n\n";*/
+	Game game;
+	game.playGame();
+	return 0;
 }
