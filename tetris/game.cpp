@@ -58,6 +58,7 @@ void Game::printInstructions()
 
 int Game::init()
 {
+
 	clear_screen();
 	hideCursor();
 	//set text color white
@@ -92,7 +93,7 @@ void Game::playGame()
 	srand(time(NULL));
 	int key, i;
 	bool end_game[2];
-	bool move[2] = { false, false };
+	bool move[2] = {false, false};
 	while (true)
 	{
 		key = init();
@@ -135,7 +136,7 @@ void Game::playGame()
 					printBorders();
 				}
 					
-				//Sleep(50);
+				Sleep(100);
 				printBoards();
 			}
 			for (i = 0; i < 2; i++)
