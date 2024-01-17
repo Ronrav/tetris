@@ -45,9 +45,15 @@ int Game::handlePauseMenu()
 			printInstructions();
 			printed = true;
 		}
-		else if (key == 1 || key == 9 || key == 2)
+		else if ( key == 1 || key == 2 || key == 9)
+		{
+			clear_screen();
+			if (key == 2)
+				printBorders();
 			return key;
+		}
 	}
+	return key;
 }
 
 void Game::printInstructions()
@@ -66,25 +72,32 @@ int Game::init()
 	int key = this->handleStartMenu();
 	if (key != 9)
 	{
-		cout << "\npress 1 for color or 0 for no color\n";
-		key = _getch() - '0';
-		while (key != 1 && key != 0)
-			key = _getch();
-		clear_screen();
-		cout << "Starting Game in 1..";
-		Sleep(100);
-		cout << "2..";
-		Sleep(100);
-		cout << "3";
-		Sleep(300);
-		clear_screen();
-		this->boards[0].init(GameConfig::MIN_X, GameConfig::MIN_Y, key);
-		this->boards[1].init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, key);
-		this->boards[0].drawBoardBorder();
-		this->boards[1].drawBoardBorder();
+		initBoardAndColor();
 	}
 	return key;
 	
+}
+
+void Game::initBoardAndColor()
+{
+	int key;
+	cout << "\npress 1 for color or 0 for no color\n";
+	key = _getch() - '0';
+	while (key != 1 && key != 0)
+		key = _getch();
+	clear_screen();
+	Sleep(300);
+	cout << "Starting Game in 1..";
+	Sleep(300);
+	cout << "2..";
+	Sleep(300);
+	cout << "3";
+	Sleep(300);
+	clear_screen();
+	this->boards[0].init(GameConfig::MIN_X, GameConfig::MIN_Y, key);
+	this->boards[1].init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, key);
+	this->boards[0].drawBoardBorder();
+	this->boards[1].drawBoardBorder();
 }
 
 //a template to play the game without extra player class
@@ -92,20 +105,25 @@ void Game::playGame()
 {
 	srand(time(NULL));
 	int key, i;
+	bool new_game;
 	bool end_game[2];
 	bool move[2] = {false, false};
 	while (true)
 	{
 		key = init();
+			
 		if (key == 9)
 		{
 			return;
 		}
 		end_game[0] = false;
 		end_game[1] = false;
-		while (!end_game[0] && !end_game[1])
+		new_game = false;
+		while (!end_game[0] && !end_game[1] && !new_game)
 		{
-			
+			emptyKBuffer();
+			Sleep(500);
+			handleFullRows();
 			for (i = 0; i < 2; i++)
 			{
 				if (!move[i])
@@ -125,27 +143,20 @@ void Game::playGame()
 			{
 				key = handleKbhit();
 				if (key == 9)
-				{
-					clear_screen();
 					return;
-				}
-				
-				else if (key == 2)
+				else if (key == 1)
 				{
-					clear_screen();
-					printBorders();
+					new_game = true;
+					break;
 				}
 					
-				Sleep(100);
-				printBoards();
+				Sleep(50);
 			}
 			for (i = 0; i < 2; i++)
 			{
 				move[i] = this->boards[i].moveBlockOnBoard('D');
 			}
-			//Sleep(100);
-			printBoards();
-			emptyKBuffer();
+			
 		}
 	}
 	clear_screen();
@@ -156,6 +167,7 @@ int Game::handleKbhit()
 	if (!_kbhit())
 		return GameConfig::EMPTY;
 	int key = _getch();
+	
 	switch (key)
 	{
 		//esc
@@ -280,4 +292,10 @@ void Game::printBorders()
 {
 	this->boards[0].drawBoardBorder();
 	this->boards[1].drawBoardBorder();
+}
+
+void Game::handleFullRows()
+{
+	this->boards[0].handleFullRows();
+	this->boards[1].handleFullRows();
 }

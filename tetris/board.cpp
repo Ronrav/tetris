@@ -121,7 +121,7 @@ bool Board::isFullRow(int row)
 bool Board::handleFullRows()
 {
 	bool is_deleted = false;
-	for (int i = 0; i < GameConfig::BOARD_HEIGHT-1; i++)
+	for (int i = 0; i < GameConfig::BOARD_HEIGHT; i++)
 	{
 		if (isFullRow(i))
 		{
@@ -181,7 +181,7 @@ void Board::dropBlock()
 	while (moveBlockOnBoard('D'))
 	{
 		printBoard();
-		Sleep(30);
+		Sleep(20);
 	}
 }
 
