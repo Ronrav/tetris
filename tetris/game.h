@@ -13,9 +13,11 @@ class Game
 	int handlePauseMenu();
 	void printInstructions();
 	int handleKbhit();
-public:
+	void printBoards();
+	bool isGameEnded(bool scores[]);
 	int init();
-	void play(int color);
+	void announceTheWinner(int winner);
+public:
 	void playGame();
 	
 };

@@ -4,6 +4,7 @@
 #include <windows.h> // for gotoxy
 #include <process.h> // for system
 #include <iostream>
+#include <conio.h>
 #include<cstdlib>
 #include<ctime>
 using namespace std;
@@ -14,5 +15,6 @@ void hideCursor();
 void clear_screen();
 int getRandom(int min, int max);
 void printDot(int x, int y, int color, bool fill);
+void emptyKBuffer();
 
 #endif // __UTILLS_H

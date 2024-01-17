@@ -49,3 +49,9 @@ void printDot(int x, int y, int color, bool fill)
 	else
 		cout << ' ';
 }
+
+void emptyKBuffer()
+{
+	while (_kbhit())
+		_getch();
+}

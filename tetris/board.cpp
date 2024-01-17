@@ -178,5 +178,9 @@ bool Board::moveBlockOnBoard(char direction)
 
 void Board::dropBlock()
 {
-	return;
+	while (moveBlockOnBoard('D'))
+	{
+		printBoard();
+		Sleep(100);
+	}
 }
