@@ -181,6 +181,20 @@ void Board::dropBlock()
 	while (moveBlockOnBoard('D'))
 	{
 		printBoard();
-		Sleep(100);
+		Sleep(30);
 	}
+}
+
+bool Board::set_block()
+{
+	Point* arr;
+	arr = this->block.getPoints();
+	for (int i = 0; i < 4; i++)
+	{
+		if (this->board[arr[i].getY()][arr[i].getX()] == GameConfig::EMPTY)
+			this->board[arr[i].getY()][arr[i].getX()] = this->block.getColor();
+		else
+			return false;
+	}
+	return true;
 }

@@ -32,6 +32,7 @@ public:
 	void getBlock();
 	bool moveBlockOnBoard(char direction);
 	void dropBlock();
+	bool set_block();
 	
 
 };

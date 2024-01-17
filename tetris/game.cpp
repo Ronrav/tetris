@@ -6,7 +6,7 @@
 void thisPlayerIsTheWinner(int player)
 {
 	clear_screen();
-	cout << "THE WINNER IS: PLAYER NUMBER " << player << endl;
+	cout << "\n\n\nTHE WINNER IS: PLAYER NUMBER " << player << endl;
 	return;
 }
 
@@ -33,7 +33,9 @@ int Game::handlePauseMenu()
 {
 	int key = -1;
 	bool printed = false;
-	cout << "(1) Start a new game\n(2) Continue a paused game\n(8) Present instrcutions and keys\n (9) EXIT";
+	setTextColor(15);
+	clear_screen();
+	cout << "(1) Start a new game\n(2) Continue a paused game\n(8) Present instrcutions and keys\n(9) EXIT";
 	while (true)
 	{
 		if(_kbhit())
@@ -69,11 +71,11 @@ int Game::init()
 			key = _getch();
 		clear_screen();
 		cout << "Starting Game in 1..";
-		Sleep(500);
+		Sleep(100);
 		cout << "2..";
-		Sleep(500);
+		Sleep(100);
 		cout << "3";
-		Sleep(500);
+		Sleep(300);
 		clear_screen();
 		this->boards[0].init(GameConfig::MIN_X, GameConfig::MIN_Y, key);
 		this->boards[1].init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, key);
@@ -110,7 +112,7 @@ void Game::playGame()
 					//generate a piece to each board
 					this->boards[i].getBlock();
 					//add block to board and check if possible
-					if (!this->boards[i].moveBlockOnBoard(NULL))
+					if (!this->boards[i].set_block())
 						end_game[i] = true;
 				}
 				
@@ -122,7 +124,17 @@ void Game::playGame()
 			{
 				key = handleKbhit();
 				if (key == 9)
+				{
+					clear_screen();
 					return;
+				}
+				
+				else if (key == 2)
+				{
+					clear_screen();
+					printBorders();
+				}
+					
 				//Sleep(50);
 				printBoards();
 			}
@@ -135,7 +147,7 @@ void Game::playGame()
 			emptyKBuffer();
 		}
 	}
-	return;
+	clear_screen();
 }
 
 int Game::handleKbhit()
@@ -200,10 +212,7 @@ int Game::handleKbhit()
 		this->boards[1].dropBlock();
 		break;
 	}
-	//esc
-	if (key == 27)
-		return handlePauseMenu();
-
+	
 	return 0;
 
 }
@@ -247,16 +256,27 @@ bool Game::isGameEnded(bool scores[])
 //get the looser player, prints results and ends the game, put this function in class
 void Game::announceTheWinner(int winner)
 {
-	clear_screen();
+	setTextColor(15);
 	if (winner != GameConfig::TIE)
-		cout << "THE WINNER IS: PLAYER NUMBER " << winner << "!!!" << endl;
+		cout << "\n\nTHE WINNER IS: PLAYER NUMBER " << winner << "!!!" << endl;
 	else
-		cout << "GAME ENDED, IT'S A TIE!!!" << endl;
-
+		cout << "\n\nGAME ENDED, IT'S A TIE!!!" << endl;
+	cout << "\n\nPress any key to go back to main menu\n";
+	emptyKBuffer();
 	while (true)
 	{
-		if (!_kbhit())
+		if (_kbhit())
+		{
+			clear_screen();
 			break;
+		}
+			
 	}
 	return;
+}
+
+void Game::printBorders()
+{
+	this->boards[0].drawBoardBorder();
+	this->boards[1].drawBoardBorder();
 }

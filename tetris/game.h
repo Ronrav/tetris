@@ -17,6 +17,7 @@ class Game
 	bool isGameEnded(bool scores[]);
 	int init();
 	void announceTheWinner(int winner);
+	void printBorders();
 public:
 	void playGame();
 	
