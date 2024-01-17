@@ -1,6 +1,15 @@
 #include "game.h"
 
 
+
+//get the looser player, prints results and ends the game, put this function in class
+void thisPlayerIsTheWinner(int player)
+{
+	clear_screen();
+	cout << "THE WINNER IS: PLAYER NUMBER " << player << endl;
+	return;
+}
+
 int Game::handleStartMenu()
 {
 	int key = -1;
@@ -47,12 +56,15 @@ void Game::printInstructions()
 
 int Game::init()
 {
-	int color, key = this->handleStartMenu();
-	if (key != 9)
+	hideCursor();
+	//set text color white
+	setTextColor(15);
+	int key = this->handleStartMenu();
+	if (key == 9)
 	{
 		cout << "\npress 1 for color or 0 for no color\n";
-		key = _getch();
-		while (key - '0' != 1 && key - '0' != 0)
+		key = _getch() - '0';
+		while (key != 1 && key != 0)
 			key = _getch();
 		clear_screen();
 		cout << "Starting Game in 1..";
@@ -62,108 +74,180 @@ int Game::init()
 		cout << "3";
 		Sleep(500);
 		clear_screen();
-		this->board1.init(GameConfig::MIN_X, GameConfig::MIN_Y, color);
-		this->board2.init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, color);
-		this->board1.drawBoardBorder();
-		this->board2.drawBoardBorder();
+		this->boards[0].init(GameConfig::MIN_X, GameConfig::MIN_Y, key);
+		this->boards[1].init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, key);
+		this->boards[0].drawBoardBorder();
+		this->boards[1].drawBoardBorder();
 	}
 	return key;
 	
 }
 
+//for now this is to test
 void Game::play(int color)
 {
-
 	bool end_game = false;
-	Shape s1, s2;
+	this->board1.moveBlockOnBoard(0);
+	this->board1.printBoard();
+	Sleep(300);
 	while (!end_game)
 	{
-
-
-		//s1.assign_shape(initial postion);
-		//s2.assign_shape(initial postion);
-		/*
-		* if(place_shape_in_board)
-		* print_board
-		* else
-		* sleep(500)
-		* while(!end_game && !dropped)
-		* {
-		* if(_kbhit)
-		* key = _getch
-		* switch, case (left, right, drop, pause)
-		*/
+		if (!this->board1.moveBlockOnBoard('D'))
+			end_game = true;
+		this->board1.printBoard();
+		Sleep(300);
 
 	}
-
-	
+	return;
 }
 
-void playTurn(int player, Board board)
+//a template to play the game without extra player class
+void Game::playGame()
 {
-	Shape s;
-	int start_x, start_y;
-	Board cpy_board;
-	bool end_turn = false; 
-
-	findStartPoint(player, &start_x, &start_y);
-	s.assignShape(start_x, start_y))
-		thisPlayerIsTheLooser(player);
-	
-
-	while (!end_turn)
+	int key, i;
+	bool end_game[2];
+	bool move[2];
+	while (true)
 	{
-		findStartPoint(player, &start_x, &start_y);
-		if (!s.assignShape(start_x, start_y))
-			thisPlayerIsTheLooser(player);
-		
-		//s1.assign_shape(initial postion);
-		//s2.assign_shape(initial postion);
-		/*
-		* if(place_shape_in_board)
-		* print_board
-		* else
-		* sleep(500)
-		* while(!end_game && !dropped)
-		* {
-		* if(_kbhit)
-		* key = _getch
-		* switch, case (left, right, drop, pause)
-		*/
+		key = this->init();
+		if (key == 9)
+		{
+			return;
+		}
+		end_game[0] = false;
+		end_game[1] = false;
+		while (!end_game[0] && end_game[1])
+		{
+			
+			for (i = 0; i < 2; i++)
+			{
+				//generate a piece to each board
+				this->boards[i].getBlock();
+				//add block to board and check if possible
+				if (!this->boards[i].moveBlockOnBoard(NULL))
+					end_game[i] = true;
+				this->boards[i].printBoard();
+			}
 
+			
+			//if (checkAndPrintWinner(end)
+				//break;
+			
+			while (move1 || move2)
+			{
+				if (move1)
+				{
+					//key = handleKbhit()
+					//if (key == 9)
+					//return
+					//if (key == 1)
+					//end_game1 = true;
+					//break;
+					s1.moveDown();
+					if (this->board1.assignShapeToBoard(s1, cpy_s1))
+					{
+						s1.copyShape(cpy_s1);
+						this->board1.printBoard();
+					}
+					else
+						move1 = false;
+				}
+				if (move2)
+				{
+					//key = handleKbhit()
+					//if (key == 9)
+					//return
+					//else if (key == 1)
+					//end_game1 = true;
+					//break;
+					s2.moveDown();
+					if (this->board1.assignShapeToBoard(s1, cpy_s1))
+					{
+						s1.copyShape(cpy_s1);
+						this->board1.printBoard();
+					}
+					else
+						move1 = false;
+				}
+				Sleep(500);
+				if(this->board1.handleFullRows())
+					this->board1.printBoard();
+				if (this->board2.handleFullRows())
+					this->board2.printBoard();
+
+			}
+
+		}
 	}
-
-	
-
-
-
-	
-
-
-
-
-
-
-
+	return;
 }
 
-void findStartPoint(Player player, int* x, int* y)
+int Game::handleKbhit()
 {
-	if (player == 1)
+	if (!_kbhit())
+		return GameConfig::EMPTY;
+	int key = _getch();
+	switch (key)
 	{
-		start_x = GameConfig::START_X_COORD_BOARD_1;
-		start_y = GameConfig::START_Y_COORD_BOARD_1;
+		//esc
+	case(27):
+		return handlePauseMenu();
+		break;
+	case('a'):
+	case('A'):
+		//move left
+		this->board1.moveBlockOnBoard('L');
+		break;
+	case('d'):
+	case('D'):
+		//move right
+		this->board1.moveBlockOnBoard('R');
+		break;
+	case('s'):
+	case('S'):
+		//Rotate clockwise
+		this->board1.moveBlockOnBoard('T');
+		break;
+	case('w'):
+	case('W'):
+		//rotate counterclockwise
+		this->board1.moveBlockOnBoard('G');
+		break;
+	case('x'):
+	case('X'):
+		//drop block
+		this->board1.dropBlock();
+		break;
+	case('j'):
+	case('J'):
+		//move left
+		this->board2.moveBlockOnBoard('L');
+		break;
+	case('l'):
+	case('L'):
+		//move right
+		this->board2.moveBlockOnBoard('R');
+		break;
+	case('k'):
+	case('K'):
+		//Rotate clockwise
+		this->board2.moveBlockOnBoard('T');
+		break;
+	case('i'):
+	case('I'):
+		//rotate counterclockwise
+		this->board2.moveBlockOnBoard('G');
+		break;
+	case('m'):
+	case('M'):
+		//drop block
+		this->board2.dropBlock();
+		break;
 	}
+	//esc
+	if (key == 27)
+		return handlePauseMenu();
 
-	else
-	{
-		start_x = GameConfig::START_X_COORD_BOARD_1;
-		start_y = GameConfig::START_Y_COORD_BOARD_1;
-
-	}
-}
-//get the looser player, prints results and ends the game
-void thisPlayerIsTheLooser(Player player)
-{
+	return 0;
 
 }

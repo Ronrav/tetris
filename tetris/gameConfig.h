@@ -1,10 +1,14 @@
-#pragma once
+#ifndef __GAME_CONFIG_H
+#define __GAME_CONFIG_H
+
 class GameConfig
 {
 public:
-	enum class eKeys {
-		P1_LEFT = 'a', P1_RIGHT = 'd', P1_ROTATE = 's', P1_ROTATE_COUNTER = 'w', P1_DROP = 'x',
-		P2_LEFT = 'j', P2_RIGHT = 'l', P2_ROTATE = 'k', P2_ROTATE_COUNTER = 'i', P2_DROP = 'm', ESC = 27};
+	enum class LKeys {
+		LEFT = 'a', RIGHT = 'd', ROTATE = 's', ROTATE_COUNTER = 'w', DROP = 'x',};
+	
+	enum class RKeys {
+		LEFT = 'j', RIGHT = 'l', ROTATE = 'k', ROTATE_COUNTER = 'i', DROP = 'm',};
 
 	enum Color
 	{
@@ -23,8 +27,9 @@ public:
 	static constexpr int START_Y_COORD_BOARD_2 = MIN_Y + BOARDS_GAP + (BOARD_HEIGHT / 2);
 	static constexpr int EMPTY = -1;
 
-
 	static const int COLORS[];
 	static const int NUM_OF_COLORS;
+	static const int NUM_OF_SHAPES;
 };
 
+#endif

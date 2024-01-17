@@ -1,7 +1,5 @@
 #include "utills.h"
-#include <windows.h> // for gotoxy
-#include <process.h> // for system
-#include <iostream>
+
 using namespace std;
 
 void gotoxy(int x, int y)
@@ -20,10 +18,6 @@ void setTextColor(int colorToSet)
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colorToSet);
 }
 
-void setBackColor(int color)
-{
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
-}
 
 void hideCursor()
 {
@@ -41,13 +35,17 @@ void clear_screen()
 
 int getRandom(int min, int max) 
 {
+	srand(time(NULL));
 	return rand() % (max - min + 1) + min;
 }
 
-void printDot(int x, int y, int color)
+void printDot(int x, int y, int color, bool fill)
 {
 	if(color != GameConfig::BLACK)
 		setTextColor(color);
 	gotoxy(x, y);
-	cout << GameConfig::SYMBOL;
+	if (fill)
+		cout << (char)GameConfig::SYMBOL;
+	else
+		cout << ' ';
 }

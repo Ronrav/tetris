@@ -1,11 +1,14 @@
-#pragma once
+#ifndef __SHAPE_H
+#define __SHAPE_H
 #include "point.h"
-#include "utills.h"
+
 class Shape
 {
 	Point points[4];
 	int shape_type;
-	int rotation_state = 0;
+	int rotation_state;
+	int color;
+
 	void rotateIshape();
 	void rotateSshape();
 	void rotateZshape();
@@ -15,15 +18,15 @@ class Shape
 	void rotate(bool clockwise);
 	static constexpr int ROTATION_STATES = 4;
 public:
-	Shape() {};
-	void assignShape(int x, int y);
+	void getShape();
+	void copyShape(Shape& dest);
 	void rotateClockWise();
 	void rotateCounterClockWise();
 	void moveDown();
 	void moveLeft();
 	void moveRight();
 	Point* getPoints();
-	
-	
+	int getColor();
 };
 
+#endif
