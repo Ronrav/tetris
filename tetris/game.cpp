@@ -87,6 +87,7 @@ int Game::init()
 //a template to play the game without extra player class
 void Game::playGame()
 {
+	srand(time(NULL));
 	int key, i;
 	bool end_game[2];
 	bool move[2] = { false, false };
@@ -122,14 +123,14 @@ void Game::playGame()
 				key = handleKbhit();
 				if (key == 9)
 					return;
-				Sleep(200);
+				//Sleep(50);
 				printBoards();
 			}
 			for (i = 0; i < 2; i++)
 			{
-				move[i] = this->boards[i].moveBlockOnBoard(NULL);
+				move[i] = this->boards[i].moveBlockOnBoard('D');
 			}
-			Sleep(1000);
+			//Sleep(100);
 			printBoards();
 			emptyKBuffer();
 		}

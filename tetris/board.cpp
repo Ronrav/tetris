@@ -59,7 +59,7 @@ void Board::printBoard()
 
 bool Board::checkIfFreeCoord(int _x, int _y)
 {
-	if ((_x >= 0) && (_x < GameConfig::BOARD_WIDTH) && (_y < GameConfig::BOARD_HEIGHT) && (_y >= 0) && (this->board[y][x] == GameConfig::EMPTY))
+	if ((_x >= 0) && (_x < GameConfig::BOARD_WIDTH) && (_y < GameConfig::BOARD_HEIGHT) && (_y >= 0) && (this->board[_y][_x] == GameConfig::EMPTY))
 		return true;
 	return false;
 
