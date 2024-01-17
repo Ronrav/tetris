@@ -18,6 +18,8 @@ class Game
 	int init();
 	void announceTheWinner(int winner);
 	void printBorders();
+	void handleFullRows();
+	void initBoardAndColor();
 public:
 	void playGame();
 	
