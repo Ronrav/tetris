@@ -14,30 +14,50 @@ class Game
 
 	// Handles the start menu logic for selecting new game, instructions, or exit.
 	int handleStartMenu();
+
+
 	// Handles the pause menu logic for selecting new game, resuming, instructions, or exit during gameplay.
 	// Returs key, representing the selected option.
 	int handlePauseMenu();
+
+
 	// Prints game instructions for player controls.
 	void printInstructions();
+
+
 	//  Handles keyboard input during gameplay, allowing players to move, rotate, drop blocks, and pause the game.
 	// return key, that represents the wanted action.
 	int handleKbhit();
+
+
 	//Prints the game boards for both players.
 	void printBoards();
+
+
 	// Checks if the game has ended based on the players' scores. 
 	//It gets the scores array. and returns "true" if the game has ended. 
 	//if true - prints the winner by "announceTheWinner" func. 
 	bool isGameEnded(bool scores[]);
+
+
 	//  Initializes the game, handles start menu, and initializes the game board.
 	// Returs key, representing the selected option.
 	int init();
+
+
 	//Gets the player number who won or TIE for a tie, 
 	//and prints the winner or a tie message and waits for a key press to return to the main menu.
 	void announceTheWinner(int winner);
+
+
 	//Prints the borders of the game boards for both players.
 	void printBorders();
+
+
 	//Handles clearing full rows in the game boards.
 	void handleFullRows();
+
+
 	//  Initializes the game board and color settings based on player input.
 	void initBoardAndColor();
 

@@ -4,15 +4,7 @@
 class GameConfig
 {
 public:
-	/*
-	enum class LKeys {
-		LEFT = 'a', RIGHT = 'd', ROTATE = 's', ROTATE_COUNTER = 'w', DROP = 'x',
-	};
-
-	enum class RKeys {
-		LEFT = 'j', RIGHT = 'l', ROTATE = 'k', ROTATE_COUNTER = 'i', DROP = 'm',
-	};
-	*/
+	
 	enum Color
 	{
 		BLACK = 0, BLUE = 1, GREEN = 2, CYAN = 3, RED = 4, MAGENTA = 5, BROWN = 6, LIGHTGREY = 7, DARKGREY = 8,

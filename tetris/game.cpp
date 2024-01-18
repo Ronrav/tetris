@@ -62,7 +62,7 @@ int Game::init()
 	clear_screen();
 	hideCursor();
 	//set text color white
-	setTextColor(15);
+	setTextColor((int)GameConfig::WHITE);
 	int key = this->handleStartMenu();
 	if (key != EXIT)
 	{
@@ -93,7 +93,6 @@ void Game::initBoardAndColor()
 	this->boards[0].drawBoardBorder();
 	this->boards[1].drawBoardBorder();
 }
-
 
 void Game::playGame()
 {
@@ -139,6 +138,7 @@ void Game::playGame()
 				{
 					new_game = true;
 					initBoardAndColor();
+					break;
 				}
 				Sleep(20);
 				printBoards();
@@ -149,7 +149,7 @@ void Game::playGame()
 					move[i] = this->boards[i].moveBlockOnBoard('D');
 				}
 			emptyKBuffer();
-			Sleep(500);
+			Sleep(400);
 			handleFullRows();
 			
 		}

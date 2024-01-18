@@ -32,22 +32,39 @@ class Shape
 
 
 public:
+
 	// Initializes a new shape with a random type, color, and initial position.
 	void getShape();
+
+
 	//Copies the shape to the 'dest' shape object.
 	void copyShape(Shape& dest);
+
+
 	//Rotates the shape clockwise.
 	void rotateClockWise();
+
+
 	//Rotates the shape counterclockwise.
 	void rotateCounterClockWise();
+
+
 	//Moves the shape down by incrementing the y-coordinates of its points.
 	void moveDown();
+
+
 	//Moves the shape to the left by decrementing the x-coordinates of its points.
 	void moveLeft();
+
+
 	//Moves the shape to the right by incrementing the x-coordinates of its points.
 	void moveRight();
+
+
 	//Returns the array of points representing the shape.
 	Point* getPoints();
+
+
 	//Returns the color of the shape.
 	int getColor();
 };

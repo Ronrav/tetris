@@ -42,7 +42,6 @@ void Board::drawBoardBorder()
 	cout << endl;
 }
 
-
 void Board::printBoard()
 {
 	int i, j;
