@@ -1,58 +1,58 @@
 #include "shape.h"
 
+
 void Shape::getShape()
 {
 	this->rotation_state = 0;
-	this->shape_type = getRandom(1, GameConfig::NUM_OF_SHAPES);
+	this->shape_type = getRandom(1, NUM_OF_SHAPES);
 	this->color = GameConfig::COLORS[getRandom(1, GameConfig::NUM_OF_COLORS)];
 	
 		//space filler
 		switch (this->shape_type)
 		{
-			//O shape
-		case(1):
+		case(O_SHAPE):
 			this->points[0].set(GameConfig::BOARD_WIDTH / 2, 0);
 			this->points[1].set(GameConfig::BOARD_WIDTH / 2 + 1, 0);
 			this->points[2].set(GameConfig::BOARD_WIDTH / 2, 1);
 			this->points[3].set(GameConfig::BOARD_WIDTH / 2 + 1, 1);
 			break;
-			//I shape
-		case(2):
+			
+		case(I_SHAPE):
 			this->points[0].set(GameConfig::BOARD_WIDTH / 2, 0);
 			this->points[1].set(GameConfig::BOARD_WIDTH / 2, 1);
 			this->points[2].set(GameConfig::BOARD_WIDTH / 2, 2);
 			this->points[3].set(GameConfig::BOARD_WIDTH / 2, 3);
 			break;
-			//S shape
-		case(3):
+			
+		case(S_SHAPE):
 			this->points[0].set(GameConfig::BOARD_WIDTH / 2, 0);
 			this->points[1].set(GameConfig::BOARD_WIDTH / 2 + 1, 0);
 			this->points[2].set(GameConfig::BOARD_WIDTH / 2, 1);
 			this->points[3].set(GameConfig::BOARD_WIDTH / 2 - 1, 1);
 			break;
-			//Z shape
-		case(4):
+			
+		case(Z_SHAPE):
 			this->points[0].set(GameConfig::BOARD_WIDTH / 2, 0);
 			this->points[1].set(GameConfig::BOARD_WIDTH / 2 - 1, 0);
 			this->points[2].set(GameConfig::BOARD_WIDTH / 2, 1);
 			this->points[3].set(GameConfig::BOARD_WIDTH / 2 + 1, 1);
 			break;
-			//T shape
-		case(5):
+			
+		case(T_SHAPE):
 			this->points[0].set(GameConfig::BOARD_WIDTH / 2, 0);
 			this->points[1].set(GameConfig::BOARD_WIDTH / 2 - 1, 0);
 			this->points[2].set(GameConfig::BOARD_WIDTH / 2 + 1, 0);
 			this->points[3].set(GameConfig::BOARD_WIDTH / 2, 1);
 			break;
-			//L shape
-		case(6):
+		
+		case(L_SHAPE):
 			this->points[0].set(GameConfig::BOARD_WIDTH / 2, 0);
 			this->points[1].set(GameConfig::BOARD_WIDTH / 2, 1);
 			this->points[2].set(GameConfig::BOARD_WIDTH / 2, 2);
 			this->points[3].set(GameConfig::BOARD_WIDTH / 2 + 1, 2);
 			break;
-			//J shape
-		case(7):
+			
+		case(J_SHAPE):
 			this->points[0].set(GameConfig::BOARD_WIDTH / 2, 0);
 			this->points[1].set(GameConfig::BOARD_WIDTH / 2, 1);
 			this->points[2].set(GameConfig::BOARD_WIDTH / 2, 2);
@@ -76,21 +76,21 @@ void Shape::rotateCounterClockWise()
 
 void Shape::moveDown()
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < SIZE_OF_SHAPE ; i++)
 		this->points[i].setY(this->points[i].getY() + 1);
 }
 
 
 void Shape::moveLeft()
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < SIZE_OF_SHAPE; i++)
 		this->points[i].setX(this->points[i].getX() - 1);
 }
 
 
 void Shape::moveRight()
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < SIZE_OF_SHAPE; i++)
 		this->points[i].setX(this->points[i].getX() + 1);
 }
 
@@ -109,31 +109,31 @@ void Shape::rotate(bool clockwise)
 		this->rotation_state = (this->rotation_state + 3) % ROTATION_STATES;
 	switch (this->shape_type)
 	{
-		//O shape
-	case(1):
+		
+	case(O_SHAPE):
 		break;
-		//I shape
-	case(2):
+	
+	case(I_SHAPE):
 		this->rotateIshape();
 		break;
-		//S shape
-	case(3):
+		
+	case(S_SHAPE):
 		this->rotateSshape();
 		break;
-		//Z shape
-	case(4):
+	
+	case(Z_SHAPE):
 		this->rotateZshape();
 		break;
-		//T shape
-	case(5):
+		
+	case(T_SHAPE):
 		this->rotateTshape();
 		break;
-		//L shape
-	case(6):
+		
+	case(L_SHAPE):
 		this->rotateLshape();
 		break;
-		//J shape
-	case(7):
+		
+	case(J_SHAPE):
 		this->rotateJshape();
 		break;
 	}
@@ -142,40 +142,43 @@ void Shape::rotate(bool clockwise)
 void Shape::rotateIshape()
 {
 	int x, y;
+	this->rotation_state *= 90;//multiply by 90 in order to understand the rotation state in degrees.
 	x = this->points[0].getX();
 	y = this->points[0].getY();
 	switch (this->rotation_state)
 	{
-		//0 celsius
+		//0 degrees
 	case(0):
 		this->points[1].set(x, y + 1);
 		this->points[2].set(x, y + 2);
 		this->points[3].set(x, y + 3);
 		break;
-		//90 shape
-	case(1):
+		//90 degrees
+	case(90):
 		this->points[1].set(x - 1, y);
 		this->points[2].set(x - 2, y);
 		this->points[3].set(x - 3, y);
 		break;
-		//180 shape
-	case(2):
+		//180 degrees
+	case(180):
 		this->points[1].set(x, y - 1);
 		this->points[2].set(x, y - 2);
 		this->points[3].set(x, y - 3);
 		break;
-		//270 shape
-	case(3):
+		//270 degrees
+	case(270):
 		this->points[1].set(x + 1, y);
 		this->points[2].set(x + 2, y);
 		this->points[3].set(x + 3, y);
 		break;
 	}
+	this->rotation_state /= 90;
 }
 
 void Shape::rotateSshape()
 {
 	int x, y;
+	this->rotation_state *= 90;//multiply by 90 in order to understand the rotation state in degrees.
 	x = this->points[0].getX();
 	y = this->points[0].getY();
 	switch (this->rotation_state)
@@ -187,135 +190,143 @@ void Shape::rotateSshape()
 		this->points[3].set(x - 1, y + 1);
 		break;
 		//90 shape
-	case(1):
+	case(90):
 		this->points[1].set(x, y - 1);
 		this->points[2].set(x + 1, y);
 		this->points[3].set(x + 1, y + 1);
 		break;
-		//180 shape
-	case(2):
+		//180 degrees
+	case(180):
 		this->points[1].set(x - 1, y);
 		this->points[2].set(x, y - 1);
 		this->points[3].set(x + 1, y-1);
 		break;
-		//270 shape
-	case(3):
+		//270 degrees
+	case(270):
 		this->points[1].set(x, y + 1);
 		this->points[2].set(x - 1, y);
 		this->points[3].set(x - 1, y - 1);
 		break;
 	}
+	this->rotation_state /= 90;
 }
 
 
 void Shape::rotateZshape()
 {
 	int x, y;
+	this->rotation_state *= 90;//multiply by 90 in order to understand the rotation state in degrees.
 	x = this->points[0].getX();
 	y = this->points[0].getY();
 	switch (this->rotation_state)
 	{
-		//0 celsius
+		//0 degrees
 	case(0):
 		this->points[1].set(x - 1, y);
 		this->points[2].set(x, y + 1);
 		this->points[3].set(x + 1, y + 1);
 		break;
-		//90 shape
-	case(1):
+		//90 degrees
+	case(90):
 		this->points[1].set(x, y + 1);
 		this->points[2].set(x + 1, y);
 		this->points[3].set(x + 1, y - 1);
 		break;
-		//180 shape
-	case(2):
+		//180 degrees
+	case(180):
 		this->points[1].set(x + 1, y);
 		this->points[2].set(x, y - 1);
 		this->points[3].set(x - 1, y - 1);
 		break;
-		//270 shape
-	case(3):
+		//270 degrees
+	case(270):
 		this->points[1].set(x, y - 1);
 		this->points[2].set(x - 1, y);
 		this->points[3].set(x - 1, y + 1);
 		break;
 	}
+	this->rotation_state /= 90;
 }
 
 
 void Shape::rotateTshape()
 {
 	int x, y;
+	this->rotation_state *= 90;//multiply by 90 in order to understand the rotation state in degrees.
 	x = this->points[0].getX();
 	y = this->points[0].getY();
 	switch (this->rotation_state)
 	{
-		//0 celsius
+		//0 degrees
 	case(0):
 		this->points[1].set(x - 1, y);
 		this->points[2].set(x + 1, y);
 		this->points[3].set(x, y + 1);
 		break;
-		//90 shape
-	case(1):
+		//90 degrees
+	case(90):
 		this->points[1].set(x, y + 1);
 		this->points[2].set(x, y - 1);
 		this->points[3].set(x + 1, y);
 		break;
-		//180 shape
-	case(2):
+		//180 degrees
+	case(180):
 		this->points[1].set(x + 1, y);
 		this->points[2].set(x - 1, y);
 		this->points[3].set(x, y - 1);
 		break;
-		//270 shape
-	case(3):
+		//270 degrees
+	case(270):
 		this->points[1].set(x, y - 1);
 		this->points[2].set(x, y + 1);
 		this->points[3].set(x - 1, y);
 		break;
 	}
+	this->rotation_state /= 90;
 }
 
 
 void Shape::rotateLshape()
 {
 	int x, y;
+	this->rotation_state *= 90;//multiply by 90 in order to understand the rotation state in degrees.
 	x = this->points[0].getX();
 	y = this->points[0].getY();
 	switch (this->rotation_state)
 	{
-		//0 celsius
+		//0 degrees
 	case(0):
 		this->points[1].set(x, y + 1);
 		this->points[2].set(x, y + 2);
 		this->points[3].set(x + 1, y + 2);
 		break;
-		//90 shape
-	case(1):
+		//90 degrees
+	case(90):
 		this->points[1].set(x + 1, y);
 		this->points[2].set(x + 2, y);
 		this->points[3].set(x + 2, y - 1);
 		break;
-		//180 shape
-	case(2):
+		//180 degrees
+	case(180):
 		this->points[1].set(x, y - 1);
 		this->points[2].set(x, y - 2);
 		this->points[3].set(x - 1, y - 2);
 		break;
-		//270 shape
-	case(3):
+		//270 degrees
+	case(270):
 		this->points[1].set(x - 1, y);
 		this->points[2].set(x - 2, y);
 		this->points[3].set(x - 2, y + 1);
 		break;
 	}
+	this->rotation_state /= 90;
 }
 
 
 void Shape::rotateJshape()
 {
 	int x, y;
+	this->rotation_state *= 90;//multiply by 90 in order to understand the rotation state in degrees.
 	x = this->points[0].getX();
 	y = this->points[0].getY();
 	switch (this->rotation_state)
@@ -327,29 +338,30 @@ void Shape::rotateJshape()
 		this->points[3].set(x - 1, y + 2);
 		break;
 		//90 degrees
-	case(1):
+	case(90):
 		this->points[1].set(x + 1, y);
 		this->points[2].set(x + 2, y);
 		this->points[3].set(x + 2, y + 1);
 		break;
 		//180 degrees
-	case(2):
+	case(180):
 		this->points[1].set(x, y - 1);
 		this->points[2].set(x, y - 2);
 		this->points[3].set(x + 1, y - 2);
 		break;
 		//270 degrees
-	case(3):
+	case(270):
 		this->points[1].set(x - 1, y);
 		this->points[2].set(x - 2, y);
 		this->points[3].set(x - 2, y - 1);
 		break;
 	}
+	this->rotation_state /= 90;
 }
 
 void Shape::copyShape(Shape& dest)
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < SIZE_OF_SHAPE; i++)
 		dest.points[i] = this->points[i];
 
 	dest.rotation_state = this->rotation_state;

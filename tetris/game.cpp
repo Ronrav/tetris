@@ -2,13 +2,7 @@
 
 
 
-//get the looser player, prints results and ends the game, put this function in class
-void thisPlayerIsTheWinner(int player)
-{
-	clear_screen();
-	cout << "\n\n\nTHE WINNER IS: PLAYER NUMBER " << player << endl;
-	return;
-}
+
 
 int Game::handleStartMenu()
 {
@@ -19,12 +13,12 @@ int Game::handleStartMenu()
 	{
 		if (_kbhit())
 			key = _getch() - '0';
-		if (key == 8 && !printed)
+		if (key == INSTRUCTIONS && !printed)
 		{
 			printInstructions();
 			printed = true;
 		}
-		else if (key == 1 || key == 9)
+		else if (key == NEW_GAME|| key == EXIT)
 			return key;
 	}
 }
@@ -33,22 +27,22 @@ int Game::handlePauseMenu()
 {
 	int key = -1;
 	bool printed = false;
-	setTextColor(15);
+	setTextColor(WHITE);
 	clear_screen();
 	cout << "(1) Start a new game\n(2) Continue a paused game\n(8) Present instrcutions and keys\n(9) EXIT";
 	while (true)
 	{
 		if(_kbhit())
 			key = _getch() - '0';
-		if (key == 8 && !printed)
+		if (key == INSTRUCTIONS && !printed)
 		{
 			printInstructions();
 			printed = true;
 		}
-		else if ( key == 1 || key == 2 || key == 9)
+		else if ( key == NEW_GAME || key == RESUME_GAME || key == EXIT)
 		{
 			clear_screen();
-			if (key == 2)
+			if (key == RESUME_GAME)
 				printBorders();
 			return key;
 		}
@@ -70,7 +64,7 @@ int Game::init()
 	//set text color white
 	setTextColor(15);
 	int key = this->handleStartMenu();
-	if (key != 9)
+	if (key != EXIT)
 	{
 		initBoardAndColor();
 	}
@@ -83,7 +77,7 @@ void Game::initBoardAndColor()
 	int key;
 	cout << "\npress 1 for color or 0 for no color\n";
 	key = _getch() - '0';
-	while (key != 1 && key != 0)
+	while (key != WITH_COLOR && key != NO_COLOR)
 		key = _getch();
 	clear_screen();
 	Sleep(300);
@@ -100,31 +94,31 @@ void Game::initBoardAndColor()
 	this->boards[1].drawBoardBorder();
 }
 
-//a template to play the game without extra player class
+
 void Game::playGame()
 {
 	srand(time(NULL));
 	int key, i;
-	bool new_game;
-	bool end_game[2];
-	bool move[2] = {false, false};
+	bool new_game; //true if the game is over 
+	bool end_game[NUM_OF_PLAYERS]; // true if this player lost 
+	bool move[NUM_OF_PLAYERS] = {false, false}; //true if a move was made
 	while (true)
 	{
 		key = init();
 			
-		if (key == 9)
+		if (key == EXIT)
 		{
 			return;
 		}
-		end_game[0] = false;
-		end_game[1] = false;
+		end_game[PLAYER1] = false;
+		end_game[PLAYER2] = false;
 		new_game = false;
-		while (!end_game[0] && !end_game[1] && !new_game)
+		while (!end_game[PLAYER1] && !end_game[PLAYER2] && !new_game) // game didn't end
 		{
 			emptyKBuffer();
 			Sleep(500);
 			handleFullRows();
-			for (i = 0; i < 2; i++)
+			for (i = 0; i < NUM_OF_PLAYERS; i++)
 			{
 				if (!move[i])
 				{
@@ -139,12 +133,12 @@ void Game::playGame()
 			printBoards();
 			if (isGameEnded(end_game))
 				break;
-			for (i = 0; i < 10; i++)
+			for (i = 0; i < MAX_KEYS_IN_BUFFER; i++)
 			{
 				key = handleKbhit();
-				if (key == 9)
+				if (key == EXIT)
 					return;
-				else if (key == 1)
+				else if (key == NEW_GAME)
 				{
 					new_game = true;
 					break;
@@ -152,7 +146,7 @@ void Game::playGame()
 					
 				Sleep(50);
 			}
-			for (i = 0; i < 2; i++)
+			for (i = 0; i < NUM_OF_PLAYERS; i++)
 			{
 				move[i] = this->boards[i].moveBlockOnBoard('D');
 			}
@@ -168,61 +162,62 @@ int Game::handleKbhit()
 		return GameConfig::EMPTY;
 	int key = _getch();
 	
+	
 	switch (key)
 	{
 		//esc
-	case(27):
+	case(ESC):
 		return handlePauseMenu();
 		break;
-	case('a'):
-	case('A'):
+	case((int)LKeys::LEFT_LOWER):
+	case((int)LKeys::LEFT_UPPER):
 		//move left
-		this->boards[0].moveBlockOnBoard('L');
+		this->boards[PLAYER1].moveBlockOnBoard(LEFT);
 		break;
-	case('d'):
-	case('D'):
+	case((int)LKeys::RIGHT_LOWER):
+	case((int)LKeys::RIGHT_UPPER):
 		//move right
-		this->boards[0].moveBlockOnBoard('R');
+		this->boards[PLAYER1].moveBlockOnBoard(RIGHT);
 		break;
-	case('s'):
-	case('S'):
+	case((int)LKeys::ROTATE_CLOCKWISE_LOWER):
+	case((int)LKeys::ROTATE_CLOCKWISE_UPPER):
 		//Rotate clockwise
-		this->boards[0].moveBlockOnBoard('T');
+		this->boards[PLAYER1].moveBlockOnBoard(ROTATE_CLOCKWISE);
 		break;
-	case('w'):
-	case('W'):
+	case((int)LKeys::ROTATE_COUNTERCLOCKWISE_LOWER):
+	case((int)LKeys::ROTATE_COUNTERCLOCKWISE_UPPER):
 		//rotate counterclockwise
-		this->boards[0].moveBlockOnBoard('G');
+		this->boards[PLAYER1].moveBlockOnBoard(ROTATE_COUNTERCLOCKWISE);
 		break;
-	case('x'):
-	case('X'):
+	case((int)LKeys::DROP_LOWER):
+	case((int)LKeys::DROP_UPPER):
 		//drop block
-		this->boards[0].dropBlock();
+		this->boards[PLAYER1].dropBlock();
 		break;
-	case('j'):
-	case('J'):
+	case((int)RKeys::LEFT_LOWER):
+	case((int)RKeys::LEFT_UPPER):
 		//move left
-		this->boards[1].moveBlockOnBoard('L');
+		this->boards[PLAYER2].moveBlockOnBoard(LEFT);
 		break;
-	case('l'):
-	case('L'):
+	case((int)RKeys::RIGHT_LOWER):
+	case((int)RKeys::RIGHT_UPPER):
 		//move right
-		this->boards[1].moveBlockOnBoard('R');
+		this->boards[PLAYER2].moveBlockOnBoard(RIGHT);
 		break;
-	case('k'):
-	case('K'):
+	case((int)RKeys::ROTATE_CLOCKWISE_LOWER):
+	case((int)RKeys::ROTATE_CLOCKWISE_UPPER):
 		//Rotate clockwise
-		this->boards[1].moveBlockOnBoard('T');
+		this->boards[PLAYER2].moveBlockOnBoard(ROTATE_CLOCKWISE);
 		break;
-	case('i'):
-	case('I'):
+	case((int)RKeys::ROTATE_COUNTERCLOCKWISE_LOWER):
+	case((int)RKeys::ROTATE_COUNTERCLOCKWISE_UPPER):
 		//rotate counterclockwise
-		this->boards[1].moveBlockOnBoard('G');
+		this->boards[PLAYER2].moveBlockOnBoard(ROTATE_COUNTERCLOCKWISE);
 		break;
-	case('m'):
-	case('M'):
+	case((int)RKeys::DROP_LOWER):
+	case((int)RKeys::DROP_UPPER):
 		//drop block
-		this->boards[1].dropBlock();
+		this->boards[PLAYER2].dropBlock();
 		break;
 	}
 	
@@ -232,8 +227,8 @@ int Game::handleKbhit()
 
 void Game::printBoards()
 {
-	this->boards[0].printBoard();
-	this->boards[1].printBoard();
+	this->boards[PLAYER1].printBoard();
+	this->boards[PLAYER2].printBoard();
 }
 
 bool Game::isGameEnded(bool scores[])
@@ -241,37 +236,37 @@ bool Game::isGameEnded(bool scores[])
 	bool is_end = false;
 	int winner;
 	//player 2 is the winner
-	if (scores[0] != scores[1])
+	if (scores[PLAYER1] != scores[PLAYER2])
 	{
 		is_end = true;
 
-		if (scores[1] == true)//player 1 is the winner
-			winner = GameConfig::PLAYER1;
+		if (scores[PLAYER2] == true) //player 1 is the winner
+			winner = PLAYER1;
 
 		else //player 2 is the winner
-			winner = GameConfig::PLAYER2;
+			winner = PLAYER2;
 
 		announceTheWinner(winner);
 	}
 
 	else //both players with the same score
 	{
-		if (scores[0] == true)//both players lost, its a tie
+		if (scores[PLAYER1] == true)//both players lost, its a tie
 		{
 			is_end = true;
-			winner = GameConfig::TIE;
+			winner =TIE;
 			announceTheWinner(winner);
 		}
 	}
 	return is_end;
 }
 
-//get the looser player, prints results and ends the game, put this function in class
+
 void Game::announceTheWinner(int winner)
 {
-	setTextColor(15);
-	if (winner != GameConfig::TIE)
-		cout << "\n\nTHE WINNER IS: PLAYER NUMBER " << winner << "!!!" << endl;
+	setTextColor(WHITE);
+	if (winner != TIE)
+		cout << "\n\nTHE WINNER IS: PLAYER NUMBER " << winner + 1 << "!!!" << endl;
 	else
 		cout << "\n\nGAME ENDED, IT'S A TIE!!!" << endl;
 	cout << "\n\nPress any key to go back to main menu\n";
@@ -290,12 +285,12 @@ void Game::announceTheWinner(int winner)
 
 void Game::printBorders()
 {
-	this->boards[0].drawBoardBorder();
-	this->boards[1].drawBoardBorder();
+	this->boards[PLAYER1].drawBoardBorder();
+	this->boards[PLAYER2].drawBoardBorder();
 }
 
 void Game::handleFullRows()
 {
-	this->boards[0].handleFullRows();
-	this->boards[1].handleFullRows();
+	this->boards[PLAYER1].handleFullRows();
+	this->boards[PLAYER2].handleFullRows();
 }
