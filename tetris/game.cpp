@@ -112,12 +112,9 @@ void Game::playGame()
 		}
 		end_game[PLAYER1] = false;
 		end_game[PLAYER2] = false;
-		new_game = false;
-		while (!end_game[PLAYER1] && !end_game[PLAYER2] && !new_game) // game didn't end
+		while (!end_game[PLAYER1] && !end_game[PLAYER2]) // game didn't end
 		{
-			emptyKBuffer();
-			Sleep(500);
-			handleFullRows();
+			new_game = false;
 			for (i = 0; i < NUM_OF_PLAYERS; i++)
 			{
 				if (!move[i])
@@ -141,15 +138,19 @@ void Game::playGame()
 				else if (key == NEW_GAME)
 				{
 					new_game = true;
-					break;
+					initBoardAndColor();
 				}
-					
-				Sleep(50);
+				Sleep(20);
+				printBoards();
 			}
-			for (i = 0; i < NUM_OF_PLAYERS; i++)
-			{
-				move[i] = this->boards[i].moveBlockOnBoard('D');
-			}
+			if(!new_game)
+				for (i = 0; i < NUM_OF_PLAYERS; i++)
+				{
+					move[i] = this->boards[i].moveBlockOnBoard('D');
+				}
+			emptyKBuffer();
+			Sleep(500);
+			handleFullRows();
 			
 		}
 	}

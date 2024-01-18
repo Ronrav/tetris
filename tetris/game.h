@@ -51,7 +51,7 @@ class Game
 	static constexpr int WHITE = 15;
 	static constexpr int NO_COLOR = 0;
 	static constexpr int WITH_COLOR = 1;
-	static constexpr int MAX_KEYS_IN_BUFFER = 2;
+	static constexpr int MAX_KEYS_IN_BUFFER = 10;
 	static constexpr int ESC = 27;
 	static constexpr char LEFT = 'L';
 	static constexpr char RIGHT = 'R';

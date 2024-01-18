@@ -12,6 +12,7 @@ void Board::init(int _x, int _y, int _colored)
 		for (int j = 0; j < GameConfig::BOARD_WIDTH; j++)
 			this->board[i][j] = GameConfig::EMPTY;
 	}
+	getBlock();
 }
 
 void Board::getBlock()
