@@ -54,6 +54,7 @@ void Game::printInstructions()
 {
 	cout << "\n\nLeft Player keys:\n\tLeft - a or A\n\tRight - d or D \n\tRotate clokwise - s or S \n\tRotate counterclokwise - w or W\n\tDrop - x or X";
 	cout << "\n\nRight Player keys:\n\tLeft - j or J\n\tRight - l or L \n\tRotate clokwise - k or K \n\tRotate counterclokwise - i or I\n\tDrop - m or M\n";
+	cout << "\nPress ESC for pause\n";
 }
 
 int Game::init()
@@ -75,6 +76,7 @@ int Game::init()
 void Game::initBoardAndColor()
 {
 	int key;
+	clear_screen();
 	cout << "\npress 1 for color or 0 for no color\n";
 	key = _getch() - '0';
 	while (key != WITH_COLOR && key != NO_COLOR)
@@ -140,7 +142,7 @@ void Game::playGame()
 					initBoardAndColor();
 					break;
 				}
-				Sleep(20);
+				Sleep(10);
 				printBoards();
 			}
 			if(!new_game)
@@ -149,7 +151,7 @@ void Game::playGame()
 					move[i] = this->boards[i].moveBlockOnBoard('D');
 				}
 			emptyKBuffer();
-			Sleep(400);
+			Sleep(100);
 			handleFullRows();
 			
 		}
