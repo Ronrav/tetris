@@ -1,7 +1,7 @@
 #include "shape.h"
 
 
-void Shape::getShape()
+void Shape::setShape()
 {
 	this->rotation_state = 0;
 	this->shape_type = getRandom(1, NUM_OF_SHAPES);
@@ -14,7 +14,7 @@ void Shape::getShape()
 			this->points[0].set(GameConfig::BOARD_WIDTH / 2, 0);
 			this->points[1].set(GameConfig::BOARD_WIDTH / 2 + 1, 0);
 			this->points[2].set(GameConfig::BOARD_WIDTH / 2, 1);
-			this->points[3].set(GameConfig::BOARD_WIDTH / 2 + 1, 1);
+			this->points[3].set(GameConfig::BOARD_WIDTH / 2 + 1, 1);  
 			break;
 			
 		case(I_SHAPE):
@@ -95,7 +95,7 @@ void Shape::moveRight()
 }
 
 
-Point* Shape::getPoints()
+Point* Shape::getPoints() const
 {
 	return this->points;
 }
@@ -374,3 +374,26 @@ int Shape::getColor()
 {
 	return this->color;
 }
+
+//the consts needs to be like the rKeys and Lkeys in Game class 
+char Shape::moveToWanted(const Shape& wanted_shape)
+{
+	int cur_column = this->points[0].getX();
+	int wanted_column = wanted_shape.points[0].getX();
+
+
+	if (wanted_shape.rotation_state != this->rotation_state)
+		return ROTATE_CLOCKWISE;
+
+	else if (cur_column != wanted_column)
+	{
+		if (cur_column < wanted_column)
+			return RIGHT;
+		else
+			return LEFT;
+	}
+	else
+		return DROP;
+
+}
+

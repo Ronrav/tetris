@@ -121,7 +121,7 @@ void Game::playGame()
 				if (!move[i])
 				{
 					//generate a piece to each board
-					this->boards[i].getBlock();
+					this->boards[i].setBlock();
 					//add block to board and check if possible
 					if (!this->boards[i].set_block())
 						end_game[i] = true;
@@ -159,7 +159,7 @@ void Game::playGame()
 	clear_screen();
 }
 
-int Game::handleKbhit()
+int Game::handleKbhit() //this function gets a human player and plays his turn
 {
 	if (!_kbhit())
 		return GameConfig::EMPTY;
@@ -223,9 +223,8 @@ int Game::handleKbhit()
 		this->boards[PLAYER2].dropBlock();
 		break;
 	}
-	
-	return 0;
 
+	return 0;
 }
 
 void Game::printBoards()
@@ -297,3 +296,4 @@ void Game::handleFullRows()
 	this->boards[PLAYER1].handleFullRows();
 	this->boards[PLAYER2].handleFullRows();
 }
+

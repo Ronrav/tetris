@@ -16,10 +16,10 @@ class Point
 public:
 	Point(int _x = 0, int _y = 0) : x(_x), y(_y) {};
 	void set(int _x, int _y);
-	void draw(char ch, int backcolor);
+	void draw(char ch, int backcolor) const;
 	void move(int new_x, int new_y);
-	int getY();
-	int getX();
+	int getY() const;
+	int getX() const;
 	void setX(int _x);
 	void setY(int _y);
 	

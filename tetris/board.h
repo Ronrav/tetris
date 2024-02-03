@@ -18,7 +18,8 @@ class Board
 	int board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]; 
 	Shape block; 
 public:
-
+	
+	
 	// Initializes the game board with empty cells.
 	void init(int _x, int _y, int _colored);
 
@@ -35,7 +36,7 @@ public:
 
 
 	//Copies the current state of the board to another board.
-	void copyBoardTo(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]);
+	void copyBoardTo(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]) const;
 
 
 	// Copies a given board to the current board.
@@ -44,7 +45,8 @@ public:
 
 	// Copies a given board to the current board.
 	//return true if the shape was successfully assigned.
-	bool assignShapeToBoard(Shape copy);
+	bool assignShapeToBoard(Shape copy) const;
+	
 
 
 	//Checks if a specific row is full.
@@ -63,7 +65,7 @@ public:
 
 
 	//Retrieves the shape for the current block.
-	void getBlock();
+	void setBlock();
 
 
 	//Gets the direction of movment.
@@ -80,7 +82,12 @@ public:
 	//returns 'true' if the block has seccesfully set.
 	bool set_block();
 	
+	Shape getBlock() const
+	{
+		return this->block;
+	}
 
+	void updateBoard(Shape new_shape);
 };
 
 #endif

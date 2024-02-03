@@ -6,7 +6,7 @@ void Point::set(int _x, int _y)
 	x = _x;
 	y = _y;
 }
-void Point::draw(char ch, int backcolor)
+void Point::draw(char ch, int backcolor) const
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), backcolor);
 	gotoxy(x + GameConfig::MIN_X - 1, y + GameConfig::MIN_Y - 1);
@@ -42,12 +42,12 @@ void Point::move(int new_x, int new_y)
 	y = new_y;
 }
 
-int Point::getX()
+int Point::getX() const
 {
 	return this->x;
 }
 
-int Point::getY()
+int Point::getY() const
 {
 	return this->y;
 }

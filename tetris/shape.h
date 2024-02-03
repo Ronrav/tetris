@@ -28,13 +28,19 @@ class Shape
 	static constexpr int J_SHAPE = 7;
 	static constexpr int NUM_OF_SHAPES = 7;
 	static constexpr int SIZE_OF_SHAPE = 4;
-
-
+	static constexpr char RIGHT = 'R';
+	static constexpr char ROTATE_CLOCKWISE = 'T';
+	static constexpr char DOWN = 'D';
+	static constexpr char DROP = 'P';
+	static constexpr char LEFT = 'L';
 
 public:
+	static constexpr char SHAPE_SIZE = 4;
+
+	int getRotation() { return rotation_state; }
 
 	// Initializes a new shape with a random type, color, and initial position.
-	void getShape();
+	void setShape();
 
 
 	//Copies the shape to the 'dest' shape object.
@@ -62,11 +68,13 @@ public:
 
 
 	//Returns the array of points representing the shape.
-	Point* getPoints();
+	Point* getPoints() const;
 
 
 	//Returns the color of the shape.
 	int getColor();
+	
+	char moveToWanted(const Shape& wanted_shape);
 };
 
 #endif

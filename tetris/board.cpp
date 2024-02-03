@@ -12,12 +12,12 @@ void Board::init(int _x, int _y, int _colored)
 		for (int j = 0; j < GameConfig::BOARD_WIDTH; j++)
 			this->board[i][j] = GameConfig::EMPTY;
 	}
-	getBlock();
+	setBlock();
 }
 
-void Board::getBlock()
+void Board::setBlock()
 {
-	this->block.getShape();
+	this->block.setShape();
 }
 
 void Board::drawBoardBorder()
@@ -99,6 +99,7 @@ bool Board::assignShapeToBoard(Shape copy)
 	{
 		if (this->checkIfFreeCoord(copy_arr[i].getX(), copy_arr[i].getY()))
 			this->board[copy_arr[i].getY()][copy_arr[i].getX()] = this->block.getColor();
+
 		else
 		{
 			this->copyToBoard(backup_board);
@@ -108,6 +109,24 @@ bool Board::assignShapeToBoard(Shape copy)
 	return true;
 }
 
+bool Board::assignShapeToBoard(Shape new_block) const
+{
+	Board copy_of_board = *this;
+	//this->copyBoardTo(copy_of_board);
+	Point* new_block_arr, * block_arr;
+	new_block_arr = new_block.getPoints();
+	block_arr = copy_of_board.block.getPoints();
+
+	for (int i = 0; i < Shape::SHAPE_SIZE; i++)
+		copy_of_board.board[block_arr[i].getY()][block_arr[i].getX()] = GameConfig::EMPTY;
+
+	for (int i = 0; i < Shape::SHAPE_SIZE; i++)
+	{
+		if (!copy_of_board.checkIfFreeCoord(new_block_arr[i].getX(), new_block_arr[i].getY()))
+			return false;
+	}
+	return true;
+}
 bool Board::isFullRow(int row)
 {
 	for (int i = 0; i < GameConfig::BOARD_WIDTH; i++)
@@ -147,7 +166,7 @@ void Board::deleteAndMoveRow(int row)
 
 bool Board::moveBlockOnBoard(char direction)
 {
-	bool moved;
+	bool is_possible_move , moved = false;
 	Shape tmp;
 	this->block.copyShape(tmp);
 	switch (direction)
@@ -170,9 +189,13 @@ bool Board::moveBlockOnBoard(char direction)
 	default:
 		break;
 	}
-	moved = assignShapeToBoard(tmp);
-	if (moved)
-		tmp.copyShape(this->block);
+	is_possible_move = assignShapeToBoard(tmp);
+	if (is_possible_move)
+	{
+		updateBoard(tmp);
+		moved = true;
+	}
+	
 	return moved;
 }
 
@@ -189,7 +212,7 @@ bool Board::set_block()
 {
 	Point* arr;
 	arr = this->block.getPoints();
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < Shape::SHAPE_SIZE; i++)
 	{
 		if (this->board[arr[i].getY()][arr[i].getX()] == GameConfig::EMPTY)
 			this->board[arr[i].getY()][arr[i].getX()] = this->block.getColor();
@@ -198,3 +221,18 @@ bool Board::set_block()
 	}
 	return true;
 }
+void Board::updateBoard(Shape new_shape)
+{
+	Point* original_shape_arr = block.getPoints();
+	Point* new_shape_arr = new_shape.getPoints();
+
+	for (int i = 0; i < Shape:: SHAPE_SIZE; i++)
+		board[original_shape_arr[i].getY()][original_shape_arr[i].getX()] = GameConfig::EMPTY;
+
+	for (int i = 0; i < Shape::SHAPE_SIZE; i++)
+		board[new_shape_arr[i].getY()][new_shape_arr[i].getX()] = new_shape.getColor();
+
+	new_shape.copyShape(this->block);
+
+}
+
