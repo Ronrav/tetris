@@ -4,25 +4,23 @@
 #include "utills.h"
 #include <windows.h>
 #include "gameConfig.h"
-#include "shape.h"
 
 class Game
 {
 	static constexpr int NUM_OF_PLAYERS = 2;
-
 	Board boards[NUM_OF_PLAYERS];
 
 	// Handles the start menu logic for selecting new game, instructions, or exit.
-	int handleStartMenu();
+	int handleStartMenu() const;
 
 
 	// Handles the pause menu logic for selecting new game, resuming, instructions, or exit during gameplay.
 	// Returs key, representing the selected option.
-	int handlePauseMenu();
+	int handlePauseMenu() const;
 
 
 	// Prints game instructions for player controls.
-	void printInstructions();
+	void printInstructions() const;
 
 
 	//  Handles keyboard input during gameplay, allowing players to move, rotate, drop blocks, and pause the game.
@@ -31,13 +29,13 @@ class Game
 
 
 	//Prints the game boards for both players.
-	void printBoards();
+	void printBoards() const;
 
 
 	// Checks if the game has ended based on the players' scores. 
 	//It gets the scores array. and returns "true" if the game has ended. 
 	//if true - prints the winner by "announceTheWinner" func. 
-	bool isGameEnded(bool scores[]);
+	bool isGameEnded(bool scores[]) const;
 
 
 	//  Initializes the game, handles start menu, and initializes the game board.
@@ -47,11 +45,11 @@ class Game
 
 	//Gets the player number who won or TIE for a tie, 
 	//and prints the winner or a tie message and waits for a key press to return to the main menu.
-	void announceTheWinner(int winner);
+	void announceTheWinner(int winner) const;
 
 
 	//Prints the borders of the game boards for both players.
-	void printBorders();
+	void printBorders() const;
 
 
 	//Handles clearing full rows in the game boards.
@@ -60,6 +58,8 @@ class Game
 
 	//  Initializes the game board and color settings based on player input.
 	void initBoardAndColor();
+
+	void handleBomb(bool move[]);
 
 	static constexpr int PLAYER1 = 0;
 	static constexpr int PLAYER2 = 1;

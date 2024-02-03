@@ -1,15 +1,47 @@
 #include "shape.h"
 
+Shape::Shape(const Shape& other)
+{
+	Shape tmp;
+
+	for (int i = 0; i < SIZE_OF_SHAPE; i++)
+		this->points[i] = other.points[i];
+
+	this->rotation_state = other.rotation_state;
+	this->shape_type = other.shape_type;
+	this->color = other.color;
+}
+
+void Shape::setShapeType()
+{
+	if (getRandom(1, 100) <= 5) //5% of generating a bomb
+		this->shape_type =  GameConfig::BOMB;
+	else
+		this->shape_type = getRandom(1, NUM_OF_SHAPES); //return random shape type between ordinary shapes
+
+}
+
 
 void Shape::getShape()
 {
 	this->rotation_state = 0;
-	this->shape_type = getRandom(1, NUM_OF_SHAPES);
+	this->setShapeType();
 	this->color = GameConfig::COLORS[getRandom(1, GameConfig::NUM_OF_COLORS)];
+	if (this->shape_type == GameConfig::BOMB)
+	{
+		this->color *= -1;
+	}
 	
-		//space filler
+	
+		//fill points array according to shape
 		switch (this->shape_type)
 		{
+		case(GameConfig::BOMB):
+			this->points[0].set(GameConfig::BOARD_WIDTH / 2, 0);
+			this->points[1].set(GameConfig::BOARD_WIDTH / 2, 0);
+			this->points[2].set(GameConfig::BOARD_WIDTH / 2, 0);
+			this->points[3].set(GameConfig::BOARD_WIDTH / 2, 0);
+			break;
 		case(O_SHAPE):
 			this->points[0].set(GameConfig::BOARD_WIDTH / 2, 0);
 			this->points[1].set(GameConfig::BOARD_WIDTH / 2 + 1, 0);
@@ -109,7 +141,8 @@ void Shape::rotate(bool clockwise)
 		this->rotation_state = (this->rotation_state + 3) % ROTATION_STATES;
 	switch (this->shape_type)
 	{
-		
+	case(GameConfig::BOMB):
+		break;
 	case(O_SHAPE):
 		break;
 	
@@ -359,18 +392,11 @@ void Shape::rotateJshape()
 	this->rotation_state /= 90;
 }
 
-void Shape::copyShape(Shape& dest)
-{
-	for (int i = 0; i < SIZE_OF_SHAPE; i++)
-		dest.points[i] = this->points[i];
-
-	dest.rotation_state = this->rotation_state;
-	dest.shape_type = this->shape_type;
-	dest.color = this->color;
-
-}
-
-int Shape::getColor()
+int Shape::getColor() const
 {
 	return this->color;
+}
+int Shape::getShapeType() const
+{
+	return this->shape_type;
 }

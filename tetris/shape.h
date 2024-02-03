@@ -1,10 +1,13 @@
 #ifndef __SHAPE_H
 #define __SHAPE_H
 #include "point.h"
+#include "gameConfig.h"
+#include "utills.h"
 
 class Shape
 {
-	Point points[4];
+	static constexpr int SIZE_OF_SHAPE = 4;
+	Point points[SIZE_OF_SHAPE];
 	int shape_type;
 	int rotation_state;
 	int color;
@@ -18,6 +21,7 @@ class Shape
 	void rotateJshape();
 	//returns true if the rotate direction is clockeise, false if to the other side.
 	void rotate (bool clockwise);
+	void setShapeType();
 	static constexpr int ROTATION_STATES = 4;
 	static constexpr int O_SHAPE = 1;
 	static constexpr int I_SHAPE = 2;
@@ -27,18 +31,16 @@ class Shape
 	static constexpr int L_SHAPE = 6;
 	static constexpr int J_SHAPE = 7;
 	static constexpr int NUM_OF_SHAPES = 7;
-	static constexpr int SIZE_OF_SHAPE = 4;
-
 
 
 public:
+	Shape() {};
+
+	//copy ctor
+	Shape(const Shape& dest);
 
 	// Initializes a new shape with a random type, color, and initial position.
 	void getShape();
-
-
-	//Copies the shape to the 'dest' shape object.
-	void copyShape(Shape& dest);
 
 
 	//Rotates the shape clockwise.
@@ -66,7 +68,9 @@ public:
 
 
 	//Returns the color of the shape.
-	int getColor();
+	int getColor() const;
+
+	int getShapeType() const;
 };
 
 #endif
