@@ -1,28 +1,20 @@
 #ifndef __POINT_H
 #define __POINT_H
-#include "utills.h"
-#include "gameConfig.h"
-#include <iostream>
-#include <Windows.h>
-using namespace std;
-
 
 class Point
 {
-	int x;
-	int y;
+	int x = 0;
+	int y = 0;
 
 
 public:
-	Point(int _x = 0, int _y = 0) : x(_x), y(_y) {};
+	Point(int _x, int _y) : x(_x), y(_y) {};
+	Point() {};
 	void set(int _x, int _y);
-	void draw(char ch, int backcolor);
-	void move(int new_x, int new_y);
-	int getY();
-	int getX();
+	int getX() const;
+	int getY() const;
 	void setX(int _x);
 	void setY(int _y);
-	
 };
 
 #endif

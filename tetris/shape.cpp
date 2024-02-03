@@ -1,5 +1,16 @@
 #include "shape.h"
 
+Shape::Shape(const Shape& other)
+{
+	Shape tmp;
+
+	for (int i = 0; i < SIZE_OF_SHAPE; i++)
+		this->points[i] = other.points[i];
+
+	this->rotation_state = other.rotation_state;
+	this->shape_type = other.shape_type;
+	this->color = other.color;
+}
 
 void Shape::getShape()
 {
@@ -95,7 +106,7 @@ void Shape::moveRight()
 }
 
 
-Point* Shape::getPoints()
+Point* Shape::getPoints() //const?
 {
 	return this->points;
 }
@@ -359,18 +370,7 @@ void Shape::rotateJshape()
 	this->rotation_state /= 90;
 }
 
-void Shape::copyShape(Shape& dest)
-{
-	for (int i = 0; i < SIZE_OF_SHAPE; i++)
-		dest.points[i] = this->points[i];
-
-	dest.rotation_state = this->rotation_state;
-	dest.shape_type = this->shape_type;
-	dest.color = this->color;
-
-}
-
-int Shape::getColor()
+int Shape::getColor() const
 {
 	return this->color;
 }

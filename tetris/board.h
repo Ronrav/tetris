@@ -2,40 +2,35 @@
 #define __BOARD_H
 #include "gameConfig.h"
 #include "utills.h"
-#include <stdlib.h>
-#include <conio.h>
-#include <Windows.h>
-#include <iostream>
 #include "shape.h"
-using namespace std;
 
 
 class Board
 {
 	int x; //The x coordinate of the upper-left corner of the board. 
 	int y; //The y coordinate of the upper-left corner of the board.
-	int colored; //according to the players choice
 	int board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]; 
 	Shape block; 
+	static int colored;
 public:
 
 	// Initializes the game board with empty cells.
-	void init(int _x, int _y, int _colored);
+	void init(int _x, int _y);
 
 	//Draws the border around the game board.
-	void drawBoardBorder();
+	void drawBoardBorder() const;
 
 
 	//Prints the contents of the game board with colored dots.
-	void printBoard();
+	void printBoard() const;
 
 
 	//Checks if a specific coordinate is on the board and if its free.
-	bool checkIfFreeCoord(int _x, int _y);
+	bool checkIfFreeCoord(int _x, int _y) const;
 
 
 	//Copies the current state of the board to another board.
-	void copyBoardTo(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]);
+	void copyBoardTo(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]) const;
 
 
 	// Copies a given board to the current board.
@@ -49,7 +44,7 @@ public:
 
 	//Checks if a specific row is full.
 	//Returns 'true' if the row is full.
-	bool isFullRow(int row);
+	bool isFullRow(int row) const;
 
 
 	// Handles clearing full rows on the board.
@@ -79,6 +74,8 @@ public:
 	//Sets the current block on the board, checking for collisions.
 	//returns 'true' if the block has seccesfully set.
 	bool set_block();
+
+	static void set_colored(int key);
 	
 
 };

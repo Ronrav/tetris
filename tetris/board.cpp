@@ -1,12 +1,11 @@
 #include "board.h"
-#include "gameConfig.h"
 
+int Board::colored = 0;
 
-void Board::init(int _x, int _y, int _colored)
+void Board::init(int _x, int _y)
 {
 	this->x = _x;
 	this->y = _y;
-	this->colored = _colored;
 	for (int i = 0; i < GameConfig::BOARD_HEIGHT; i++)
 	{
 		for (int j = 0; j < GameConfig::BOARD_WIDTH; j++)
@@ -20,29 +19,29 @@ void Board::getBlock()
 	this->block.getShape();
 }
 
-void Board::drawBoardBorder()
+void Board::drawBoardBorder() const
 {
 	for (int col = this->x - 1; col <= this->x + GameConfig::BOARD_WIDTH; col++)
 	{
 		gotoxy(col, this->y - 1);
-		cout << "-";
+		std::cout << "-";
 
 		gotoxy(col, this->y + GameConfig::BOARD_HEIGHT);
-		cout << "-";
+		std::cout << "-";
 	}
 
 	for (int row = this->y - 1; row <= GameConfig::BOARD_HEIGHT + this->y; row++)
 	{
 		gotoxy(this->x - 1, row);
-		cout << "|";
+		std::cout << "|";
 
 		gotoxy(this->x + GameConfig::BOARD_WIDTH, row);
-		cout << "|";
+		std::cout << "|";
 	}
-	cout << endl;
+	std::cout << endl;
 }
 
-void Board::printBoard()
+void Board::printBoard() const
 {
 	int i, j;
 	for (i = 0; i < GameConfig::BOARD_HEIGHT; i++)
@@ -50,22 +49,22 @@ void Board::printBoard()
 		for (j = 0; j < GameConfig::BOARD_WIDTH; j++)
 		{
 			if (this->board[i][j] != GameConfig::EMPTY)
-				printDot(this->x + j, this->y + i, this->board[i][j] * this->colored, true);
+				printDot(this->x + j, this->y + i, this->board[i][j] * colored, true);
 			else
-				printDot(this->x + j, this->y + i, this->board[i][j] * this->colored, false);
+				printDot(this->x + j, this->y + i, this->board[i][j] * colored, false);
 		}
 	}
 }
 
-bool Board::checkIfFreeCoord(int _x, int _y)
+bool Board::checkIfFreeCoord(int _x, int _y) const
 {
 	if ((_x >= 0) && (_x < GameConfig::BOARD_WIDTH) && (_y < GameConfig::BOARD_HEIGHT) && (_y >= 0) && (this->board[_y][_x] == GameConfig::EMPTY))
 		return true;
 	return false;
 
-}
+} 
 
-void Board::copyBoardTo(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH])
+void Board::copyBoardTo(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]) const
 {
 	for (int i = 0; i < GameConfig::BOARD_HEIGHT; i++)
 	{
@@ -108,7 +107,7 @@ bool Board::assignShapeToBoard(Shape copy)
 	return true;
 }
 
-bool Board::isFullRow(int row)
+bool Board::isFullRow(int row) const
 {
 	for (int i = 0; i < GameConfig::BOARD_WIDTH; i++)
 	{
@@ -149,7 +148,8 @@ bool Board::moveBlockOnBoard(char direction)
 {
 	bool moved;
 	Shape tmp;
-	this->block.copyShape(tmp);
+	//use copy ctor
+	tmp = this->block;
 	switch (direction)
 	{
 	case('L'):
@@ -172,7 +172,7 @@ bool Board::moveBlockOnBoard(char direction)
 	}
 	moved = assignShapeToBoard(tmp);
 	if (moved)
-		tmp.copyShape(this->block);
+		this->block = tmp;
 	return moved;
 }
 
@@ -197,4 +197,9 @@ bool Board::set_block()
 			return false;
 	}
 	return true;
+}
+
+void Board::set_colored(int key)
+{
+	colored = key;
 }

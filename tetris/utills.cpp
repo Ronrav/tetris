@@ -1,12 +1,10 @@
 #include "utills.h"
 
-using namespace std;
-
 void gotoxy(int x, int y)
 {
 	HANDLE hConsoleOutput;
 	COORD dwCursorPosition;
-	cout.flush();
+	std::cout.flush();
 	dwCursorPosition.X = x;
 	dwCursorPosition.Y = y;
 	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -40,13 +38,13 @@ int getRandom(int min, int max)
 
 void printDot(int x, int y, int color, bool fill)
 {
-	if(color != GameConfig::BLACK)
+	if(color != (int)GameConfig::Color::BLACK)
 		setTextColor(color);
 	gotoxy(x, y);
 	if (fill)
-		cout << (char)GameConfig::SYMBOL;
+		std::cout << (char)GameConfig::SYMBOL;
 	else
-		cout << ' ';
+		std::cout << ' ';
 }
 
 void emptyKBuffer()

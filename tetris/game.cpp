@@ -1,14 +1,11 @@
 #include "game.h"
 
 
-
-
-
-int Game::handleStartMenu()
+int Game::handleStartMenu() const
 {
 	int key = -1;
 	bool printed = false;
-	cout << "(1) Start a new game\n(8) Present instrcutions and keys\n(9) EXIT";
+	std::cout << "(1) Start a new game\n(8) Present instrcutions and keys\n(9) EXIT";
 	while (true)
 	{
 		if (_kbhit())
@@ -23,13 +20,13 @@ int Game::handleStartMenu()
 	}
 }
 
-int Game::handlePauseMenu()
+int Game::handlePauseMenu() const
 {
 	int key = -1;
 	bool printed = false;
 	setTextColor(WHITE);
 	clear_screen();
-	cout << "(1) Start a new game\n(2) Continue a paused game\n(8) Present instrcutions and keys\n(9) EXIT";
+	std::cout << "(1) Start a new game\n(2) Continue a paused game\n(8) Present instrcutions and keys\n(9) EXIT";
 	while (true)
 	{
 		if(_kbhit())
@@ -50,11 +47,11 @@ int Game::handlePauseMenu()
 	return key;
 }
 
-void Game::printInstructions()
+void Game::printInstructions() const
 {
-	cout << "\n\nLeft Player keys:\n\tLeft - a or A\n\tRight - d or D \n\tRotate clokwise - s or S \n\tRotate counterclokwise - w or W\n\tDrop - x or X";
-	cout << "\n\nRight Player keys:\n\tLeft - j or J\n\tRight - l or L \n\tRotate clokwise - k or K \n\tRotate counterclokwise - i or I\n\tDrop - m or M\n";
-	cout << "\nPress ESC for pause\n";
+	std::cout << "\n\nLeft Player keys:\n\tLeft - a or A\n\tRight - d or D \n\tRotate clokwise - s or S \n\tRotate counterclokwise - w or W\n\tDrop - x or X";
+	std::cout << "\n\nRight Player keys:\n\tLeft - j or J\n\tRight - l or L \n\tRotate clokwise - k or K \n\tRotate counterclokwise - i or I\n\tDrop - m or M\n";
+	std::cout << "\nPress ESC for pause\n";
 }
 
 int Game::init()
@@ -63,7 +60,7 @@ int Game::init()
 	clear_screen();
 	hideCursor();
 	//set text color white
-	setTextColor((int)GameConfig::WHITE);
+	setTextColor((int)GameConfig::Color::WHITE);
 	int key = this->handleStartMenu();
 	if (key != EXIT)
 	{
@@ -77,21 +74,22 @@ void Game::initBoardAndColor()
 {
 	int key;
 	clear_screen();
-	cout << "\npress 1 for color or 0 for no color\n";
+	std::cout << "\npress 1 for color or 0 for no color\n";
 	key = _getch() - '0';
 	while (key != WITH_COLOR && key != NO_COLOR)
 		key = _getch();
+	Board::set_colored(key);
 	clear_screen();
 	Sleep(300);
-	cout << "Starting Game in 1..";
+	std::cout << "Starting Game in 1..";
 	Sleep(300);
-	cout << "2..";
+	std::cout << "2..";
 	Sleep(300);
-	cout << "3";
+	std::cout << "3";
 	Sleep(300);
 	clear_screen();
-	this->boards[0].init(GameConfig::MIN_X, GameConfig::MIN_Y, key);
-	this->boards[1].init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y, key);
+	this->boards[0].init(GameConfig::MIN_X, GameConfig::MIN_Y);
+	this->boards[1].init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y);
 	this->boards[0].drawBoardBorder();
 	this->boards[1].drawBoardBorder();
 }
@@ -159,7 +157,7 @@ void Game::playGame()
 	clear_screen();
 }
 
-int Game::handleKbhit()
+int Game::handleKbhit() 
 {
 	if (!_kbhit())
 		return GameConfig::EMPTY;
@@ -228,13 +226,13 @@ int Game::handleKbhit()
 
 }
 
-void Game::printBoards()
+void Game::printBoards() const
 {
 	this->boards[PLAYER1].printBoard();
 	this->boards[PLAYER2].printBoard();
 }
 
-bool Game::isGameEnded(bool scores[])
+bool Game::isGameEnded(bool scores[]) const
 {
 	bool is_end = false;
 	int winner;
@@ -264,15 +262,14 @@ bool Game::isGameEnded(bool scores[])
 	return is_end;
 }
 
-
-void Game::announceTheWinner(int winner)
+void Game::announceTheWinner(int winner) const
 {
 	setTextColor(WHITE);
 	if (winner != TIE)
-		cout << "\n\nTHE WINNER IS: PLAYER NUMBER " << winner + 1 << "!!!" << endl;
+		std::cout << "\n\nTHE WINNER IS: PLAYER NUMBER " << winner + 1 << "!!!" << endl;
 	else
-		cout << "\n\nGAME ENDED, IT'S A TIE!!!" << endl;
-	cout << "\n\nPress any key to go back to main menu\n";
+		std::cout << "\n\nGAME ENDED, IT'S A TIE!!!" << endl;
+	std::cout << "\n\nPress any key to go back to main menu\n";
 	emptyKBuffer();
 	while (true)
 	{
@@ -286,7 +283,7 @@ void Game::announceTheWinner(int winner)
 	return;
 }
 
-void Game::printBorders()
+void Game::printBorders() const
 {
 	this->boards[PLAYER1].drawBoardBorder();
 	this->boards[PLAYER2].drawBoardBorder();
