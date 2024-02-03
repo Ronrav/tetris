@@ -150,7 +150,14 @@ void Game::playGame()
 				}
 			emptyKBuffer();
 			Sleep(100);
-			handleFullRows();
+			if (!move[PLAYER1] || !move[PLAYER2])
+			{
+				handleBomb(move);
+				handleFullRows();
+			}
+			printBoards();
+
+			
 			
 		}
 	}
@@ -293,4 +300,13 @@ void Game::handleFullRows()
 {
 	this->boards[PLAYER1].handleFullRows();
 	this->boards[PLAYER2].handleFullRows();
+}
+
+void Game::handleBomb(bool move[])
+{
+	for (int i = 0; i < NUM_OF_PLAYERS; i++)
+	{
+		if(!move[i])
+			this->boards[i].handle_bomb();
+	}
 }

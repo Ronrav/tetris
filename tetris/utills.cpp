@@ -38,11 +38,20 @@ int getRandom(int min, int max)
 
 void printDot(int x, int y, int color, bool fill)
 {
-	if(color != (int)GameConfig::Color::BLACK)
-		setTextColor(color);
 	gotoxy(x, y);
 	if (fill)
-		std::cout << (char)GameConfig::SYMBOL;
+		if (color < 0) //dot is a bomb
+		{
+			color = color * (-1);
+			setTextColor(color);
+			std::cout << (char)GameConfig::BOMB_SYMBOL;
+		}
+		else
+		{
+			setTextColor(color);
+			std::cout << (char)GameConfig::BLOCK_SYMBOL;
+		}
+			
 	else
 		std::cout << ' ';
 }

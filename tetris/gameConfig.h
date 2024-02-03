@@ -13,7 +13,8 @@ public:
 	static constexpr int BOARD_WIDTH = 12;
 	static constexpr int BOARD_HEIGHT = 18;
 	static constexpr int BOARDS_GAP = 40;
-	static constexpr char SYMBOL = '#';
+	static constexpr char BLOCK_SYMBOL = '#';
+	static constexpr char BOMB_SYMBOL = '@';
 	static constexpr int MIN_X = 10;
 	static constexpr int MIN_Y = 2;
 	static constexpr int START_X_COORD_BOARD_1 = 10 + (12 / 2);
@@ -21,6 +22,9 @@ public:
 	static constexpr int START_X_COORD_BOARD_2 = MIN_X + BOARDS_GAP + (BOARD_WIDTH / 2);
 	static constexpr int START_Y_COORD_BOARD_2 = MIN_Y + BOARDS_GAP + (BOARD_HEIGHT / 2);
 	static constexpr int EMPTY = -1;
+	static constexpr int BOMB_RADIUS = 4;
+	static constexpr int BOMB = -2;
+	
 	
 
 

@@ -59,6 +59,8 @@ class Game
 	//  Initializes the game board and color settings based on player input.
 	void initBoardAndColor();
 
+	void handleBomb(bool move[]);
+
 	static constexpr int PLAYER1 = 0;
 	static constexpr int PLAYER2 = 1;
 	static constexpr int TIE = 3;

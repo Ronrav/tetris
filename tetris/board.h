@@ -76,7 +76,10 @@ public:
 	bool set_block();
 
 	static void set_colored(int key);
-	
+
+	void handle_bomb();
+	void getBombPerimeters(int& x, int& y, int source_x, int source_y);
+	Point& getBombSource();
 
 };
 

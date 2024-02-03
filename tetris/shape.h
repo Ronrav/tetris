@@ -1,8 +1,7 @@
 #ifndef __SHAPE_H
 #define __SHAPE_H
 #include "point.h"
-#include "
-.h"
+#include "gameConfig.h"
 #include "utills.h"
 
 class Shape
@@ -22,8 +21,8 @@ class Shape
 	void rotateJshape();
 	//returns true if the rotate direction is clockeise, false if to the other side.
 	void rotate (bool clockwise);
+	void setShapeType();
 	static constexpr int ROTATION_STATES = 4;
-	static constexpr int BOMB = 0;
 	static constexpr int O_SHAPE = 1;
 	static constexpr int I_SHAPE = 2;
 	static constexpr int S_SHAPE = 3;
@@ -70,6 +69,8 @@ public:
 
 	//Returns the color of the shape.
 	int getColor() const;
+
+	int getShapeType() const;
 };
 
 #endif
