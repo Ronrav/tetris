@@ -1,59 +1,6 @@
 #include "game.h"
 
 
-int Game::handleStartMenu() const
-{
-	int key = -1;
-	bool printed = false;
-	std::cout << "(1) Start a new game\n(8) Present instrcutions and keys\n(9) EXIT";
-	while (true)
-	{
-		if (_kbhit())
-			key = _getch() - '0';
-		if (key == INSTRUCTIONS && !printed)
-		{
-			printInstructions();
-			printed = true;
-		}
-		else if (key == NEW_GAME|| key == EXIT)
-			return key;
-	}
-}
-
-int Game::handlePauseMenu() const
-{
-	int key = -1;
-	bool printed = false;
-	setTextColor(WHITE);
-	clear_screen();
-	std::cout << "(1) Start a new game\n(2) Continue a paused game\n(8) Present instrcutions and keys\n(9) EXIT";
-	while (true)
-	{
-		if(_kbhit())
-			key = _getch() - '0';
-		if (key == INSTRUCTIONS && !printed)
-		{
-			printInstructions();
-			printed = true;
-		}
-		else if ( key == NEW_GAME || key == RESUME_GAME || key == EXIT)
-		{
-			clear_screen();
-			if (key == RESUME_GAME)
-				printBorders();
-			return key;
-		}
-	}
-	return key;
-}
-
-void Game::printInstructions() const
-{
-	std::cout << "\n\nLeft Player keys:\n\tLeft - a or A\n\tRight - d or D \n\tRotate clokwise - s or S \n\tRotate counterclokwise - w or W\n\tDrop - x or X";
-	std::cout << "\n\nRight Player keys:\n\tLeft - j or J\n\tRight - l or L \n\tRotate clokwise - k or K \n\tRotate counterclokwise - i or I\n\tDrop - m or M\n";
-	std::cout << "\nPress ESC for pause\n";
-}
-
 int Game::init()
 {
 
@@ -61,8 +8,8 @@ int Game::init()
 	hideCursor();
 	//set text color white
 	setTextColor((int)GameConfig::Color::WHITE);
-	int key = this->handleStartMenu();
-	if (key != EXIT)
+	int key = Menu::handleStartMenu();
+	if (key != GameConfig::EXIT)
 	{
 		initBoardAndColor();
 	}
@@ -105,7 +52,7 @@ void Game::playGame()
 	{
 		key = init();
 			
-		if (key == EXIT)
+		if (key == GameConfig::EXIT)
 		{
 			return;
 		}
@@ -132,9 +79,11 @@ void Game::playGame()
 			for (i = 0; i < MAX_KEYS_IN_BUFFER; i++)
 			{
 				key = handleKbhit();
-				if (key == EXIT)
+				if (key == GameConfig::EXIT)
 					return;
-				else if (key == NEW_GAME)
+				else if (key == GameConfig::RESUME_GAME)
+					printBorders();
+				else if (key == GameConfig::NEW_GAME)
 				{
 					new_game = true;
 					initBoardAndColor();
@@ -175,7 +124,7 @@ int Game::handleKbhit()
 	{
 		//esc
 	case(ESC):
-		return handlePauseMenu();
+		return Menu::handlePauseMenu();
 		break;
 	case((int)LKeys::LEFT_LOWER):
 	case((int)LKeys::LEFT_UPPER):
@@ -271,11 +220,11 @@ bool Game::isGameEnded(bool scores[]) const
 
 void Game::announceTheWinner(int winner) const
 {
-	setTextColor(WHITE);
+	setTextColor(GameConfig::WHITE);
 	if (winner != TIE)
-		std::cout << "\n\nTHE WINNER IS: PLAYER NUMBER " << winner + 1 << "!!!" << endl;
+		std::cout << "\n\nTHE WINNER IS: PLAYER NUMBER " << winner + 1 << "!!!" << std::endl;
 	else
-		std::cout << "\n\nGAME ENDED, IT'S A TIE!!!" << endl;
+		std::cout << "\n\nGAME ENDED, IT'S A TIE!!!" << std::endl;
 	std::cout << "\n\nPress any key to go back to main menu\n";
 	emptyKBuffer();
 	while (true)

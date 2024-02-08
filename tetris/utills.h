@@ -7,7 +7,6 @@
 #include <conio.h>
 #include<cstdlib>
 #include<ctime>
-using namespace std;
 
 // Positions the cursor at the specified console coordinates.
 void gotoxy(int x, int y);
