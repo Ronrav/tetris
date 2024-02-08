@@ -48,10 +48,12 @@ void printDot(int x, int y, int color, bool fill)
 		}
 		else
 		{
-			setTextColor(color);
+			if (color == GameConfig::NO_COLOR)
+				setTextColor(GameConfig::WHITE);
+			else
+				setTextColor(color);
 			std::cout << (char)GameConfig::BLOCK_SYMBOL;
 		}
-			
 	else
 		std::cout << ' ';
 }

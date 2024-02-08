@@ -4,24 +4,12 @@
 #include "utills.h"
 #include <windows.h>
 #include "gameConfig.h"
+#include "menu.h"
 
 class Game
 {
 	static constexpr int NUM_OF_PLAYERS = 2;
 	Board boards[NUM_OF_PLAYERS];
-
-	// Handles the start menu logic for selecting new game, instructions, or exit.
-	int handleStartMenu() const;
-
-
-	// Handles the pause menu logic for selecting new game, resuming, instructions, or exit during gameplay.
-	// Returs key, representing the selected option.
-	int handlePauseMenu() const;
-
-
-	// Prints game instructions for player controls.
-	void printInstructions() const;
-
 
 	//  Handles keyboard input during gameplay, allowing players to move, rotate, drop blocks, and pause the game.
 	// return key, that represents the wanted action.
@@ -64,11 +52,6 @@ class Game
 	static constexpr int PLAYER1 = 0;
 	static constexpr int PLAYER2 = 1;
 	static constexpr int TIE = 3;
-	static constexpr int NEW_GAME = 1;
-	static constexpr int RESUME_GAME = 2;
-	static constexpr int INSTRUCTIONS = 8;
-	static constexpr int EXIT = 9;
-	static constexpr int WHITE = 15;
 	static constexpr int NO_COLOR = 0;
 	static constexpr int WITH_COLOR = 1;
 	static constexpr int MAX_KEYS_IN_BUFFER = 10;
@@ -78,6 +61,7 @@ class Game
 	static constexpr char ROTATE_CLOCKWISE = 'T';
 	static constexpr char ROTATE_COUNTERCLOCKWISE = 'G';
 
+	
 
 	enum class LKeys {
 		LEFT_LOWER = 'a', RIGHT_LOWER = 'd', ROTATE_CLOCKWISE_LOWER = 's', ROTATE_COUNTERCLOCKWISE_LOWER = 'w', DROP_LOWER = 'x',

@@ -38,7 +38,7 @@ void Board::drawBoardBorder() const
 		gotoxy(this->x + GameConfig::BOARD_WIDTH, row);
 		std::cout << "|";
 	}
-	std::cout << endl;
+	std::cout << std::endl;
 }
 
 void Board::printBoard() const
