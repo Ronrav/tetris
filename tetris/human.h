@@ -11,7 +11,6 @@ class Human : public Player {
 public:
 	Human() : side(side_flag) { side_flag = !side_flag; }
 
-	void filterPlayerMoves();
 	bool isKeyInPlayerKeys(char key);
 
 

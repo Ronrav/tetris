@@ -119,3 +119,65 @@ void Computer::playTurn()
 		break;
 	}
 }
+*/
+void Computer::getNextBlock()
+{
+	this->block.getShape();
+	inputMovesVector();
+}
+
+void Computer::inputMovesVector()
+{
+	Shape best, copy;
+	//best = getBestMove()
+	copy = this->block;
+	fitRotation(best, copy);
+	fitLocation(best, copy);
+	this->moves_list.push_back(GameConfig::DROP);
+}
+
+void Computer::fitRotation(const Shape& best, Shape& copy)
+{
+	while (copy.getRotationState() != best.getRotationState())
+	{
+		copy.rotateClockWise();
+		this->moves_list.push_back(GameConfig::ROTATE_CLOCKWISE);
+	}
+}
+
+void Computer::fitLocation(const Shape& best, Shape& copy)
+{
+	int direction, copy_x, best_x;
+	copy_x = copy.getPointByIndex(0).getX();
+	best_x = best.getPointByIndex(0).getX();
+	char step;
+
+	if (copy_x < best_x)
+	{
+		step = GameConfig::RIGHT;
+		direction = 1;
+	}
+		
+	else if (copy_x > best_x)
+	{
+		step = GameConfig::LEFT;
+		direction = -1;
+	}
+		
+	while (copy_x != best_x)
+	{
+		copy_x += direction;
+		this->moves_list.push_back(step);
+	}
+		
+}
+
+
+int Computer::playMove(char key, int colored)
+{
+	if (moves_list.empty())
+		return 0;
+	key = makeMove(this->moves_list.front(), colored);
+	moves_list.pop_front();
+	return key;
+}
