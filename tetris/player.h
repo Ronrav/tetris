@@ -2,6 +2,7 @@
 #define __PLAYER_H
 #include "board.h"
 #include <vector>
+#include "menu.h"
 class Player
 {
 protected:
@@ -13,7 +14,6 @@ public:
 	Player() { block.getShape(); }
 	void printBoard(int colored) const;
 	void printBorders() const;
-	void playTurn(const std::vector<char>& moves_vector);
 	void getNextBlock();
 
 
@@ -37,13 +37,13 @@ public:
 
 	void handle_bomb();
 
-	void makeMove(char key, int colored);
-
 	void dropNoPrint();
 
 	void moveBlockToLeftmost();
 
 	void ZeroPlayingBoard();
+	
+	int makeMove(char key, int colored);
 
 	void moveBlockToLeftmost(Shape& shape) const;
 	Shape getCopyBlock();

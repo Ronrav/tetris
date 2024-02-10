@@ -12,6 +12,7 @@ public:
 	Human() : side(side_flag) { side_flag = !side_flag; }
 
 	bool isKeyInPlayerKeys(char key);
+	int playMove(char key, int colored);
 
 
 };

@@ -11,11 +11,6 @@ void Player::printBorders() const
 	this->playing_board.drawBoardBorder();
 }
 
-void Player::playTurn(const std::vector<char>& moves_vector)
-{
-
-}
-
 void Player::getNextBlock()
 {
 	this->block.getShape();
@@ -29,19 +24,19 @@ bool Player::moveBlockOnBoard(char direction)
 	tmp = this->block;
 	switch (direction)
 	{
-	case('L'):
+	case(GameConfig::LEFT):
 		tmp.moveLeft();
 		break;
-	case('R'):
+	case(GameConfig::RIGHT):
 		tmp.moveRight();
 		break;
-	case('D'):
+	case(GameConfig::DOWN):
 		tmp.moveDown();
 		break;
-	case('T'):
+	case(GameConfig::ROTATE_CLOCKWISE):
 		tmp.rotateClockWise();
 		break;
-	case('G'):
+	case(GameConfig::ROTATE_COUNTERCLOCKWISE):
 		tmp.rotateCounterClockWise();
 		break;
 	default:
@@ -58,7 +53,7 @@ void Player::dropBlock(int colored)
 	while (moveBlockOnBoard('D'))
 	{
 		this->playing_board.printBoard(colored);
-		Sleep(20);
+		Sleep(10);
 	}
 }
 void Player::dropNoPrint()//move to computer.cpp
@@ -86,8 +81,67 @@ void Player::ZeroPlayingBoard()
 	this->playing_board.zeroBoard();
 }
 
+
 void Player:: moveBlockToLeftmost()//computer
 {
 	while (moveBlockOnBoard('L')){}
 }
 
+int Player::makeMove(char key, int colored)
+{
+	switch (key)
+	{
+	
+	case(GameConfig::DO_NOTHING):
+		break;
+		//esc
+	case(GameConfig::ESC):
+		return Menu::handlePauseMenu();
+		break;
+
+	case((char)GameConfig::LKeys::LEFT_LOWER):
+	case((char)GameConfig::LKeys::LEFT_UPPER):
+	case((char)GameConfig::RKeys::LEFT_LOWER):
+	case((char)GameConfig::RKeys::LEFT_UPPER):
+		//move left
+		moveBlockOnBoard(GameConfig::LEFT);
+		break;
+
+	case((char)GameConfig::LKeys::RIGHT_LOWER):
+	case((char)GameConfig::LKeys::RIGHT_UPPER):
+	case((char)GameConfig::RKeys::RIGHT_LOWER):
+	case((char)GameConfig::RKeys::RIGHT_UPPER):
+		//move right
+		moveBlockOnBoard(GameConfig::RIGHT);
+		break;
+
+	case((char)GameConfig::LKeys::ROTATE_CLOCKWISE_LOWER):
+	case((char)GameConfig::LKeys::ROTATE_CLOCKWISE_UPPER):
+	case((char)GameConfig::RKeys::ROTATE_CLOCKWISE_LOWER):
+	case((char)GameConfig::RKeys::ROTATE_CLOCKWISE_UPPER):
+		//Rotate clockwise
+		moveBlockOnBoard(GameConfig::ROTATE_CLOCKWISE);
+		break;
+
+	case((char)GameConfig::LKeys::ROTATE_COUNTERCLOCKWISE_LOWER):
+	case((char)GameConfig::LKeys::ROTATE_COUNTERCLOCKWISE_UPPER):
+	case((char)GameConfig::RKeys::ROTATE_COUNTERCLOCKWISE_LOWER):
+	case((char)GameConfig::RKeys::ROTATE_COUNTERCLOCKWISE_UPPER):
+
+		//rotate counterclockwise
+		moveBlockOnBoard(GameConfig::ROTATE_COUNTERCLOCKWISE);
+		break;
+
+	case((char)GameConfig::LKeys::DROP_LOWER):
+	case((char)GameConfig::LKeys::DROP_UPPER):
+	case((char)GameConfig::RKeys::DROP_LOWER):
+	case((char)GameConfig::RKeys::DROP_UPPER):
+		//drop block
+		dropBlock(colored);
+		break;
+	
+	}
+
+	return GameConfig::MADE_MOVE;
+
+}

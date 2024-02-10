@@ -6,6 +6,7 @@
 #include "gameConfig.h"
 #include "menu.h"
 #include "human.h"
+#include <vector>
 
 class Game
 {
@@ -14,11 +15,6 @@ class Game
 	static int colored;
 
 	static void set_colored(int key);
-
-	//  Handles keyboard input during gameplay, allowing players to move, rotate, drop blocks, and pause the game.
-	// return key, that represents the wanted action.
-	int handleKbhit();
-
 
 	//Prints the game boards for both players.
 	void printBoards() const;
@@ -55,17 +51,20 @@ class Game
 
 	void zeroPlayingBoards();
 
+	void inputKbhit(char* input);
+
+	void initNewGame();
+
+	void cleanExit();
+	char inputKbhit();
+	
+
 	static constexpr int PLAYER1 = 0;
 	static constexpr int PLAYER2 = 1;
 	static constexpr int TIE = 3;
 	static constexpr int NO_COLOR = 0;
 	static constexpr int WITH_COLOR = 1;
 	static constexpr int MAX_KEYS_IN_BUFFER = 10;
-	static constexpr int ESC = 27;
-	static constexpr char LEFT = 'L';
-	static constexpr char RIGHT = 'R';
-	static constexpr char ROTATE_CLOCKWISE = 'T';
-	static constexpr char ROTATE_COUNTERCLOCKWISE = 'G';
 
 	
 

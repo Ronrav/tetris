@@ -31,6 +31,7 @@ public:
 	static constexpr int EXIT = 9;
 	static constexpr int NO_COLOR = 0;
 	static constexpr int MAX_MOVES_PER_TURN = 10;
+	static constexpr int MADE_MOVE = 10;
 	static constexpr char DO_NOTHING = 'N';
 	static const int COLORS[];
 	static const int NUM_OF_COLORS;
@@ -41,18 +42,25 @@ public:
 	static constexpr char LEFT = 'L';
 	static constexpr char RIGHT = 'R';
 	static constexpr char DROP = 'x';
+	static constexpr int ESC = 27;
+	static constexpr char LEFT = 'L';
+	static constexpr char RIGHT = 'R';
+	static constexpr char ROTATE_CLOCKWISE = 'T';
+	static constexpr char ROTATE_COUNTERCLOCKWISE = 'G';
+	static constexpr char DOWN = 'D';
+
 
 	enum class LKeys {
 		LEFT_LOWER = 'a', RIGHT_LOWER = 'd', ROTATE_CLOCKWISE_LOWER = 's', ROTATE_COUNTERCLOCKWISE_LOWER = 'w', DROP_LOWER = 'x',
 		LEFT_UPPER = 'A', RIGHT_UPPER = 'D', ROTATE_CLOCKWISE_UPPER = 'S', ROTATE_COUNTERCLOCKWISE_UPPER = 'W', DROP_UPPER = 'X',
-		DO_NOTHING = 'N'
+		DO_NOTHING = 'N', ESC = 27
 	};
 
 	enum class RKeys {
 		LEFT = 'j', RIGHT = 'l', ROTATE = 'k', ROTATE_COUNTER = 'i', DROP = 'm',
 		LEFT_LOWER = 'j', RIGHT_LOWER = 'l', ROTATE_CLOCKWISE_LOWER = 'k', ROTATE_COUNTERCLOCKWISE_LOWER = 'i', DROP_LOWER = 'm',
 		LEFT_UPPER = 'J', RIGHT_UPPER = 'L', ROTATE_CLOCKWISE_UPPER = 'K', ROTATE_COUNTERCLOCKWISE_UPPER = 'I', DROP_UPPER = 'M',
-		DO_NOTHING = 'N'
+		DO_NOTHING = 'N', ESC = 27
 	};
 	static const char VALID_LEFT_KEYS[];
 	static const char VALID_RIGHT_KEYS[];
