@@ -130,7 +130,9 @@
     <ClInclude Include="board.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameConfig.h" />
+    <ClInclude Include="human.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="utills.h" />
@@ -139,8 +141,10 @@
     <ClCompile Include="board.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameConfig.cpp" />
+    <ClCompile Include="human.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="utills.cpp" />

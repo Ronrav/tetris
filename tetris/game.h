@@ -5,11 +5,15 @@
 #include <windows.h>
 #include "gameConfig.h"
 #include "menu.h"
+#include "human.h"
 
 class Game
 {
 	static constexpr int NUM_OF_PLAYERS = 2;
-	Board boards[NUM_OF_PLAYERS];
+	Player players[NUM_OF_PLAYERS];
+	static int colored;
+
+	static void set_colored(int key);
 
 	//  Handles keyboard input during gameplay, allowing players to move, rotate, drop blocks, and pause the game.
 	// return key, that represents the wanted action.
@@ -45,9 +49,11 @@ class Game
 
 
 	//  Initializes the game board and color settings based on player input.
-	void initBoardAndColor();
+	void initColor();
 
 	void handleBomb(bool move[]);
+
+	void playPlayersGame();
 
 	static constexpr int PLAYER1 = 0;
 	static constexpr int PLAYER2 = 1;
@@ -66,12 +72,14 @@ class Game
 	enum class LKeys {
 		LEFT_LOWER = 'a', RIGHT_LOWER = 'd', ROTATE_CLOCKWISE_LOWER = 's', ROTATE_COUNTERCLOCKWISE_LOWER = 'w', DROP_LOWER = 'x',
 		LEFT_UPPER = 'A', RIGHT_UPPER = 'D', ROTATE_CLOCKWISE_UPPER = 'S', ROTATE_COUNTERCLOCKWISE_UPPER = 'W', DROP_UPPER = 'X',
+		DO_NOTHING = 'N'
 	};
 
 	enum class RKeys {
 		LEFT = 'j', RIGHT = 'l', ROTATE = 'k', ROTATE_COUNTER = 'i', DROP = 'm',
 		LEFT_LOWER = 'j', RIGHT_LOWER = 'l', ROTATE_CLOCKWISE_LOWER = 'k', ROTATE_COUNTERCLOCKWISE_LOWER = 'i', DROP_LOWER = 'm',
 		LEFT_UPPER = 'J', RIGHT_UPPER = 'L', ROTATE_CLOCKWISE_UPPER = 'K', ROTATE_COUNTERCLOCKWISE_UPPER = 'I', DROP_UPPER = 'M',
+		DO_NOTHING = 'N'
 	};
 public:
 	// Initiates the gameplay loop, handles player input, updates the game state, and checks for game over conditions.

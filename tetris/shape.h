@@ -64,13 +64,26 @@ public:
 
 
 	//Returns the array of points representing the shape.
-	Point* getPoints();
+	//const Point* getPoints() const;
 
 
 	//Returns the color of the shape.
 	int getColor() const;
 
 	int getShapeType() const;
+
+	auto begin() const
+	{
+		return points;
+	}
+	auto end() const
+	{
+		return points + SIZE_OF_SHAPE;
+	}
+	const Point& getPointByIndex(unsigned int index) const;
+	
+	const Point& getBombSource() const;
+
 };
 
 #endif

@@ -1,5 +1,11 @@
 #include "game.h"
 
+int Game::colored = 0;
+
+void Game::set_colored(int key)
+{
+	colored = key;
+}
 
 int Game::init()
 {
@@ -11,13 +17,13 @@ int Game::init()
 	int key = Menu::handleStartMenu();
 	if (key != GameConfig::EXIT)
 	{
-		initBoardAndColor();
+		initColor();
 	}
 	return key;
 	
 }
 
-void Game::initBoardAndColor()
+void Game::initColor()
 {
 	int key;
 	clear_screen();
@@ -25,7 +31,7 @@ void Game::initBoardAndColor()
 	key = _getch() - '0';
 	while (key != WITH_COLOR && key != NO_COLOR)
 		key = _getch();
-	Board::set_colored(key);
+	set_colored(key);
 	clear_screen();
 	Sleep(300);
 	std::cout << "Starting Game in 1..";
@@ -35,10 +41,6 @@ void Game::initBoardAndColor()
 	std::cout << "3";
 	Sleep(300);
 	clear_screen();
-	this->boards[0].init(GameConfig::MIN_X, GameConfig::MIN_Y);
-	this->boards[1].init(GameConfig::MIN_X + GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP, GameConfig::MIN_Y);
-	this->boards[0].drawBoardBorder();
-	this->boards[1].drawBoardBorder();
 }
 
 void Game::playGame()
@@ -53,9 +55,8 @@ void Game::playGame()
 		key = init();
 			
 		if (key == GameConfig::EXIT)
-		{
 			return;
-		}
+
 		end_game[PLAYER1] = false;
 		end_game[PLAYER2] = false;
 		while (!end_game[PLAYER1] && !end_game[PLAYER2]) // game didn't end
@@ -184,8 +185,8 @@ int Game::handleKbhit()
 
 void Game::printBoards() const
 {
-	this->boards[PLAYER1].printBoard();
-	this->boards[PLAYER2].printBoard();
+	this->players[PLAYER1].printBoard(colored);
+	this->players[PLAYER2].printBoard(colored);
 }
 
 bool Game::isGameEnded(bool scores[]) const
@@ -258,4 +259,80 @@ void Game::handleBomb(bool move[])
 		if(!move[i])
 			this->boards[i].handle_bomb();
 	}
+}
+
+void Game::playPlayersGame()
+{
+	Human human_players[NUM_OF_PLAYERS];
+	this->players[PLAYER1] = human_players[PLAYER1];
+	this->players[PLAYER2] = human_players[PLAYER2];
+	srand(time(NULL));
+	int key, i;
+	bool new_game; //true if the game is over 
+	bool end_game[NUM_OF_PLAYERS]; // true if this player lost 
+	bool move[NUM_OF_PLAYERS] = { false, false }; //true if a move was made
+	while (true)
+	{
+		key = init();
+
+		if (key == GameConfig::EXIT)
+			return;
+
+		end_game[PLAYER1] = false;
+		end_game[PLAYER2] = false;
+
+		while (!end_game[PLAYER1] && !end_game[PLAYER2]) // game didn't end
+		{
+			new_game = false;
+			for (i = 0; i < NUM_OF_PLAYERS; i++)
+			{
+				if (!move[i])
+				{
+					//generate a piece to each board
+					players[i].getNextBlock();
+					//add block to board and check if possible
+					if (players[i].set_block())
+						end_game[i] = true;
+				}
+
+			}
+			printBoards();
+			if (isGameEnded(end_game))
+				break;
+			for (i = 0; i < MAX_KEYS_IN_BUFFER; i++)
+			{
+				key = handleKbhit();
+				if (key == GameConfig::EXIT)
+					return;
+				else if (key == GameConfig::RESUME_GAME)
+					printBorders();
+				else if (key == GameConfig::NEW_GAME)
+				{
+					new_game = true;
+					initBoardAndColor();
+					break;
+				}
+				Sleep(10);
+				printBoards();
+			}
+			if (!new_game)
+				for (i = 0; i < NUM_OF_PLAYERS; i++)
+				{
+					move[i] = this->boards[i].moveBlockOnBoard('D');
+				}
+			emptyKBuffer();
+			Sleep(100);
+			if (!move[PLAYER1] || !move[PLAYER2])
+			{
+				handleBomb(move);
+				handleFullRows();
+			}
+			printBoards();
+
+
+
+		}
+	}
+	clear_screen();
+
 }

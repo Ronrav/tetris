@@ -127,9 +127,11 @@ void Shape::moveRight()
 }
 
 
-Point* Shape::getPoints()
+const Point& Shape::getPointByIndex(unsigned int index) const
 {
-	return this->points;
+	if (index >= SIZE_OF_SHAPE)
+		return points[0];
+	return points[index];
 }
 
 
@@ -399,4 +401,9 @@ int Shape::getColor() const
 int Shape::getShapeType() const
 {
 	return this->shape_type;
+}
+
+const Point& Shape::getBombSource() const
+{
+	return this->points[0];
 }

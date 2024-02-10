@@ -1,22 +1,15 @@
 #include "board.h"
 
-int Board::colored = 0;
+int Board::dist_x = 0;
 
-void Board::init(int _x, int _y)
+Board::Board() : x(GameConfig::MIN_X + dist_x), y(GameConfig::MIN_Y)
 {
-	this->x = _x;
-	this->y = _y;
 	for (int i = 0; i < GameConfig::BOARD_HEIGHT; i++)
 	{
 		for (int j = 0; j < GameConfig::BOARD_WIDTH; j++)
 			this->board[i][j] = GameConfig::EMPTY;
 	}
-	getBlock();
-}
-
-void Board::getBlock()
-{
-	this->block.getShape();
+	dist_x += GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP;
 }
 
 void Board::drawBoardBorder() const
@@ -41,7 +34,7 @@ void Board::drawBoardBorder() const
 	std::cout << std::endl;
 }
 
-void Board::printBoard() const
+void Board::printBoard(int colored) const
 {
 	int i, j;
 	for (i = 0; i < GameConfig::BOARD_HEIGHT; i++)
@@ -78,27 +71,25 @@ void Board::copyToBoard(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOA
 	}
 }
 
-bool Board::assignShapeToBoard(Shape copy)
+bool Board::assignShapeToBoard(const Shape& orig_block, const Shape& new_block)
 {
 	int backup_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH];
 	this->copyBoardTo(backup_board);
-	Point* copy_arr, *block_arr;
-	copy_arr = copy.getPoints();
-	block_arr = this->block.getPoints();
 
-
-	for (int i = 0; i < 4; i++)
-		this->board[block_arr[i].getY()][block_arr[i].getX()]= GameConfig::EMPTY;
-	
-	for (int i = 0; i < 4; i++)
+	for (const Point& p: orig_block)
 	{
-		if (this->checkIfFreeCoord(copy_arr[i].getX(), copy_arr[i].getY()))
-			this->board[copy_arr[i].getY()][copy_arr[i].getX()] = this->block.getColor();
+		this->pos(p) = GameConfig::EMPTY;
+	}
+
+	for (const Point& p : new_block)
+	{
+		if (checkIfFreeCoord(p.getX(), p.getY()))
+			this->pos(p) = new_block.getColor();
 		else
 		{
 			this->copyToBoard(backup_board);
 			return false;
-		}	
+		}
 	}
 	return true;
 }
@@ -140,67 +131,25 @@ void Board::deleteAndMoveRow(int row)
 	}
 }
 
-bool Board::moveBlockOnBoard(char direction)
+bool Board::isPointFreeOnBoard(const Point& p)
 {
-	bool moved;
-	Shape tmp;
-	//use copy ctor
-	tmp = this->block;
-	switch (direction)
-	{
-	case('L'):
-		tmp.moveLeft();
-		break;
-	case('R'):
-		tmp.moveRight();
-		break;
-	case('D'):
-		tmp.moveDown();
-		break;
-	case('T'):
-		tmp.rotateClockWise();
-		break;
-	case('G'):
-		tmp.rotateCounterClockWise();
-		break;
-	default:
-		break;
-	}
-	moved = assignShapeToBoard(tmp);
-	if (moved)
-		this->block = tmp;
-	return moved;
+	return (this->pos(p) < 0);
 }
 
-void Board::dropBlock()
+bool Board::set_block(const Shape& block)
 {
-	while (moveBlockOnBoard('D'))
+	for (const Point& p : block)
 	{
-		printBoard();
-		Sleep(20);
-	}
-}
-
-bool Board::set_block()
-{
-	Point* arr;
-	arr = this->block.getPoints();
-	for (int i = 0; i < 4; i++)
-	{
-		if (this->board[arr[i].getY()][arr[i].getX()] < 0) //check if empty and except bomb handling
-			this->board[arr[i].getY()][arr[i].getX()] = this->block.getColor();
+		if (isPointFreeOnBoard(p))
+			this->pos(p) = block.getColor();
 		else
 			return false;
 	}
 	return true;
 }
 
-void Board::set_colored(int key)
-{
-	colored = key;
-}
 
-void Board::getBombPerimeters(int& _x, int& _y, int source_x, int source_y)
+void Board::getBombPerimeters(int& _x, int& _y, int source_x, int source_y) const
 {
 	_x = source_x - GameConfig::BOMB_RADIUS;
 	_y = source_y - GameConfig::BOMB_RADIUS;
@@ -210,25 +159,17 @@ void Board::getBombPerimeters(int& _x, int& _y, int source_x, int source_y)
 		_y = 0;
 }
 
-Point& Board::getBombSource()
+void Board::handle_bomb(const Shape& block)
 {
-	Point* arr;
-	arr = this->block.getPoints();
-	return arr[0];
-}
-void Board::handle_bomb()
-{
-	if (this->block.getShapeType() != GameConfig::BOMB)
+	if (block.getShapeType() != GameConfig::BOMB)
 		return;
 	int x_perimeter, y_perimeter, i, j, x_center, y_center;
 	Point bomb_center;
-	bomb_center = getBombSource();
+	bomb_center = block.getBombSource();
 	x_center = bomb_center.getX();
 	y_center = bomb_center.getY();
 	getBombPerimeters(x_perimeter, y_perimeter, bomb_center.getX(), bomb_center.getY());
 	for (i = y_perimeter; i < y_center + GameConfig::BOMB_RADIUS && i < GameConfig::BOARD_HEIGHT; i++)
 		for (j = x_perimeter; j < x_center + GameConfig::BOMB_RADIUS && j < GameConfig::BOARD_WIDTH; j++)
 			this->board[i][j] = GameConfig::EMPTY;
-	
-
 }
