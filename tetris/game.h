@@ -10,7 +10,7 @@
 class Game
 {
 	static constexpr int NUM_OF_PLAYERS = 2;
-	Player players[NUM_OF_PLAYERS];
+	Human players[NUM_OF_PLAYERS];
 	static int colored;
 
 	static void set_colored(int key);
@@ -53,7 +53,7 @@ class Game
 
 	void handleBomb(bool move[]);
 
-	void playPlayersGame();
+	void zeroPlayingBoards();
 
 	static constexpr int PLAYER1 = 0;
 	static constexpr int PLAYER2 = 1;
@@ -84,6 +84,8 @@ class Game
 public:
 	// Initiates the gameplay loop, handles player input, updates the game state, and checks for game over conditions.
 	void playGame();
+
+
 	
 	
 };

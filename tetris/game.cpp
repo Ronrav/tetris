@@ -43,76 +43,6 @@ void Game::initColor()
 	clear_screen();
 }
 
-void Game::playGame()
-{
-	srand(time(NULL));
-	int key, i;
-	bool new_game; //true if the game is over 
-	bool end_game[NUM_OF_PLAYERS]; // true if this player lost 
-	bool move[NUM_OF_PLAYERS] = {false, false}; //true if a move was made
-	while (true)
-	{
-		key = init();
-			
-		if (key == GameConfig::EXIT)
-			return;
-
-		end_game[PLAYER1] = false;
-		end_game[PLAYER2] = false;
-		while (!end_game[PLAYER1] && !end_game[PLAYER2]) // game didn't end
-		{
-			new_game = false;
-			for (i = 0; i < NUM_OF_PLAYERS; i++)
-			{
-				if (!move[i])
-				{
-					//generate a piece to each board
-					this->boards[i].getBlock();
-					//add block to board and check if possible
-					if (!this->boards[i].set_block())
-						end_game[i] = true;
-				}
-				
-			}
-			printBoards();
-			if (isGameEnded(end_game))
-				break;
-			for (i = 0; i < MAX_KEYS_IN_BUFFER; i++)
-			{
-				key = handleKbhit();
-				if (key == GameConfig::EXIT)
-					return;
-				else if (key == GameConfig::RESUME_GAME)
-					printBorders();
-				else if (key == GameConfig::NEW_GAME)
-				{
-					new_game = true;
-					initBoardAndColor();
-					break;
-				}
-				Sleep(10);
-				printBoards();
-			}
-			if(!new_game)
-				for (i = 0; i < NUM_OF_PLAYERS; i++)
-				{
-					move[i] = this->boards[i].moveBlockOnBoard('D');
-				}
-			emptyKBuffer();
-			Sleep(100);
-			if (!move[PLAYER1] || !move[PLAYER2])
-			{
-				handleBomb(move);
-				handleFullRows();
-			}
-			printBoards();
-
-			
-			
-		}
-	}
-	clear_screen();
-}
 
 int Game::handleKbhit() 
 {
@@ -130,52 +60,52 @@ int Game::handleKbhit()
 	case((int)LKeys::LEFT_LOWER):
 	case((int)LKeys::LEFT_UPPER):
 		//move left
-		this->boards[PLAYER1].moveBlockOnBoard(LEFT);
+		this->players[PLAYER1].moveBlockOnBoard(LEFT);
 		break;
 	case((int)LKeys::RIGHT_LOWER):
 	case((int)LKeys::RIGHT_UPPER):
 		//move right
-		this->boards[PLAYER1].moveBlockOnBoard(RIGHT);
+		this->players[PLAYER1].moveBlockOnBoard(RIGHT);
 		break;
 	case((int)LKeys::ROTATE_CLOCKWISE_LOWER):
 	case((int)LKeys::ROTATE_CLOCKWISE_UPPER):
 		//Rotate clockwise
-		this->boards[PLAYER1].moveBlockOnBoard(ROTATE_CLOCKWISE);
+		this->players[PLAYER1].moveBlockOnBoard(ROTATE_CLOCKWISE);
 		break;
 	case((int)LKeys::ROTATE_COUNTERCLOCKWISE_LOWER):
 	case((int)LKeys::ROTATE_COUNTERCLOCKWISE_UPPER):
 		//rotate counterclockwise
-		this->boards[PLAYER1].moveBlockOnBoard(ROTATE_COUNTERCLOCKWISE);
+		this->players[PLAYER1].moveBlockOnBoard(ROTATE_COUNTERCLOCKWISE);
 		break;
 	case((int)LKeys::DROP_LOWER):
 	case((int)LKeys::DROP_UPPER):
 		//drop block
-		this->boards[PLAYER1].dropBlock();
+		this->players[PLAYER1].dropBlock(colored);
 		break;
 	case((int)RKeys::LEFT_LOWER):
 	case((int)RKeys::LEFT_UPPER):
 		//move left
-		this->boards[PLAYER2].moveBlockOnBoard(LEFT);
+		this->players[PLAYER2].moveBlockOnBoard(LEFT);
 		break;
 	case((int)RKeys::RIGHT_LOWER):
 	case((int)RKeys::RIGHT_UPPER):
 		//move right
-		this->boards[PLAYER2].moveBlockOnBoard(RIGHT);
+		this->players[PLAYER2].moveBlockOnBoard(RIGHT);
 		break;
 	case((int)RKeys::ROTATE_CLOCKWISE_LOWER):
 	case((int)RKeys::ROTATE_CLOCKWISE_UPPER):
 		//Rotate clockwise
-		this->boards[PLAYER2].moveBlockOnBoard(ROTATE_CLOCKWISE);
+		this->players[PLAYER2].moveBlockOnBoard(ROTATE_CLOCKWISE);
 		break;
 	case((int)RKeys::ROTATE_COUNTERCLOCKWISE_LOWER):
 	case((int)RKeys::ROTATE_COUNTERCLOCKWISE_UPPER):
 		//rotate counterclockwise
-		this->boards[PLAYER2].moveBlockOnBoard(ROTATE_COUNTERCLOCKWISE);
+		this->players[PLAYER2].moveBlockOnBoard(ROTATE_COUNTERCLOCKWISE);
 		break;
 	case((int)RKeys::DROP_LOWER):
 	case((int)RKeys::DROP_UPPER):
 		//drop block
-		this->boards[PLAYER2].dropBlock();
+		this->players[PLAYER2].dropBlock(colored);
 		break;
 	}
 	
@@ -242,14 +172,14 @@ void Game::announceTheWinner(int winner) const
 
 void Game::printBorders() const
 {
-	this->boards[PLAYER1].drawBoardBorder();
-	this->boards[PLAYER2].drawBoardBorder();
+	this->players[PLAYER1].printBorders();
+	this->players[PLAYER2].printBorders();
 }
 
 void Game::handleFullRows()
 {
-	this->boards[PLAYER1].handleFullRows();
-	this->boards[PLAYER2].handleFullRows();
+	this->players[PLAYER1].handleFullRows();
+	this->players[PLAYER2].handleFullRows();
 }
 
 void Game::handleBomb(bool move[])
@@ -257,15 +187,12 @@ void Game::handleBomb(bool move[])
 	for (int i = 0; i < NUM_OF_PLAYERS; i++)
 	{
 		if(!move[i])
-			this->boards[i].handle_bomb();
+			this->players[i].handle_bomb();
 	}
 }
 
-void Game::playPlayersGame()
+void Game::playGame()
 {
-	Human human_players[NUM_OF_PLAYERS];
-	this->players[PLAYER1] = human_players[PLAYER1];
-	this->players[PLAYER2] = human_players[PLAYER2];
 	srand(time(NULL));
 	int key, i;
 	bool new_game; //true if the game is over 
@@ -280,7 +207,7 @@ void Game::playPlayersGame()
 
 		end_game[PLAYER1] = false;
 		end_game[PLAYER2] = false;
-
+		printBorders();
 		while (!end_game[PLAYER1] && !end_game[PLAYER2]) // game didn't end
 		{
 			new_game = false;
@@ -291,7 +218,7 @@ void Game::playPlayersGame()
 					//generate a piece to each board
 					players[i].getNextBlock();
 					//add block to board and check if possible
-					if (players[i].set_block())
+					if (!players[i].set_block())
 						end_game[i] = true;
 				}
 
@@ -309,7 +236,10 @@ void Game::playPlayersGame()
 				else if (key == GameConfig::NEW_GAME)
 				{
 					new_game = true;
-					initBoardAndColor();
+
+					initColor();
+					zeroPlayingBoards();
+					printBorders();
 					break;
 				}
 				Sleep(10);
@@ -317,9 +247,7 @@ void Game::playPlayersGame()
 			}
 			if (!new_game)
 				for (i = 0; i < NUM_OF_PLAYERS; i++)
-				{
-					move[i] = this->boards[i].moveBlockOnBoard('D');
-				}
+					move[i] = players[i].moveBlockOnBoard('D');
 			emptyKBuffer();
 			Sleep(100);
 			if (!move[PLAYER1] || !move[PLAYER2])
@@ -334,5 +262,12 @@ void Game::playPlayersGame()
 		}
 	}
 	clear_screen();
+
+}
+
+void Game::zeroPlayingBoards()
+{
+	this->players[PLAYER1].ZeroPlayingBoard();
+	this->players[PLAYER2].ZeroPlayingBoard();
 
 }

@@ -4,14 +4,18 @@ int Board::dist_x = 0;
 
 Board::Board() : x(GameConfig::MIN_X + dist_x), y(GameConfig::MIN_Y)
 {
+	zeroBoard();
+	dist_x += GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP;
+}
+
+void Board::zeroBoard()
+{
 	for (int i = 0; i < GameConfig::BOARD_HEIGHT; i++)
 	{
 		for (int j = 0; j < GameConfig::BOARD_WIDTH; j++)
 			this->board[i][j] = GameConfig::EMPTY;
 	}
-	dist_x += GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP;
 }
-
 void Board::drawBoardBorder() const
 {
 	for (int col = this->x - 1; col <= this->x + GameConfig::BOARD_WIDTH; col++)
@@ -133,7 +137,7 @@ void Board::deleteAndMoveRow(int row)
 
 bool Board::isPointFreeOnBoard(const Point& p)
 {
-	return (this->pos(p) < 0);
+	return (pos(p) < 0);
 }
 
 bool Board::set_block(const Shape& block)

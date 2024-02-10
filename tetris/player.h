@@ -12,7 +12,6 @@ class Player
 public:
 
 	Player() : moves_vector(GameConfig::MAX_MOVES_PER_TURN, GameConfig::DO_NOTHING) { block.getShape(); }
-	
 	void printBoard(int colored) const;
 	void printBorders() const;
 	void playTurn(const std::vector<char>& moves_vector);
@@ -40,6 +39,8 @@ public:
 	void handle_bomb();
 
 	void makeMove();
+
+	void ZeroPlayingBoard();
 
 };
 

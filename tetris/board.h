@@ -48,6 +48,8 @@ public:
 
 	Board();
 
+	void zeroBoard();
+
 	//Draws the border around the game board.
 	void drawBoardBorder() const;
 

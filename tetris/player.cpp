@@ -64,7 +64,7 @@ void Player::dropBlock(int colored)
 
 bool Player::handleFullRows()
 {
-	this->playing_board.handleFullRows();
+	return this->playing_board.handleFullRows();
 }
 
 bool Player::set_block()
@@ -75,6 +75,11 @@ bool Player::set_block()
 void Player::handle_bomb()
 {
 	this->playing_board.handle_bomb(this->block);
+}
+
+void Player::ZeroPlayingBoard()
+{
+	this->playing_board.zeroBoard();
 }
 
 
