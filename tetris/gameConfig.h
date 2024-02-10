@@ -37,6 +37,11 @@ public:
 	static const int NUM_OF_COLORS;
 	static const int NUM_OF_SHAPES;
 	static const int NUM_OF_KEYS;
+	static constexpr char ROTATE_CLOCKWISE = 'T';
+	static constexpr char ROTATE_COUNTERCLOCKWISE = 'G';
+	static constexpr char LEFT = 'L';
+	static constexpr char RIGHT = 'R';
+	static constexpr char DROP = 'x';
 	static constexpr int ESC = 27;
 	static constexpr char LEFT = 'L';
 	static constexpr char RIGHT = 'R';

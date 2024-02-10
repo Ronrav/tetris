@@ -41,12 +41,10 @@ class Board
 
 	bool isPointFreeOnBoard(const Point& p);
 
-
-
-
 public:
 
 	Board();
+	
 
 	void zeroBoard();
 
@@ -68,14 +66,13 @@ public:
 	//Returns 'true' if any row was deleted.
 	bool handleFullRows();
 
-
 	//Sets the current block on the board, checking for collisions.
 	//returns 'true' if the block has seccesfully set.
 	bool set_block(const Shape& block);
 
 	void handle_bomb(const Shape& block);
 	
-
+	void zeroShapePlace(const Shape& shape);
 };
 
 #endif

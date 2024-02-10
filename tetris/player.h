@@ -5,9 +5,9 @@
 #include "menu.h"
 class Player
 {
+protected:
 	Board playing_board;
 	Shape block;
-
 
 public:
 
@@ -37,9 +37,16 @@ public:
 
 	void handle_bomb();
 
+	void dropNoPrint();
+
+	void moveBlockToLeftmost();
+
 	void ZeroPlayingBoard();
 	
 	int makeMove(char key, int colored);
+
+	void moveBlockToLeftmost(Shape& shape) const;
+	Shape getCopyBlock();
 
 };
 
