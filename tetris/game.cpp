@@ -226,6 +226,7 @@ void Game::playGame()
 			printBoards();
 			if (isGameEnded(end_game))
 				break;
+
 			for (i = 0; i < MAX_KEYS_IN_BUFFER; i++)
 			{
 				key = handleKbhit();
