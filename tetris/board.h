@@ -12,8 +12,7 @@ class Board
 	int board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH];
 	static int dist_x;
 
-	//Checks if a specific coordinate is on the board and if its free.
-	bool checkIfFreeCoord(int _x, int _y) const;
+
 
 
 	//Copies the current state of the board to another board.
@@ -32,6 +31,7 @@ class Board
 	//Deletes a full row and moves the rows above it down.
 	void deleteAndMoveRow(int row);
 
+
 	int& pos(const Point& p)
 	{
 		return board[p.getY()][p.getX()];
@@ -44,7 +44,9 @@ class Board
 public:
 
 	Board();
-	
+
+	//Checks if a specific coordinate is on the board and if its free.
+	bool checkIfFreeCoord(int _x, int _y) const;
 
 	void zeroBoard();
 
@@ -64,15 +66,19 @@ public:
 
 	// Handles clearing full rows on the board.
 	//Returns 'true' if any row was deleted.
-	bool handleFullRows();
+	int handleFullRows();
 
 	//Sets the current block on the board, checking for collisions.
 	//returns 'true' if the block has seccesfully set.
 	bool set_block(const Shape& block);
 
 	void handle_bomb(const Shape& block);
-	
+
 	void zeroShapePlace(const Shape& shape);
+
+	void applyBlock(const Shape& shape);
+
+
 };
 
 #endif

@@ -1,10 +1,8 @@
 #include "computer.h"
 
-
-
-void Computer::calculateBestMove()
+Shape Computer::calculateBestMove()
 {
-	bool flag = true, is_first = true, is_right
+	bool flag = true;
 	int best_score = -1; // Initialize the best score to an invalid value.
 	Shape best_move;     // Initialize the best move as an empty shape.
 
@@ -19,107 +17,60 @@ void Computer::calculateBestMove()
 	{
 		this->block = shape_saver;
 		for (int i = 0; i < rotation; i++)
-			this->block.rotate(true);
+			this->block.rotateClockWise();
 
-		moveBlockToLeftmost(); 
+		moveBlockToLeftmost();
 		//Shape currentBlock = block; //ואז נחזור לפה ונסובב שומר את המיקום הראשון של הצורה באיקס המסוים
-		while(flag) //while+bool
+		while (flag) //while+bool
 		{
 			const Shape shape_saver2 = this->block;
 			dropNoPrint();
+
 			// Calculate the score for this move.
 			int score = 0;
-			score += 100 * playing_board.handleFullRows(); // Reward for clearing a line. צריך שיחזיר את כמות השורות 
-				
-			score += NoHoles();//5 על כל קוביה טובה
+			score += 100 * (playing_board.handleFullRows()); // Reward for clearing a line. צריך שיחזיר את כמות השורות 
+
+			score += countNoHoles();//5 על כל קוביה טובה
 
 			// Update the best move if this move has a higher score.
-			if (score > bestScore)
+			if (score > best_score)
 			{
 				best_score = score;
-				best_move = currentBlock;
+				best_move = block;
 			}
 
-			this->playing_board.copyToBoard(board_saver);
-			this->block = saver2;
-			//moveBlockOnBoard('R');
-			// Restore the board to its previous state for the next iteration.
-			flag = moveBlockOnBoard('R');
+
+			this->playing_board = board_saver;
+			this->block = shape_saver2;
+			flag = moveBlockOnBoard(GameConfig::RIGHT);
 
 		}
 
-		//playingBoard	= להחזיר את הצורה
+		//playing_board = board_saver;
+		playing_board.applyBlock(shape_saver);
 	}
-	
-
-	// After iterating through all possible moves, apply the best move (position with highest score).
-	//  board.assignShapeToBoard(bestMove); - we dont want to change the board
-	final_block_state = bestMove;
+	return best_move;
 }
 
-
-/*void Computer::getMovesArray()
+int Computer::countNoHoles()
 {
-	Shape curr_bock = board.getBlock();
-	int diff_x = curr_block.get
+	int counter = 0;
 
-
-
-}
-
-void Computer::playTurn()
-{
-	Shape curr_block = board.getBlock();
-	char move = curr_block.moveToWanted(final_block_state);
-
-	switch (move)
+	for (const Point& p : block)
 	{
-	case((int)Shape::LEFT):
-		this->board.moveBlockOnBoard(RIGHT);
-		break;
-	case((int)LKeys::ROTATE_CLOCKWISE_LOWER):
-	case((int)LKeys::ROTATE_CLOCKWISE_UPPER):
-		//Rotate clockwise
-		this->boards[PLAYER1].moveBlockOnBoard(ROTATE_CLOCKWISE);
-		break;
-	case((int)LKeys::ROTATE_COUNTERCLOCKWISE_LOWER):
-	case((int)LKeys::ROTATE_COUNTERCLOCKWISE_UPPER):
-		//rotate counterclockwise
-		this->boards[PLAYER1].moveBlockOnBoard(ROTATE_COUNTERCLOCKWISE);
-		break;
-	case((int)LKeys::DROP_LOWER):
-	case((int)LKeys::DROP_UPPER):
-		//drop block
-		this->boards[PLAYER1].dropBlock();
-		break;
-	case((int)RKeys::LEFT_LOWER):
-	case((int)RKeys::LEFT_UPPER):
-		//move left
-		this->boards[PLAYER2].moveBlockOnBoard(LEFT);
-		break;
-	case((int)RKeys::RIGHT_LOWER):
-	case((int)RKeys::RIGHT_UPPER):
-		//move right
-		this->boards[PLAYER2].moveBlockOnBoard(RIGHT);
-		break;
-	case((int)RKeys::ROTATE_CLOCKWISE_LOWER):
-	case((int)RKeys::ROTATE_CLOCKWISE_UPPER):
-		//Rotate clockwise
-		this->boards[PLAYER2].moveBlockOnBoard(ROTATE_CLOCKWISE);
-		break;
-	case((int)RKeys::ROTATE_COUNTERCLOCKWISE_LOWER):
-	case((int)RKeys::ROTATE_COUNTERCLOCKWISE_UPPER):
-		//rotate counterclockwise
-		this->boards[PLAYER2].moveBlockOnBoard(ROTATE_COUNTERCLOCKWISE);
-		break;
-	case((int)RKeys::DROP_LOWER):
-	case((int)RKeys::DROP_UPPER):
-		//drop block
-		this->boards[PLAYER2].dropBlock();
-		break;
+		for (int i = p.getX() - 1; i < p.getX() + 2; i++)
+		{
+			for (int j = p.getY() - 1; j < p.getY() + 2; j++)
+			{
+				if (playing_board.checkIfFreeCoord(i, j))
+					counter++;
+			}
+		}
 	}
+
+	return (counter * 5);
 }
-*/
+
 void Computer::getNextBlock()
 {
 	this->block.getShape();
@@ -129,7 +80,7 @@ void Computer::getNextBlock()
 void Computer::inputMovesVector()
 {
 	Shape best, copy;
-	//best = getBestMove()
+	best = calculateBestMove();
 	copy = this->block;
 	fitRotation(best, copy);
 	fitLocation(best, copy);
@@ -157,19 +108,19 @@ void Computer::fitLocation(const Shape& best, Shape& copy)
 		step = GameConfig::RIGHT;
 		direction = 1;
 	}
-		
+
 	else if (copy_x > best_x)
 	{
 		step = GameConfig::LEFT;
 		direction = -1;
 	}
-		
+
 	while (copy_x != best_x)
 	{
 		copy_x += direction;
 		this->moves_list.push_back(step);
 	}
-		
+
 }
 
 
@@ -181,3 +132,4 @@ int Computer::playMove(char key, int colored)
 	moves_list.pop_front();
 	return key;
 }
+

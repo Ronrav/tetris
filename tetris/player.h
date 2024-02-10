@@ -28,7 +28,7 @@ public:
 
 	// Handles clearing full rows on the board.
 	//Returns 'true' if any row was deleted.
-	bool handleFullRows();
+	int handleFullRows();
 
 
 	//Sets the current block on the board, checking for collisions.
@@ -37,15 +37,12 @@ public:
 
 	void handle_bomb();
 
-	void dropNoPrint();
-
-	void moveBlockToLeftmost();
-
 	void ZeroPlayingBoard();
 	
 	int makeMove(char key, int colored);
 
 	void moveBlockToLeftmost(Shape& shape) const;
+
 	Shape getCopyBlock();
 
 };
