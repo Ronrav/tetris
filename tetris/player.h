@@ -2,19 +2,18 @@
 #define __PLAYER_H
 #include "board.h"
 #include <vector>
+#include "menu.h"
 class Player
 {
 	Board playing_board;
 	Shape block;
-	std::vector<char> moves_vector;
 
 
 public:
 
-	Player() : moves_vector(GameConfig::MAX_MOVES_PER_TURN, GameConfig::DO_NOTHING) { block.getShape(); }
+	Player() { block.getShape(); }
 	void printBoard(int colored) const;
 	void printBorders() const;
-	void playTurn(const std::vector<char>& moves_vector);
 	void getNextBlock();
 
 
@@ -38,9 +37,9 @@ public:
 
 	void handle_bomb();
 
-	void makeMove();
-
 	void ZeroPlayingBoard();
+	
+	int makeMove(char key, int colored);
 
 };
 

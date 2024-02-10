@@ -12,8 +12,6 @@ int Game::init()
 
 	clear_screen();
 	hideCursor();
-	//set text color white
-	setTextColor((int)GameConfig::Color::WHITE);
 	int key = Menu::handleStartMenu();
 	if (key != GameConfig::EXIT)
 	{
@@ -25,6 +23,8 @@ int Game::init()
 
 void Game::initColor()
 {
+	//set text color white
+	setTextColor((int)GameConfig::Color::WHITE);
 	int key;
 	clear_screen();
 	std::cout << "\npress 1 for color or 0 for no color\n";
@@ -41,76 +41,6 @@ void Game::initColor()
 	std::cout << "3";
 	Sleep(300);
 	clear_screen();
-}
-
-
-int Game::handleKbhit() 
-{
-	if (!_kbhit())
-		return GameConfig::EMPTY;
-	int key = _getch();
-	
-	
-	switch (key)
-	{
-		//esc
-	case(ESC):
-		return Menu::handlePauseMenu();
-		break;
-	case((int)LKeys::LEFT_LOWER):
-	case((int)LKeys::LEFT_UPPER):
-		//move left
-		this->players[PLAYER1].moveBlockOnBoard(LEFT);
-		break;
-	case((int)LKeys::RIGHT_LOWER):
-	case((int)LKeys::RIGHT_UPPER):
-		//move right
-		this->players[PLAYER1].moveBlockOnBoard(RIGHT);
-		break;
-	case((int)LKeys::ROTATE_CLOCKWISE_LOWER):
-	case((int)LKeys::ROTATE_CLOCKWISE_UPPER):
-		//Rotate clockwise
-		this->players[PLAYER1].moveBlockOnBoard(ROTATE_CLOCKWISE);
-		break;
-	case((int)LKeys::ROTATE_COUNTERCLOCKWISE_LOWER):
-	case((int)LKeys::ROTATE_COUNTERCLOCKWISE_UPPER):
-		//rotate counterclockwise
-		this->players[PLAYER1].moveBlockOnBoard(ROTATE_COUNTERCLOCKWISE);
-		break;
-	case((int)LKeys::DROP_LOWER):
-	case((int)LKeys::DROP_UPPER):
-		//drop block
-		this->players[PLAYER1].dropBlock(colored);
-		break;
-	case((int)RKeys::LEFT_LOWER):
-	case((int)RKeys::LEFT_UPPER):
-		//move left
-		this->players[PLAYER2].moveBlockOnBoard(LEFT);
-		break;
-	case((int)RKeys::RIGHT_LOWER):
-	case((int)RKeys::RIGHT_UPPER):
-		//move right
-		this->players[PLAYER2].moveBlockOnBoard(RIGHT);
-		break;
-	case((int)RKeys::ROTATE_CLOCKWISE_LOWER):
-	case((int)RKeys::ROTATE_CLOCKWISE_UPPER):
-		//Rotate clockwise
-		this->players[PLAYER2].moveBlockOnBoard(ROTATE_CLOCKWISE);
-		break;
-	case((int)RKeys::ROTATE_COUNTERCLOCKWISE_LOWER):
-	case((int)RKeys::ROTATE_COUNTERCLOCKWISE_UPPER):
-		//rotate counterclockwise
-		this->players[PLAYER2].moveBlockOnBoard(ROTATE_COUNTERCLOCKWISE);
-		break;
-	case((int)RKeys::DROP_LOWER):
-	case((int)RKeys::DROP_UPPER):
-		//drop block
-		this->players[PLAYER2].dropBlock(colored);
-		break;
-	}
-	
-	return 0;
-
 }
 
 void Game::printBoards() const
@@ -172,6 +102,7 @@ void Game::announceTheWinner(int winner) const
 
 void Game::printBorders() const
 {
+	setTextColor((int)GameConfig::Color::WHITE);
 	this->players[PLAYER1].printBorders();
 	this->players[PLAYER2].printBorders();
 }
@@ -194,6 +125,7 @@ void Game::handleBomb(bool move[])
 void Game::playGame()
 {
 	srand(time(NULL));
+	char kb;
 	int key, i;
 	bool new_game; //true if the game is over 
 	bool end_game[NUM_OF_PLAYERS]; // true if this player lost 
@@ -221,26 +153,30 @@ void Game::playGame()
 					if (!players[i].set_block())
 						end_game[i] = true;
 				}
-
 			}
 			printBoards();
 			if (isGameEnded(end_game))
 				break;
-
-			for (i = 0; i < MAX_KEYS_IN_BUFFER; i++)
+			
+			for (int i = 0; i < GameConfig::MAX_MOVES_PER_TURN; i++)
 			{
-				key = handleKbhit();
+				kb = inputKbhit();
+				key = players[PLAYER1].playMove(kb, colored);
+				if (!key)
+					key = players[PLAYER2].playMove(kb, colored);
+				printBoards();
+
 				if (key == GameConfig::EXIT)
+				{
+					cleanExit();
 					return;
+				}
 				else if (key == GameConfig::RESUME_GAME)
 					printBorders();
 				else if (key == GameConfig::NEW_GAME)
 				{
 					new_game = true;
-
-					initColor();
-					zeroPlayingBoards();
-					printBorders();
+					initNewGame();
 					break;
 				}
 				Sleep(10);
@@ -248,7 +184,7 @@ void Game::playGame()
 			}
 			if (!new_game)
 				for (i = 0; i < NUM_OF_PLAYERS; i++)
-					move[i] = players[i].moveBlockOnBoard('D');
+					move[i] = players[i].moveBlockOnBoard(GameConfig::DOWN);
 			emptyKBuffer();
 			Sleep(100);
 			if (!move[PLAYER1] || !move[PLAYER2])
@@ -258,13 +194,33 @@ void Game::playGame()
 			}
 			printBoards();
 
-
-
 		}
 	}
 	clear_screen();
-
 }
+char Game::inputKbhit()
+{
+	if (!_kbhit())
+		return GameConfig::DO_NOTHING;
+	else
+		return _getch();
+}
+
+void Game::cleanExit()
+{
+	setTextColor((int)GameConfig::Color::WHITE);
+	clear_screen();
+}
+
+void Game::initNewGame()
+{
+	initColor();
+	zeroPlayingBoards();
+	printBorders();
+	players[PLAYER1].getNextBlock();
+	players[PLAYER2].getNextBlock();
+}
+
 
 void Game::zeroPlayingBoards()
 {
@@ -272,3 +228,4 @@ void Game::zeroPlayingBoards()
 	this->players[PLAYER2].ZeroPlayingBoard();
 
 }
+
