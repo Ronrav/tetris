@@ -16,6 +16,7 @@ void Board::zeroBoard()
 			this->board[i][j] = GameConfig::EMPTY;
 	}
 }
+
 void Board::drawBoardBorder() const
 {
 	for (int col = this->x - 1; col <= this->x + GameConfig::BOARD_WIDTH; col++)
@@ -82,13 +83,13 @@ bool Board::assignShapeToBoard(const Shape& orig_block, const Shape& new_block)
 
 	for (const Point& p: orig_block)
 	{
-		this->pos(p) = GameConfig::EMPTY;
+		pos(p) = GameConfig::EMPTY;
 	}
 
 	for (const Point& p : new_block)
 	{
 		if (checkIfFreeCoord(p.getX(), p.getY()))
-			this->pos(p) = new_block.getColor();
+			pos(p) = new_block.getColor();
 		else
 		{
 			this->copyToBoard(backup_board);
