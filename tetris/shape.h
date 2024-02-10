@@ -34,7 +34,7 @@ class Shape
 
 
 public:
-	Shape() {};
+	Shape (){};
 
 	//copy ctor
 	Shape(const Shape& dest);
@@ -84,6 +84,8 @@ public:
 	
 	const Point& getBombSource() const;
 
+	static constexpr int NUM_OF_SHAPES = 7;
+	static constexpr int ROTATION_STATES = 4;
 };
 
 #endif

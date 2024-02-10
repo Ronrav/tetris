@@ -16,10 +16,6 @@ class Board
 	bool checkIfFreeCoord(int _x, int _y) const;
 
 
-	//Copies the current state of the board to another board.
-	void copyBoardTo(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]) const;
-
-
 	// Copies a given board to the current board.
 	void copyToBoard(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]);
 
@@ -41,7 +37,11 @@ class Board
 
 	bool isPointFreeOnBoard(const Point& p);
 
-
+	bool isPointOBoard(const Point& p) const 
+	{
+		return (p.getX < GameConfig::BOARD_WIDTH && p.getY < GameConfig::BOARD_HEIGHT);
+		
+	}
 
 
 public:
@@ -51,6 +51,8 @@ public:
 	//Draws the border around the game board.
 	void drawBoardBorder() const;
 
+	//Copies the current state of the board to another board.
+	void copyBoardTo(int copy_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH]) const;
 
 	//Prints the contents of the game board with colored dots.
 	void printBoard(int colored) const;
