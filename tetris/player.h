@@ -4,10 +4,10 @@
 #include <vector>
 class Player
 {
+protected:
 	Board playing_board;
 	Shape block;
 	std::vector<char> moves_vector;
-
 
 public:
 
@@ -40,7 +40,14 @@ public:
 
 	void makeMove();
 
+	void dropNoPrint();
+
+	void moveBlockToLeftmost();
+
 	void ZeroPlayingBoard();
+
+	void moveBlockToLeftmost(Shape& shape) const;
+	Shape getCopyBlock();
 
 };
 

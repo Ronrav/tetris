@@ -61,6 +61,10 @@ void Player::dropBlock(int colored)
 		Sleep(20);
 	}
 }
+void Player::dropNoPrint()//move to computer.cpp
+{
+	while (moveBlockOnBoard('D')) {}
+}
 
 bool Player::handleFullRows()
 {
@@ -82,4 +86,8 @@ void Player::ZeroPlayingBoard()
 	this->playing_board.zeroBoard();
 }
 
+void Player:: moveBlockToLeftmost()//computer
+{
+	while (moveBlockOnBoard('L')){}
+}
 

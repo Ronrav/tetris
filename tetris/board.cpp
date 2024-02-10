@@ -80,14 +80,14 @@ bool Board::assignShapeToBoard(const Shape& orig_block, const Shape& new_block)
 	int backup_board[GameConfig::BOARD_HEIGHT][GameConfig::BOARD_WIDTH];
 	this->copyBoardTo(backup_board);
 
-	for (const Point& p: orig_block)
+	for (const Point& p : orig_block)
 	{
 		this->pos(p) = GameConfig::EMPTY;
 	}
 
 	for (const Point& p : new_block)
 	{
-		if (checkIfFreeCoord(p.getX(), p.getY()))
+		if (!checkIfFreeCoord(p.getX(), p.getY()))
 			this->pos(p) = new_block.getColor();
 		else
 		{
@@ -97,6 +97,14 @@ bool Board::assignShapeToBoard(const Shape& orig_block, const Shape& new_block)
 	}
 	return true;
 }
+
+void Board::zeroShapePlace(const Shape& shape)
+{
+	for (const Point& p :shape)
+		this->pos(p) = GameConfig::EMPTY;
+}
+
+
 
 bool Board::isFullRow(int row) const
 {

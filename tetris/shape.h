@@ -34,7 +34,7 @@ class Shape
 
 
 public:
-	Shape() {};
+	Shape():shape_type(0), rotation_state(0), color(0) {}; //init shape to 0, meaning nothing
 
 	//copy ctor
 	Shape(const Shape& dest);
@@ -83,6 +83,7 @@ public:
 	const Point& getPointByIndex(unsigned int index) const;
 	
 	const Point& getBombSource() const;
+
 
 };
 

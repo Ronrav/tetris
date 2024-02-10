@@ -120,6 +120,7 @@ void Shape::moveLeft()
 }
 
 
+
 void Shape::moveRight()
 {
 	for (int i = 0; i < SIZE_OF_SHAPE; i++)
