@@ -7,11 +7,10 @@ class Player
 protected:
 	Board playing_board;
 	Shape block;
-	std::vector<char> moves_vector;
 
 public:
 
-	Player() : moves_vector(GameConfig::MAX_MOVES_PER_TURN, GameConfig::DO_NOTHING) { block.getShape(); }
+	Player() { block.getShape(); }
 	void printBoard(int colored) const;
 	void printBorders() const;
 	void playTurn(const std::vector<char>& moves_vector);
@@ -38,7 +37,7 @@ public:
 
 	void handle_bomb();
 
-	void makeMove();
+	void makeMove(char key, int colored);
 
 	void dropNoPrint();
 

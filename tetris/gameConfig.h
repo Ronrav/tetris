@@ -36,6 +36,11 @@ public:
 	static const int NUM_OF_COLORS;
 	static const int NUM_OF_SHAPES;
 	static const int NUM_OF_KEYS;
+	static constexpr char ROTATE_CLOCKWISE = 'T';
+	static constexpr char ROTATE_COUNTERCLOCKWISE = 'G';
+	static constexpr char LEFT = 'L';
+	static constexpr char RIGHT = 'R';
+	static constexpr char DROP = 'x';
 
 	enum class LKeys {
 		LEFT_LOWER = 'a', RIGHT_LOWER = 'd', ROTATE_CLOCKWISE_LOWER = 's', ROTATE_COUNTERCLOCKWISE_LOWER = 'w', DROP_LOWER = 'x',
