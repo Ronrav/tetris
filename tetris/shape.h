@@ -18,23 +18,10 @@ class Shape
 	void rotateJshape();
 	//returns true if the rotate direction is clockeise, false if to the other side.
 	void rotate (bool clockwise);
-	static constexpr int ROTATION_STATES = 4;
-	static constexpr int O_SHAPE = 1;
-	static constexpr int I_SHAPE = 2;
-	static constexpr int S_SHAPE = 3;
-	static constexpr int Z_SHAPE = 4;
-	static constexpr int T_SHAPE = 5;
-	static constexpr int L_SHAPE = 6;
-	static constexpr int J_SHAPE = 7;
-	static constexpr int NUM_OF_SHAPES = 7;
-	static constexpr int SIZE_OF_SHAPE = 4;
-	static constexpr char RIGHT = 'R';
-	static constexpr char ROTATE_CLOCKWISE = 'T';
-	static constexpr char DOWN = 'D';
-	static constexpr char DROP = 'P';
-	static constexpr char LEFT = 'L';
+	
 
 public:
+
 	static constexpr char SHAPE_SIZE = 4;
 
 	int getRotation() { return rotation_state; }
@@ -75,6 +62,24 @@ public:
 	int getColor();
 	
 	char moveToWanted(const Shape& wanted_shape);
+
+	void 
+
+	static constexpr int ROTATION_STATES = 4;
+	static constexpr int O_SHAPE = 1;
+	static constexpr int I_SHAPE = 2;
+	static constexpr int S_SHAPE = 3;
+	static constexpr int Z_SHAPE = 4;
+	static constexpr int T_SHAPE = 5;
+	static constexpr int L_SHAPE = 6;
+	static constexpr int J_SHAPE = 7;
+	static constexpr int NUM_OF_SHAPES = 7;
+	static constexpr int SIZE_OF_SHAPE = 4;
+	static constexpr char RIGHT = 'R';
+	static constexpr char ROTATE_CLOCKWISE = 'T';
+	static constexpr char DOWN = 'D';
+	static constexpr char DROP = 'P';
+	static constexpr char LEFT = 'L';
 };
 
 #endif

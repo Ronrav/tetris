@@ -10,7 +10,7 @@ void Computer::calculateBestMove()
     board.copyBoardTo(tempBoard);
 
     // Create a copy of the current block.
-    Shape currentBlock = final_shape_state;
+    Shape currentBlock = final_block_state;
 
     // Iterate through all possible rotations of the current block.
     for (int rotation = 0; rotation < Shape::SHAPE_SIZE; rotation++)
@@ -50,13 +50,22 @@ void Computer::calculateBestMove()
 
     // After iterating through all possible moves, apply the best move (position with highest score).
   //  board.assignShapeToBoard(bestMove); - we dont want to change the board
-    final_shape_state = bestMove;
+    final_block_state = bestMove;
+}
+
+void Computer::getMovesArray()
+{
+	Shape curr_bock = board.getBlock();
+	int diff_x = curr_block.get
+	
+
+
 }
 
 void Computer::playTurn()
 {
     Shape curr_block = board.getBlock();
-    char move = curr_block.moveToWanted(final_shape_state);
+    char move = curr_block.moveToWanted(final_block_state);
 
 	switch (move)
 	{

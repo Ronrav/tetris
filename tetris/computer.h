@@ -4,13 +4,14 @@
 class Computer
 {
 	Board board;
-	Shape final_shape_state;
+	Shape final_block_state;
 
 public:
 
-	Computer(const Board& b) : board(b), final_shape_state(board.getBlock()) {};//maybe we dont need the ;
+	Computer(const Board& b) : board(b), final_block_state(board.getBlock()) {};//maybe we dont need the ;
 	void calculateBestMove();//update the final_shape_state to the wanted one
 	void playTurn();
+	void getMovesArray();
 	
 	
 };
