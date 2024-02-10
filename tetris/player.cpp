@@ -56,12 +56,8 @@ void Player::dropBlock(int colored)
 		Sleep(10);
 	}
 }
-void Player::dropNoPrint()//move to computer.cpp
-{
-	while (moveBlockOnBoard('D')) {}
-}
 
-bool Player::handleFullRows()
+int Player::handleFullRows()
 {
 	return this->playing_board.handleFullRows();
 }
@@ -81,11 +77,6 @@ void Player::ZeroPlayingBoard()
 	this->playing_board.zeroBoard();
 }
 
-
-void Player:: moveBlockToLeftmost()//computer
-{
-	while (moveBlockOnBoard('L')){}
-}
 
 int Player::makeMove(char key, int colored)
 {

@@ -43,10 +43,6 @@ public:
 	static constexpr char RIGHT = 'R';
 	static constexpr char DROP = 'x';
 	static constexpr int ESC = 27;
-	static constexpr char LEFT = 'L';
-	static constexpr char RIGHT = 'R';
-	static constexpr char ROTATE_CLOCKWISE = 'T';
-	static constexpr char ROTATE_COUNTERCLOCKWISE = 'G';
 	static constexpr char DOWN = 'D';
 
 

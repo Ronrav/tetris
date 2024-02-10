@@ -6,12 +6,12 @@
 #include "gameConfig.h"
 #include "menu.h"
 #include "human.h"
-#include <vector>
+#include "computer.h"
 
 class Game
 {
 	static constexpr int NUM_OF_PLAYERS = 2;
-	Human players[NUM_OF_PLAYERS];
+	Computer players[NUM_OF_PLAYERS];
 	static int colored;
 
 	static void set_colored(int key);

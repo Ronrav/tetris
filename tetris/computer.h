@@ -6,12 +6,23 @@
 class Computer : public Player
 {
 	std::list<char> moves_list;
-	void getMovesVector();
+
+	void getMovesArray(const Shape& best_move);
+
+	Shape calculateBestMove();
+
+	void dropNoPrint() {
+		while (moveBlockOnBoard(GameConfig::DOWN)) {}
+	}
+
+	void moveBlockToLeftmost()
+	{
+		while (moveBlockOnBoard(GameConfig::LEFT)) {}
+	}
+	int countNoHoles();
 
 public:
-	Computer();
-	void calculateBestMove();//update the final_shape_state to the wanted one
-	void playTurn();
+	Computer() {};
 	void getMovesArray();
 	void getNextBlock();
 	void inputMovesVector();
