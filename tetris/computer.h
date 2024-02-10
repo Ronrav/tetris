@@ -12,12 +12,12 @@ class Computer : public Player
 	Shape calculateBestMove();
 
 	void dropNoPrint() {
-		while (moveBlockOnBoard('D')) {}
+		while (moveBlockOnBoard(GameConfig::DOWN)) {}
 	}
 
 	void moveBlockToLeftmost()
 	{
-		while (moveBlockOnBoard('L')) {}
+		while (moveBlockOnBoard(GameConfig::LEFT)) {}
 	}
 	int countNoHoles();
 
