@@ -16,7 +16,6 @@ Shape Computer::calculateBestMove()
 
 	// Create a copy of the board to simulate the move.
 	Board board_saver = this->playing_board;
-	playing_board.zeroShapePlace(this->block);
 	const Shape shape_saver = this->block;
 	
 	for (int rotation = 0; rotation < GameConfig::ROTATION_STATES; rotation++)
@@ -47,10 +46,11 @@ Shape Computer::calculateBestMove()
 			flag = moveBlockOnBoard(GameConfig::RIGHT);
 		}
 		playing_board = board_saver;
-		playing_board.applyBlock(shape_saver);
+		block = shape_saver;
 	}
 	return best_move;
 }
+
 Shape Computer::calculateBombBestMove()
 {
 	const Shape saver = block;
@@ -93,7 +93,7 @@ int Computer::countNoHoles()
 		{
 			for (int j = p.getY() - 1; j < p.getY() + 2; j++)
 			{
-				if (playing_board.checkIfFreeCoord(i, j))
+				if (!playing_board.checkIfFreeCoord(i, j))
 					counter++;
 			}
 		}
@@ -135,7 +135,7 @@ void Computer::inputMovesVector()
 	Shape move, copy;
 	bool is_best = decideIfBestMove();
 	if (is_best)
-		move = calculateBestMove();
+		move = findBestMove();
 	else
 		move = getRandomMove();
 	copy = this->block;
@@ -165,6 +165,7 @@ Shape Computer::getRandomMove()
 	playing_board = board_saver;
 	return move;
 }
+
 void Computer::fitRotation(const Shape& best, Shape& copy)
 {
 	while (copy.getRotationState() != best.getRotationState())
@@ -183,13 +184,13 @@ void Computer::fitLocation(const Shape& best, Shape& copy)
 
 	if (copy_x < best_x)
 	{
-		step = GameConfig::RIGHT;
+		step = (char)GameConfig::RKeys::RIGHT;
 		direction = 1;
 	}
 
 	else if (copy_x > best_x)
 	{
-		step = GameConfig::LEFT;
+		step = (char)GameConfig::RKeys::LEFT;
 		direction = -1;
 	}
 

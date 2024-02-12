@@ -12,6 +12,8 @@ class Game
 {
 	static constexpr int NUM_OF_PLAYERS = 2;
 	Computer players[NUM_OF_PLAYERS];
+	Computer player1;
+	Computer player2;
 	static int colored;
 
 	static void set_colored(int key);

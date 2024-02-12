@@ -126,7 +126,7 @@ void Game::playGame()
 {
 	srand(time(NULL));
 	char kb;
-	int key, i;
+	int key = 20, i;
 	bool new_game; //true if the game is over 
 	bool end_game[NUM_OF_PLAYERS]; // true if this player lost 
 	bool move[NUM_OF_PLAYERS] = { false, false }; //true if a move was made
@@ -161,9 +161,11 @@ void Game::playGame()
 			for (int i = 0; i < GameConfig::MAX_MOVES_PER_TURN; i++)
 			{
 				kb = inputKbhit();
-				key = players[PLAYER1].playMove(kb, colored);
-				if (!key)
-					key = players[PLAYER2].playMove(kb, colored);
+				//key = players[PLAYER1].playMove(kb, colored);
+				//if (!key)
+				//	key = players[PLAYER2].playMove(kb, colored);
+				players[PLAYER1].playMove(kb, colored);
+				players[PLAYER2].playMove(kb, colored);
 				printBoards();
 
 				if (key == GameConfig::EXIT)
