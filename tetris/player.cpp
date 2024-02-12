@@ -136,3 +136,9 @@ int Player::makeMove(char key, int colored)
 	return GameConfig::MADE_MOVE;
 
 }
+
+bool Player::inputNewBlockToBoard()
+{
+	getNextBlock();
+	return set_block();
+}
