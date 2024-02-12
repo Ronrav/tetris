@@ -78,7 +78,7 @@ public:
 
 	void applyBlock(const Shape& shape);
 
-
+	int getHighestColumn();
 };
 
 #endif

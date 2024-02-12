@@ -16,6 +16,7 @@ void Board::zeroBoard()
 			this->board[i][j] = GameConfig::EMPTY;
 	}
 }
+
 void Board::drawBoardBorder() const
 {
 	for (int col = this->x - 1; col <= this->x + GameConfig::BOARD_WIDTH; col++)
@@ -110,7 +111,6 @@ void Board::applyBlock(const Shape& shape)
 		this->pos(p) = shape.getColor();
 }
 
-
 bool Board::isFullRow(int row) const
 {
 	for (int i = 0; i < GameConfig::BOARD_WIDTH; i++)
@@ -120,8 +120,6 @@ bool Board::isFullRow(int row) const
 	}
 	return true;
 }
-
-
 
 int Board::handleFullRows()
 {
@@ -168,7 +166,6 @@ bool Board::set_block(const Shape& block)
 	return true;
 }
 
-
 void Board::getBombPerimeters(int& _x, int& _y, int source_x, int source_y) const
 {
 	_x = source_x - GameConfig::BOMB_RADIUS;
@@ -194,3 +191,25 @@ void Board::handle_bomb(const Shape& block)
 			this->board[i][j] = GameConfig::EMPTY;
 }
 
+int Board::getHighestColumn()
+{
+	int highest_value = -1;
+	int column;
+	bool found_empty;
+	int i, j;
+	for ( i = 0; i < GameConfig::BOARD_WIDTH; i++)
+	{
+		j = 0;
+		found_empty = false;
+		while (!found_empty && j < GameConfig::BOARD_HEIGHT)
+		{
+			if (board[i][j] == GameConfig::EMPTY && j < highest_value)
+			{
+				column = i;
+				found_empty = true;
+			}
+			j++;
+		}
+	}
+	return column;
+}

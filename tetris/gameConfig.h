@@ -44,6 +44,8 @@ public:
 	static constexpr char DROP = 'x';
 	static constexpr int ESC = 27;
 	static constexpr char DOWN = 'D';
+	static constexpr int ROTATION_STATES = 4;
+	
 
 
 	enum class LKeys {
