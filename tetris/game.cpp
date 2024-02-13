@@ -147,6 +147,7 @@ void Game::playGame()
 			{
 				if (!move[i])
 				{
+					this->players[i].makeEmptyList();
 					//generate a piece to each board
 					players[i].getNextBlock();
 					//add block to board and check if possible
@@ -160,6 +161,7 @@ void Game::playGame()
 			
 			for (int i = 0; i < GameConfig::MAX_MOVES_PER_TURN; i++)
 			{
+				key = 20;
 				kb = inputKbhit();
 				//key = players[PLAYER1].playMove(kb, colored);
 				//if (!key)

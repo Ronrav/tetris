@@ -35,6 +35,7 @@ public:
 	static constexpr char BEST = 'a';
 	static constexpr char GOOD = 'b';
 	static constexpr char NOVICE = 'c';
+	void makeEmptyList();
 
 };
 

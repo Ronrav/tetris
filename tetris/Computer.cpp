@@ -21,6 +21,10 @@ Shape Computer::calculateBestMove()
 	for (int rotation = 0; rotation < GameConfig::ROTATION_STATES; rotation++)
 	{
 		this->block = shape_saver;
+
+		moveBlockOnBoard(GameConfig::DOWN);
+		moveBlockOnBoard(GameConfig::DOWN);
+
 		for (int i = 0; i < rotation; i++)
 			this->block.rotateClockWise();
 
@@ -199,16 +203,20 @@ void Computer::fitLocation(const Shape& best, Shape& copy)
 		copy_x += direction;
 		this->moves_list.push_back(step);
 	}
-
 }
-
 
 int Computer::playMove(char key, int colored)
 {
 	if (moves_list.empty())
 		return 0;
+
 	key = makeMove(this->moves_list.front(), colored);
 	moves_list.pop_front();
 	return key;
+}
+
+void Computer::makeEmptyList()
+{
+	this->moves_list.clear();
 }
 
