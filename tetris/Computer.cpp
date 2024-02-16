@@ -21,12 +21,16 @@ Shape Computer::calculateBestMove()
 	for (int rotation = 0; rotation < GameConfig::ROTATION_STATES; rotation++)
 	{
 		this->block = shape_saver;
+
+		moveBlockOnBoard(GameConfig::DOWN);
+		moveBlockOnBoard(GameConfig::DOWN);
+
 		for (int i = 0; i < rotation; i++)
 			this->block.rotateClockWise();
 
 		moveBlockToLeftmost();
 
-		while (flag) //while+bool
+		while (flag) 
 		{
 			const Shape shape_saver2 = this->block;
 			dropNoPrint();
@@ -80,8 +84,21 @@ int Computer::calculateScore()
 	int score = 0; 
 	score += 100 * (playing_board.handleFullRows()); 
 	score += countNoHoles();
+	score += lowestColumn();
 	return score;
 
+}
+int Computer::lowestColumn()
+{
+	int min_hight = 0;// 0 is the highest y coord on board
+	int curr_y = GameConfig::BOARD_WIDTH;;
+	for (const Point& p : block)
+	{
+		curr_y = p.getY();
+		if (curr_y > min_hight)
+			min_hight = curr_y;
+	}
+	return (3 * curr_y);
 }
 int Computer::countNoHoles()
 {
@@ -99,7 +116,7 @@ int Computer::countNoHoles()
 		}
 	}
 
-	return (counter * 5);
+	return (counter * 4);
 }
 
 void Computer::getNextBlock()
@@ -133,6 +150,7 @@ bool Computer::decideIfBestMove()
 		if (random == 1)
 			return false;
 		return true;
+
 	}
 }
 
@@ -145,9 +163,10 @@ void Computer::inputMovesVector()
 	else
 		move = getRandomMove();
 	copy = this->block;
-	fitRotation(move, copy);
 	fitLocation(move, copy);
+	fitRotation(move, copy);
 	this->moves_list.push_back(GameConfig::DROP);
+
 }
 
 //no bomb 
@@ -211,15 +230,23 @@ void Computer::fitLocation(const Shape& best, Shape& copy)
 		copy_x += direction;
 		this->moves_list.push_back(step);
 	}
-
 }
 
 int Computer::playMove(char key, int colored)
 {
 	if (moves_list.empty())
 		return 0;
-	int out_key = makeMove(moves_list.front(), colored);
+	int size = 0;
+	size = moves_list.size();
+	int out_key = makeMove(this->moves_list.front(), colored);
 	moves_list.pop_front();
 	return out_key;
+}
+
+
+
+void Computer::makeEmptyList()
+{
+	this->moves_list.clear();
 }
 

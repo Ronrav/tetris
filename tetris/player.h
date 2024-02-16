@@ -2,7 +2,6 @@
 #define __PLAYER_H
 #include "board.h"
 #include <vector>
-#include "menu.h"
 class Player
 {
 protected:

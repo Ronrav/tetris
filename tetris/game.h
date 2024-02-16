@@ -4,16 +4,17 @@
 #include "utills.h"
 #include <windows.h>
 #include "gameConfig.h"
-#include "menu.h"
 #include "human.h"
 #include "computer.h"
 
 class Game
 {
 	static constexpr int NUM_OF_PLAYERS = 2;
-	Computer players[NUM_OF_PLAYERS];
+
+	Player* players[NUM_OF_PLAYERS];
 	static int colored;
 
+	~Game() { delete players[0]; delete players[1];}
 	static void set_colored(int key);
 
 	//Prints the game boards for both players.
@@ -67,7 +68,29 @@ class Game
 	static constexpr int WITH_COLOR = 1;
 	static constexpr int MAX_KEYS_IN_BUFFER = 10;
 
-	
+	class Menu
+	{
+
+		// Handles the start menu logic for selecting new game, instructions, or exit.
+		static int handleStartMenu(Game& game);
+		// Handles the pause menu logic for selecting new game, resuming, instructions, or exit during gameplay.
+		// Returs key, representing the selected option.
+		static int handlePauseMenu();
+		static char selectComputerLevel();
+
+		// Prints game instructions for player controls.
+		static void printInstructions();
+		static constexpr int NEW_GAME = 1;
+		static constexpr int HUMAN_VS_HUMAN = 1;
+		static constexpr int HUMAN_VS_COMPUTER = 2;
+		static constexpr int COMPUTER_VS_COMPUTER = 3;
+		static constexpr int RESUME_GAME = 4;
+		static constexpr int INSTRUCTIONS = 8;
+		static constexpr int EXIT = 9;
+
+		friend class Game;
+
+	};
 
 	enum class LKeys {
 		LEFT_LOWER = 'a', RIGHT_LOWER = 'd', ROTATE_CLOCKWISE_LOWER = 's', ROTATE_COUNTERCLOCKWISE_LOWER = 'w', DROP_LOWER = 'x',
@@ -87,8 +110,8 @@ public:
 
 
 	
-	
+#endif
 };
 
-#endif
+
 

@@ -14,7 +14,7 @@ int Game::init()
 	clear_screen();
 	hideCursor();
 	int key = Menu::handleStartMenu();
-	if (key != GameConfig::EXIT)
+	if (key != Menu::EXIT)
 	{
 		initColor();
 	}
@@ -46,8 +46,8 @@ void Game::initColor()
 
 void Game::printBoards() const
 {
-	this->players[PLAYER1].printBoard(colored);
-	this->players[PLAYER2].printBoard(colored);
+	(* players[PLAYER1]).printBoard(colored);
+	(* players[PLAYER2]).printBoard(colored);
 }
 
 bool Game::isGameEnded(bool scores[]) const
@@ -104,21 +104,23 @@ void Game::announceTheWinner(int winner) const
 void Game::printBorders() const
 {
 	setTextColor((int)GameConfig::Color::WHITE);
-	this->players[PLAYER1].printBorders();
-	this->players[PLAYER2].printBorders();
+	(*players[PLAYER1]).printBorders();
+	(*players[PLAYER2]).printBorders();
 }
 
 void Game::handleFullRows()
 {
-	this->players[PLAYER1].handleFullRows();
-	this->players[PLAYER2].handleFullRows();
+	(*players[PLAYER1]).handleFullRows();
+	(*players[PLAYER2]).handleFullRows();
 }
 
 void Game::handleBomb()
 {
 	for (int i = 0; i < NUM_OF_PLAYERS; i++)
 	{
-		this->players[i].handle_bomb();
+
+		if(!move[i])
+			(*players[i]).handle_bomb();
 	}
 }
 
@@ -133,7 +135,7 @@ void Game::playGame()
 	{
 		key = init();
 
-		if (key == GameConfig::EXIT)
+		if (key ==Menu::EXIT)
 			return;
 
 		end_game[PLAYER1] = false;
@@ -144,21 +146,41 @@ void Game::playGame()
 			new_game = false;
 			for (i = 0; i < NUM_OF_PLAYERS; i++)
 				if (!move[i])
-					end_game[i] = !(players[i].inputNewBlockToBoard());
-
+				{
+					(*players[i]).makeEmptyList();
+					//generate a piece to each board
+					(*players[i]).getNextBlock();
+					//add block to board and check if possible
+					if ((*players[i]).set_block())
+						end_game[i] = true;
+				}
+			}
 			printBoards();
 			if (isGameEnded(end_game))
 				break;
 			
 			for (int i = 0; i < GameConfig::MAX_MOVES_PER_TURN; i++)
 			{
+
+				key = 20;
+				kb = inputKbhit();
+				//key = players[PLAYER1].playMove(kb, colored);
+				//if (!key)
+				//	key = players[PLAYER2].playMove(kb, colored);
+				(*players[PLAYER1]).playMove(kb, colored);
+				(*players[PLAYER2]).playMove(kb, colored);
+				printBoards();
+
+				if (key == Menu::EXIT)
+
 				key = playPlayersTurn();
 				printBoards();
 				switch (key)
+				}
+				else if (key == Menu::RESUME_GAME)
+					printBorders();
+				else if (key ==Menu::NEW_GAME)
 				{
-				case(GameConfig::EXIT):
-					cleanExit();
-					return;
 					break;
 				case(GameConfig::RESUME_GAME):
 					printBorders();
@@ -173,7 +195,7 @@ void Game::playGame()
 			if (!new_game)
 				//check if block was dropped all the way down
 				for (i = 0; i < NUM_OF_PLAYERS; i++)
-					move[i] = players[i].moveBlockOnBoard(GameConfig::DOWN);
+					move[i] = (*players[i]).moveBlockOnBoard(GameConfig::DOWN);
 			handleTurnEnd(move);
 		}
 	}
@@ -199,15 +221,15 @@ void Game::initNewGame()
 	initColor();
 	zeroPlayingBoards();
 	printBorders();
-	players[PLAYER1].getNextBlock();
-	players[PLAYER2].getNextBlock();
+	(*players[PLAYER1]).getNextBlock();
+	(*players[PLAYER2]).getNextBlock();
 }
 
 
 void Game::zeroPlayingBoards()
 {
-	this->players[PLAYER1].ZeroPlayingBoard();
-	this->players[PLAYER2].ZeroPlayingBoard();
+	(*players[PLAYER1]).ZeroPlayingBoard();
+	(*players[PLAYER2]).ZeroPlayingBoard();
 
 }
 
