@@ -44,6 +44,8 @@ public:
 
 	Shape getCopyBlock();
 
+	bool inputNewBlockToBoard();
+
 };
 
 #endif // !__PLAYER_H

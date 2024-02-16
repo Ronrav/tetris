@@ -10,6 +10,7 @@
 class Game
 {
 	static constexpr int NUM_OF_PLAYERS = 2;
+
 	Player* players[NUM_OF_PLAYERS];
 	static int colored;
 
@@ -47,17 +48,18 @@ class Game
 	//  Initializes the game board and color settings based on player input.
 	void initColor();
 
-	void handleBomb(bool move[]);
+	void handleBomb();
 
 	void zeroPlayingBoards();
 
-	void inputKbhit(char* input);
+	char inputKbhit();
 
 	void initNewGame();
 
 	void cleanExit();
-	char inputKbhit();
-	
+	int playPlayersTurn();
+	bool isKeyBrakeGame(char key);
+	void handleTurnEnd(bool move[]);
 
 	static constexpr int PLAYER1 = 0;
 	static constexpr int PLAYER2 = 1;

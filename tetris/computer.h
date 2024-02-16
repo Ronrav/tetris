@@ -34,6 +34,7 @@ public:
 	void fitRotation(const Shape& best, Shape& copy);
 	void fitLocation(const Shape& best, Shape& copy);
 	int playMove(char key, int colored);
+	bool inputNewBlockToBoard();
 	static constexpr char BEST = 'a';
 	static constexpr char GOOD = 'b';
 	static constexpr char NOVICE = 'c';

@@ -139,7 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="board.cpp" />
-    <ClCompile Include="Computer.cpp" />
+    <ClCompile Include="computer.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameConfig.cpp" />
     <ClCompile Include="human.cpp" />

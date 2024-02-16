@@ -193,23 +193,18 @@ void Board::handle_bomb(const Shape& block)
 
 int Board::getHighestColumn()
 {
+
 	int highest_value = -1;
 	int column = -1;
 	bool found_empty;
 	int i, j;
-	for ( i = 0; i < GameConfig::BOARD_WIDTH; i++)
+	for (i = 0; i < GameConfig::BOARD_HEIGHT; i++)
 	{
-		j = 0;
-		found_empty = false;
-		while (!found_empty && j < GameConfig::BOARD_HEIGHT)
+		for (j = 0; j < GameConfig::BOARD_WIDTH; j++)
 		{
-			if (board[i][j] == GameConfig::EMPTY && j < highest_value)
-			{
-				column = i;
-				found_empty = true;
-			}
-			j++;
+			if (board[i][j] != GameConfig::EMPTY)
+				return j;
 		}
 	}
-	return column;
+	return 0;
 }

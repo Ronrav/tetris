@@ -74,7 +74,7 @@
     <ClCompile Include="human.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Computer.cpp">
+    <ClCompile Include="computer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

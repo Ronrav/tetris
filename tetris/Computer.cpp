@@ -125,6 +125,12 @@ void Computer::getNextBlock()
 	inputMovesVector();
 	
 }
+
+bool Computer::inputNewBlockToBoard()
+{
+	getNextBlock();
+	return set_block();
+}
 bool Computer::decideIfBestMove()
 {
 	int random;
@@ -162,6 +168,7 @@ void Computer::inputMovesVector()
 	this->moves_list.push_back(GameConfig::DROP);
 
 }
+
 //no bomb 
 Shape Computer::getRandomMove()
 {
@@ -187,6 +194,11 @@ Shape Computer::getRandomMove()
 
 void Computer::fitRotation(const Shape& best, Shape& copy)
 {
+	if (copy.getRotationState() != best.getRotationState())
+	{
+		this->moves_list.push_back(GameConfig::DOWN);
+		this->moves_list.push_back(GameConfig::DOWN);
+	}	
 	while (copy.getRotationState() != best.getRotationState())
 	{
 		copy.rotateClockWise();
@@ -224,12 +236,11 @@ int Computer::playMove(char key, int colored)
 {
 	if (moves_list.empty())
 		return 0;
-
 	int size = 0;
 	size = moves_list.size();
-	key = makeMove(this->moves_list.front(), colored);
+	int out_key = makeMove(this->moves_list.front(), colored);
 	moves_list.pop_front();
-	return key;
+	return out_key;
 }
 
 
