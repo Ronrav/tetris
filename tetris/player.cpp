@@ -87,7 +87,7 @@ int Player::makeMove(char key, int colored)
 		break;
 		//esc
 	case(GameConfig::ESC):
-		return Menu::handlePauseMenu();
+		return Game::Menu::handlePauseMenu();
 		break;
 
 	case((char)GameConfig::LKeys::LEFT_LOWER):

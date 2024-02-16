@@ -8,7 +8,7 @@ class Computer : public Player
 	std::list<char> moves_list;
 	char level;
 
-	void getMovesArray(const Shape& best_move);
+	//void getMovesArray(const Shape& best_move);
 	Shape findBestMove();
 	Shape calculateBestMove();
 	Shape getRandomMove();
@@ -23,9 +23,11 @@ class Computer : public Player
 	int countNoHoles();
 	int calculateScore();
 	bool decideIfBestMove();
+	int lowestColumn();
 	
 public:
-	Computer():level('a') {};
+	Computer(char level):level('a') {};
+	~Computer() {delete this;}
 	void getMovesArray();
 	void getNextBlock();
 	void inputMovesVector();
@@ -36,6 +38,7 @@ public:
 	static constexpr char GOOD = 'b';
 	static constexpr char NOVICE = 'c';
 	void makeEmptyList();
+	
 
 };
 
