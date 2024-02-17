@@ -122,7 +122,7 @@ int Computer::countNoHoles()
 void Computer::getNextBlock()
 {
 	this->block.getShape();
-	inputMovesVector();
+	final_block = inputFinalBlock();
 	
 }
 
@@ -154,9 +154,9 @@ bool Computer::decideIfBestMove()
 	}
 }
 
-void Computer::inputMovesVector()
+Shape Computer::inputFinalBlock()
 {
-	Shape move, copy;
+	Shape move;
 	bool is_best = decideIfBestMove();
 	if (is_best)
 		move = findBestMove();
@@ -192,58 +192,41 @@ Shape Computer::getRandomMove()
 	return move;
 }
 
-void Computer::fitRotation(const Shape& best, Shape& copy)
+bool Computer::fitRotation()
 {
-	if (copy.getRotationState() != best.getRotationState())
-	{
-		this->moves_list.push_back(GameConfig::DOWN);
-		this->moves_list.push_back(GameConfig::DOWN);
-	}	
-	while (copy.getRotationState() != best.getRotationState())
-	{
-		copy.rotateClockWise();
-		this->moves_list.push_back(GameConfig::ROTATE_CLOCKWISE);
-	}
+	bool moved = false;
+	if (final_block.getRotationState() != block.getRotationState())
+		moved = moveBlockOnBoard(GameConfig::ROTATE_CLOCKWISE);
+
+	return moved;
 }
 
-void Computer::fitLocation(const Shape& best, Shape& copy)
+bool Computer::fitLocation()
 {
-	int direction, copy_x, best_x;
-	copy_x = copy.getPointByIndex(0).getX();
-	best_x = best.getPointByIndex(0).getX();
-	char step;
+	
+	int curr_x = block.getPointByIndex(0).getX();
+	int best_x = final_block.getPointByIndex(0).getX();
+	bool moved = false; = GameConfig::DO_NOTHING;
 
-	if (copy_x < best_x)
-	{
-		step = (char)GameConfig::RKeys::RIGHT;
-		direction = 1;
-	}
+	if (curr_x < best_x)
+		moved = moveBlockOnBoard(GameConfig::RIGHT);
+	
 
-	else if (copy_x > best_x)
-	{
-		step = (char)GameConfig::RKeys::LEFT;
-		direction = -1;
-	}
-
-	while (copy_x != best_x)
-	{
-		copy_x += direction;
-		this->moves_list.push_back(step);
-	}
+	else if (curr_x > best_x)
+		moved = moveBlockOnBoard(GameConfig::LEFT);
+	
+	return moved;
 }
 
 int Computer::playMove(char key, int colored)
 {
-	if (moves_list.empty())
-		return 0;
-	int size = 0;
-	size = moves_list.size();
-	int out_key = makeMove(this->moves_list.front(), colored);
+	
+	int out_key = makeMove(colored);
 	moves_list.pop_front();
 	return out_key;
 }
 
-void Computer::makeEmptyList()
+/*/void Computer::makeEmptyList()
 {
 	this->moves_list.clear();
 }

@@ -5,7 +5,7 @@
 
 class Computer : public Player
 {
-	std::list<char> moves_list;
+	Shape final_block;
 	char level;
 
 	//void getMovesArray(const Shape& best_move);
@@ -24,17 +24,18 @@ class Computer : public Player
 	int calculateScore();
 	bool decideIfBestMove();
 	int lowestColumn();
-	void fitRotation(const Shape& best, Shape& copy);
-	void fitLocation(const Shape& best, Shape& copy);
+	bool fitRotation();
+	bool fitLocation();
 	bool inputNewBlockToBoard();
-	void inputMovesVector();
+	//void inputMovesVector();
 
 public:
+	
 	Computer(char level = 'a') :level(level) {};
 	virtual ~Computer() {};
 	void  getNextBlock() override;
 	int playMove(char key, int colored) override;
-	void makeEmptyList() override;
+	//void makeEmptyList() override;
 
 	static constexpr char BEST = 'a';
 	static constexpr char GOOD = 'b';
