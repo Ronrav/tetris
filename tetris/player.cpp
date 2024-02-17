@@ -1,6 +1,5 @@
 #include "player.h"
 
-
 void Player::printBoard(int colored) const
 {
 	this->playing_board.printBoard(colored);
@@ -11,10 +10,7 @@ void Player::printBorders() const
 	this->playing_board.drawBoardBorder();
 }
 
-void Player::getNextBlock()
-{
-	this->block.getShape();
-}
+
 
 bool Player::moveBlockOnBoard(char direction)
 {
@@ -87,7 +83,7 @@ int Player::makeMove(char key, int colored)
 		break;
 		//esc
 	case(GameConfig::ESC):
-		return Game::Menu::handlePauseMenu();
+		return Menu::handlePauseMenu();
 		break;
 
 	case((char)GameConfig::LKeys::LEFT_LOWER):

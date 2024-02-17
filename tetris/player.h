@@ -2,6 +2,8 @@
 #define __PLAYER_H
 #include "board.h"
 #include <vector>
+#include "menu.h"
+
 class Player
 {
 protected:
@@ -9,11 +11,14 @@ protected:
 	Shape block;
 
 public:
-
+	
 	Player() { block.getShape(); }
+	virtual ~Player() {};
 	void printBoard(int colored) const;
 	void printBorders() const;
-	void getNextBlock();
+	virtual void getNextBlock() = 0;
+	virtual void makeEmptyList() = 0;
+
 
 
 	//Gets the direction of movment.
@@ -38,13 +43,11 @@ public:
 
 	void ZeroPlayingBoard();
 	
-	int makeMove(char key, int colored);
+	virtual int makeMove(char key, int colored);
 
-	void moveBlockToLeftmost(Shape& shape) const;
-
-	Shape getCopyBlock();
 
 	bool inputNewBlockToBoard();
+	virtual int playMove(char key, int colored) = 0;
 
 };
 

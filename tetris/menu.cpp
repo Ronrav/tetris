@@ -1,7 +1,7 @@
-#include "game.h"
+#include "menu.h"
 
 
-int Game::Menu::handleStartMenu(Game& game)
+int Menu::handleStartMenu()
 {
 	int key = -1;
 	bool printed = false;
@@ -20,7 +20,12 @@ int Game::Menu::handleStartMenu(Game& game)
 					printed = true;
 				}
 			case(HUMAN_VS_HUMAN):
-			{
+			case(HUMAN_VS_COMPUTER):
+			case(COMPUTER_VS_COMPUTER):
+				return key;
+			};
+
+			/* {
 				game.players[PLAYER1] = new Human();
 				game.players[PLAYER2] = new Human();
 				key = NEW_GAME;
@@ -43,16 +48,16 @@ int Game::Menu::handleStartMenu(Game& game)
 				key = NEW_GAME;
 				return key;
 			}
-			};
+			};*/
 	
 		}
 	}
 }
 
- char Game::Menu::selectComputerLevel()
+ char Menu::selectComputerLevel()
 {
 	char computer_level;
-	std::cout << "\n(a) BEST\n(b) GOOD\n(C) NOVICE";
+	std::cout << "\n(a) BEST\n(b) GOOD\n(C) NOVICE\n";
 	while (true)
 	{
 		if (_kbhit())
@@ -62,8 +67,10 @@ int Game::Menu::handleStartMenu(Game& game)
 				return computer_level;
 		}
 	}
+	clear_screen();
+
 }
-int Game::Menu::handlePauseMenu()
+int Menu::handlePauseMenu()
 {
 	int key = -1;
 	bool printed = false;
@@ -89,7 +96,7 @@ int Game::Menu::handlePauseMenu()
 	return key;
 }
 
-void Game::Menu::printInstructions()
+void Menu::printInstructions()
 {
 	std::cout << "\n\nLeft Player keys:\n\tLeft - a or A\n\tRight - d or D \n\tRotate clokwise - s or S \n\tRotate counterclokwise - w or W\n\tDrop - x or X";
 	std::cout << "\n\nRight Player keys:\n\tLeft - j or J\n\tRight - l or L \n\tRotate clokwise - k or K \n\tRotate counterclokwise - i or I\n\tDrop - m or M\n";

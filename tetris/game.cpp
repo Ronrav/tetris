@@ -14,6 +14,11 @@ int Game::init()
 	clear_screen();
 	hideCursor();
 	int key = Menu::handleStartMenu();
+	if (key == Menu::HUMAN_VS_HUMAN || key == Menu::HUMAN_VS_COMPUTER || key == Menu::COMPUTER_VS_COMPUTER)
+	{
+		setPlayers(key);
+		key = Menu::NEW_GAME;
+	}
 	if (key != Menu::EXIT)
 	{
 		initColor();
@@ -22,6 +27,27 @@ int Game::init()
 	
 }
 
+void Game:: setPlayers(int key)
+{
+	if (key == Menu::HUMAN_VS_HUMAN)
+	{
+		players[PLAYER1] = new Human();
+		players[PLAYER2] = new Human();
+	}
+	else if (key == Menu::HUMAN_VS_COMPUTER)
+	{
+		players[PLAYER1] = new Human();
+		std::cout << "\nPlease choose computer's level:\n";
+		players[PLAYER2] = new Computer(Menu::selectComputerLevel());
+	}
+	else if (key == Menu::COMPUTER_VS_COMPUTER)
+	{
+		std::cout << "\nPlease choose 1st computer's level:\n";
+		players[PLAYER1] = new Computer(Menu::selectComputerLevel());
+		std::cout << "\nPlease choose 2nd computer's level:\n";
+		players[PLAYER2] = new Computer(Menu::selectComputerLevel());
+	}
+}
 void Game::initColor()
 {
 	//set text color white
@@ -114,7 +140,7 @@ void Game::handleFullRows()
 	(*players[PLAYER2]).handleFullRows();
 }
 
-void Game::handleBomb()
+void Game::handleBomb(bool move[])
 {
 	for (int i = 0; i < NUM_OF_PLAYERS; i++)
 	{
@@ -127,7 +153,8 @@ void Game::handleBomb()
 void Game::playGame()
 {
 	srand(time(NULL));
-	int key, i;
+	char kb;
+	int key = 20, i;
 	bool new_game; //true if the game is over 
 	bool end_game[NUM_OF_PLAYERS]; // true if this player lost 
 	bool move[NUM_OF_PLAYERS] = { false, false }; //true if a move was made
@@ -154,12 +181,44 @@ void Game::playGame()
 					if ((*players[i]).set_block())
 						end_game[i] = true;
 				}
-			}
+
 			printBoards();
 			if (isGameEnded(end_game))
 				break;
+		}
+
+		for (int i = 0; i < GameConfig::MAX_MOVES_PER_TURN; i++)
+		{
+			key = playPlayersTurn();
+			printBoards();
+			switch (key)
+			{
+			case(Menu::EXIT):
+				cleanExit();
+				return;
+				break;
+			case(Menu::RESUME_GAME):
+				printBorders();
+				break;
+			case(Menu::NEW_GAME):
+				new_game = true;
+				initNewGame();
+				break;
+			}
+			printBoards();
+		}
+		if (!new_game)
+			//check if block was dropped all the way down
+			for (i = 0; i < NUM_OF_PLAYERS; i++)
+				move[i] = (*players)[i].moveBlockOnBoard(GameConfig::DOWN);
+		handleTurnEnd(move);
+	}
+	clear_screen();
+}
+
+
 			
-			for (int i = 0; i < GameConfig::MAX_MOVES_PER_TURN; i++)
+		/*	for (int i = 0; i < GameConfig::MAX_MOVES_PER_TURN; i++)
 			{
 
 				key = 20;
@@ -171,12 +230,12 @@ void Game::playGame()
 				(*players[PLAYER2]).playMove(kb, colored);
 				printBoards();
 
-				if (key == Menu::EXIT)
+				//if (key == Menu::EXIT)
 
 				key = playPlayersTurn();
 				printBoards();
 				switch (key)
-				}
+				
 				else if (key == Menu::RESUME_GAME)
 					printBorders();
 				else if (key ==Menu::NEW_GAME)
@@ -200,7 +259,7 @@ void Game::playGame()
 		}
 	}
 	clear_screen();
-}
+}*/
 
 char Game::inputKbhit()
 {
@@ -235,7 +294,7 @@ void Game::zeroPlayingBoards()
 
 bool Game::isKeyBrakeGame(char key)
 {
-	if (key == GameConfig::EXIT || key == GameConfig::RESUME_GAME || GameConfig::NEW_GAME)
+	if (key == Menu::EXIT || key == Menu::RESUME_GAME || Menu::NEW_GAME)
 		return true;
 	return false;
 }
@@ -245,8 +304,8 @@ int Game::playPlayersTurn()
 	char kb = inputKbhit();
 	if (kb == GameConfig::ESC)
 		return Menu::handlePauseMenu();
-	players[PLAYER1].playMove(kb, colored);
-	players[PLAYER2].playMove(kb, colored);
+	(*players[PLAYER1]).playMove(kb, colored);
+	(*players[PLAYER2]).playMove(kb, colored);
 	return GameConfig::DO_NOTHING;
 }
 
@@ -256,7 +315,7 @@ void Game::handleTurnEnd(bool move[])
 	Sleep(100);
 	for(int i = 0; i<NUM_OF_PLAYERS; i++)
 		if(!move[i])
-			handleBomb();
+			handleBomb(move);
 	handleFullRows();
 	printBoards();
 }

@@ -243,8 +243,6 @@ int Computer::playMove(char key, int colored)
 	return out_key;
 }
 
-
-
 void Computer::makeEmptyList()
 {
 	this->moves_list.clear();

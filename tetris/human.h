@@ -10,10 +10,11 @@ class Human : public Player {
 
 public:
 	Human() : side(side_flag) { side_flag = !side_flag; }
-
+	virtual ~Human() {};
 	bool isKeyInPlayerKeys(char key);
-	int playMove(char key, int colored);
-
+	int playMove(char key, int colored) override;
+	void getNextBlock() override;
+	void makeEmptyList()override {};
 
 };
 
