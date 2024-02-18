@@ -56,15 +56,17 @@ void Menu::setPlayers(Player** players, int key)
 		
 	case(HUMAN_VS_COMPUTER):
 		players[0] = new Human();
-		std::cout << "\nPlease choose computer's level (Right Board):\n";
+		clear_screen();
+		std::cout << "Please choose computer's level (Right Board):\n";
 		players[1] = new Computer(Menu::selectComputerLevel());
 		break;
 		
 
 	case(COMPUTER_VS_COMPUTER):
-		std::cout << "\nPlease choose 1st computer's level (Left Board):\n";
+		clear_screen();
+		std::cout << "Please choose 1st computer's level (Left Board):\n";
 		players[0] = new Computer(Menu::selectComputerLevel());
-		std::cout << "\nPlease choose 2nd computer's level (Right Board):\n";
+		std::cout << "Please choose 2nd computer's level (Right Board):\n";
 		players[1] = new Computer(Menu::selectComputerLevel());
 		break;
 	};
@@ -73,7 +75,7 @@ void Menu::setPlayers(Player** players, int key)
 char Menu::selectComputerLevel()
 {
 	char computer_level;
-	std::cout << "\n(a) BEST\n(b) GOOD\n(C) NOVICE\n";
+	std::cout << "\n(a) BEST\n(b) GOOD\n(C) NOVICE\n\n";
 	while (true)
 	{
 		if (_kbhit())
