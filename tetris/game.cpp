@@ -27,27 +27,7 @@ int Game::init()
 	
 }
 
-void Game:: setPlayers(int key)
-{
-	if (key == Menu::HUMAN_VS_HUMAN)
-	{
-		players[PLAYER1] = new Human();
-		players[PLAYER2] = new Human();
-	}
-	else if (key == Menu::HUMAN_VS_COMPUTER)
-	{
-		players[PLAYER1] = new Human();
-		std::cout << "\nPlease choose computer's level:\n";
-		players[PLAYER2] = new Computer(Menu::selectComputerLevel());
-	}
-	else if (key == Menu::COMPUTER_VS_COMPUTER)
-	{
-		std::cout << "\nPlease choose 1st computer's level:\n";
-		players[PLAYER1] = new Computer(Menu::selectComputerLevel());
-		std::cout << "\nPlease choose 2nd computer's level:\n";
-		players[PLAYER2] = new Computer(Menu::selectComputerLevel());
-	}
-}
+
 void Game::initColor()
 {
 	//set text color white

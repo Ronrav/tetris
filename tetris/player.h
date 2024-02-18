@@ -17,7 +17,7 @@ public:
 	void printBoard(int colored) const;
 	void printBorders() const;
 	virtual void getNextBlock() = 0;
-	virtual void makeEmptyList() = 0;
+
 
 
 

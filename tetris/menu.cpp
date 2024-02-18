@@ -1,7 +1,8 @@
 #include "menu.h"
+#include "computer.h"
+#include "human.h"
 
-
-int Menu::handleStartMenu()
+int Menu::handleStartMenu(Player** players)
 {
 	int key = -1;
 	bool printed = false;
@@ -20,38 +21,56 @@ int Menu::handleStartMenu()
 					printed = true;
 				}
 			case(HUMAN_VS_HUMAN):
+
+				players[0] = new Human();
+				players[1] = new Human();
+				key = NEW_GAME;
+				return key;
+
 			case(HUMAN_VS_COMPUTER):
+
+				players[0] = new Human();
+				std::cout << "\nPlease choose computer's level:\n";
+				players[1] = new Computer(Menu::selectComputerLevel());
+				key = NEW_GAME;
+				return key;
+
 			case(COMPUTER_VS_COMPUTER):
+				std::cout << "\nPlease choose 1st computer's level:\n";
+				players[0] = new Computer(Menu::selectComputerLevel());
+				std::cout << "\nPlease choose 2nd computer's level:\n";
+				players[1] = new Computer(Menu::selectComputerLevel());
+				key = NEW_GAME;
 				return key;
 			};
 
-			/* {
-				game.players[PLAYER1] = new Human();
-				game.players[PLAYER2] = new Human();
-				key = NEW_GAME;
-				return key;
-			}
-			case(HUMAN_VS_COMPUTER):
-			{
-				game.players[PLAYER1] = new Human();
-				std::cout << "Please choose computer's level:\n";
-				game.players[PLAYER2] = new Computer(selectComputerLevel());
-				key = NEW_GAME;
-				return key;
-			}
-			case(COMPUTER_VS_COMPUTER):
-			{
-				std::cout << "Please choose 1st computer's level:\n";
-				game.players[PLAYER1] = new Computer(selectComputerLevel());
-				std::cout << "Please choose 2nd computer's level:\n";
-				game.players[PLAYER2] = new Computer(selectComputerLevel());
-				key = NEW_GAME;
-				return key;
-			}
-			};*/
-	
 		}
 	}
+}
+void Menu::setPlayers(Player** players, int key)
+{
+	switch (key)
+	{
+
+	case(HUMAN_VS_HUMAN):
+
+		players[0] = new Human();
+		players[1] = new Human();
+		
+	case(HUMAN_VS_COMPUTER):
+
+		players[0] = new Human();
+		std::cout << "\nPlease choose computer's level:\n";
+		players[1] = new Computer(Menu::selectComputerLevel());
+		
+
+	case(COMPUTER_VS_COMPUTER):
+		std::cout << "\nPlease choose 1st computer's level:\n";
+		players[0] = new Computer(Menu::selectComputerLevel());
+		std::cout << "\nPlease choose 2nd computer's level:\n";
+		players[1] = new Computer(Menu::selectComputerLevel());
+		
+	};
 }
 
  char Menu::selectComputerLevel()
@@ -70,13 +89,13 @@ int Menu::handleStartMenu()
 	clear_screen();
 
 }
-int Menu::handlePauseMenu()
+int Menu::handlePauseMenu(Player** players)
 {
 	int key = -1;
 	bool printed = false;
 	setTextColor(GameConfig::WHITE);
 	clear_screen();
-	std::cout << "(1) Start a new game\n(2) Continue a paused game\n(8) Present instrcutions and keys\n(9) EXIT";
+	std::cout << "(1) Start a new game - Human vs Human\n(2) Start a new game - Human vs Computer\n(3) Start a new game - Computer vs Computer\n(8) Present instrcutions and keys\n(9) EXIT";
 	while (true)
 	{
 		if (_kbhit())

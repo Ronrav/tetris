@@ -14,7 +14,7 @@ public:
 	bool isKeyInPlayerKeys(char key);
 	int playMove(char key, int colored) override;
 	void getNextBlock() override;
-	void makeEmptyList()override {};
+
 
 };
 

@@ -8,12 +8,13 @@ class Menu
 {
 public:
 	// Handles the start menu logic for selecting new game, instructions, or exit.
-	static int handleStartMenu();
+	static int handleStartMenu(Player** players);
 	// Handles the pause menu logic for selecting new game, resuming, instructions, or exit during gameplay.
 	// Returs key, representing the selected option.
-	static int handlePauseMenu();
 	static char selectComputerLevel();
-
+	int handlePauseMenu();
+	void setPlayers(Player** players, int key);
+	
 	// Prints game instructions for player controls.
 	static void printInstructions();
 	static constexpr int NEW_GAME = 1;

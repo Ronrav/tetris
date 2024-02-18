@@ -21,7 +21,6 @@ class Game
 
 	//Prints the game boards for both players.
 	void printBoards() const;
-	void setPlayers(int key);
 	
 
 	// Checks if the game has ended based on the players' scores. 
