@@ -9,7 +9,7 @@ class Game
 {
 	static constexpr int NUM_OF_PLAYERS = 2;
 
-	Player* players[NUM_OF_PLAYERS];
+	Player* players[NUM_OF_PLAYERS] = {nullptr};
 	static int colored;
 	static void set_colored(int key);
 
@@ -46,15 +46,12 @@ class Game
 
 	void handleBomb(bool move[]);
 
-	void zeroPlayingBoards();
-
 	char inputKbhit();
 
 	void initNewGame();
 
 	void cleanExit();
 	int playPlayersTurn(Player** players);
-	bool isKeyBrakeGame(char key);
 	void handleTurnEnd(bool move[]);
 
 	static constexpr int PLAYER1 = 0;

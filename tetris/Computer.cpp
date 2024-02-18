@@ -128,19 +128,11 @@ void Computer::getNextBlock()
 	
 }
 
-bool Computer::inputNewBlockToBoard()
-{
-	getNextBlock();
-	return set_block();
-}
 bool Computer::decideIfBestMove()
 {
 	int random;
 	switch (level)
 	{
-	case(BEST):
-		return true;
-	
 	case (GOOD):
 		random = getRandom(1, 40);
 		if (random == 1)
@@ -152,7 +144,8 @@ bool Computer::decideIfBestMove()
 		if (random == 1)
 			return false;
 		return true;
-
+	default:
+		return true;
 	}
 }
 

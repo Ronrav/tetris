@@ -7,10 +7,7 @@ Board::Board() : x(GameConfig::MIN_X + dist_x), y(GameConfig::MIN_Y)
 	zeroBoard();
 	dist_x += GameConfig::BOARD_WIDTH + GameConfig::BOARDS_GAP;
 }
-Board::~Board()
-{
-	dist_x = dist_x + GameConfig::MIN_X - this->x;
-}
+
 
 void Board::zeroBoard()
 {
