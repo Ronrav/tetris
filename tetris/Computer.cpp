@@ -206,7 +206,7 @@ bool Computer::fitLocation()
 	
 	int curr_x = block.getPointByIndex(0).getX();
 	int best_x = final_block.getPointByIndex(0).getX();
-	bool moved = false; = GameConfig::DO_NOTHING;
+	bool moved = false; 
 
 	if (curr_x < best_x)
 		moved = moveBlockOnBoard(GameConfig::RIGHT);

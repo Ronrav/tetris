@@ -58,7 +58,7 @@ void Menu::setPlayers(Player** players, int key)
 	};
 }
 
- char Menu::selectComputerLevel()
+char Menu::selectComputerLevel()
 {
 	char computer_level;
 	std::cout << "\n(a) BEST\n(b) GOOD\n(C) NOVICE\n";
@@ -72,7 +72,6 @@ void Menu::setPlayers(Player** players, int key)
 		}
 	}
 	clear_screen();
-
 }
 int Menu::handlePauseMenu(Player** players)
 {
