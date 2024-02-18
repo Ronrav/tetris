@@ -13,10 +13,17 @@ public:
 	
 	Player() { block.getShape(); }
 	virtual ~Player() {};
+	
+	//print player's board
 	void printBoard(int colored) const;
+	
+	//print players's board's borders
 	void printBorders() const;
+	
+	//enforce implementation of function to generate new block for a player
 	virtual void getNextBlock() = 0;
 
+	virtual int playMove(char key, int colored) = 0;
 
 	//Gets the direction of movment.
 	//Moves the block in the specified direction on the board.
@@ -43,8 +50,6 @@ public:
 	int makeMove(char key, int colored);
 
 	bool inputNewBlockToBoard();
-
-	virtual int playMove(char key, int colored) = 0;
 
 	bool gravitate_block();
 

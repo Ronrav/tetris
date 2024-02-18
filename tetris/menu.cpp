@@ -8,9 +8,9 @@ int Menu::handleMenu(Player** players, bool start_or_pause)
 	int key = -1;
 	bool printed = false;
 	if(start_or_pause)
-		std::cout << "(1) Start a new game - Human vs Human\n(2) Start a new game - Human vs Computer\n(3) Start a new game - Computer vs Computer\n(8) Present instrcutions and keys\n(9) EXIT";
+		std::cout << "(1) Start a new game - Human vs Human\n(2) Start a new game - Human vs Computer\n(3) Start a new game - Computer vs Computer\n(8) Present instrcutions and keys\n(9) EXIT\n";
 	else
-		std::cout << "(1) Start a new game - Human vs Human\n(2) Start a new game - Human vs Computer\n(3) Start a new game - Computer vs Computer\n(4) Continue a paused game\n(8) Present instrcutions and keys\n(9) EXIT";
+		std::cout << "(1) Start a new game - Human vs Human\n(2) Start a new game - Human vs Computer\n(3) Start a new game - Computer vs Computer\n(4) Continue a paused game\n(8) Present instrcutions and keys\n(9) EXIT\n";
 	while (true)
 	{
 		if (_kbhit())

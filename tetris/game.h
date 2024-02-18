@@ -46,15 +46,12 @@ class Game
 
 	void handleBomb(bool move[]);
 
-	void zeroPlayingBoards();
-
 	char inputKbhit();
 
 	void initNewGame();
 
 	void cleanExit();
 	int playPlayersTurn(Player** players);
-	bool isKeyBrakeGame(char key);
 	void handleTurnEnd(bool move[]);
 
 	static constexpr int PLAYER1 = 0;

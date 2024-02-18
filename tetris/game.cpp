@@ -84,9 +84,9 @@ void Game::announceTheWinner(int winner) const
 {
 	setTextColor(GameConfig::WHITE);
 	if (winner != TIE)
-		std::cout << "\n\nTHE WINNER IS: PLAYER NUMBER " << winner + 1 << "!!!" << std::endl;
+		std::cout << "\n\n\n\nTHE WINNER IS: PLAYER NUMBER " << winner + 1 << "!!!" << std::endl;
 	else
-		std::cout << "\n\nGAME ENDED, IT'S A TIE!!!" << std::endl;
+		std::cout << "\n\n\n\nGAME ENDED, IT'S A TIE!!!" << std::endl;
 	std::cout << "\n\nPress any key to go back to main menu\n";
 	emptyKBuffer();
 	while (true)
@@ -120,7 +120,7 @@ void Game::handleBomb(bool move[])
 	{
 
 		if(!move[i])
-			(*players[i]).handle_bomb();
+			players[i]->handle_bomb();
 	}
 }
 
@@ -181,8 +181,6 @@ void Game::playGame()
 	}
 	clear_screen();
 }
-
-
 			
 char Game::inputKbhit()
 {
@@ -202,23 +200,9 @@ void Game::initNewGame()
 {
 	initColor();
 	printBorders();
-	players[PLAYER1]->getNextBlock();
-	players[PLAYER2]->getNextBlock();
-}
-
-
-void Game::zeroPlayingBoards()
-{
-	players[PLAYER1]->ZeroPlayingBoard();
-	players[PLAYER2]->ZeroPlayingBoard();
-
-}
-
-bool Game::isKeyBrakeGame(char key)
-{
-	if (key == Menu::EXIT || key == Menu::RESUME_GAME || Menu::NEW_GAME)
-		return true;
-	return false;
+	players[PLAYER1]->inputNewBlockToBoard();
+	players[PLAYER2]->inputNewBlockToBoard();
+	printBoards();
 }
 
 int Game::playPlayersTurn(Player** players)
