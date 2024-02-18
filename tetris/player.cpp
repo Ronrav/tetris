@@ -135,3 +135,8 @@ bool Player::inputNewBlockToBoard()
 	getNextBlock();
 	return set_block();
 }
+
+bool Player::gravitate_block()
+{
+	return moveBlockOnBoard(GameConfig::DOWN);
+}

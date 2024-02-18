@@ -9,7 +9,7 @@ class Game
 {
 	static constexpr int NUM_OF_PLAYERS = 2;
 
-	Player* players[NUM_OF_PLAYERS];
+	Player* players[NUM_OF_PLAYERS] = {nullptr};
 	static int colored;
 	static void set_colored(int key);
 

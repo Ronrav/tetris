@@ -10,10 +10,9 @@ void Game::set_colored(int key)
 int Game::init(Player** players)
 {
 	//set text color white
-	setTextColor((int)GameConfig::Color::WHITE);
-	clear_screen();
+
 	hideCursor();
-	int key = Menu::handleStartMenu(players);
+	int key = Menu::handleMenu(players, true);
 	if (key != Menu::EXIT)
 	{
 		initColor();
@@ -128,7 +127,6 @@ void Game::handleBomb(bool move[])
 void Game::playGame()
 {
 	srand(time(NULL));
-	char kb;
 	int key = 20, i;
 	bool new_game; //true if the game is over 
 	bool end_game[NUM_OF_PLAYERS]; // true if this player lost 
@@ -140,12 +138,13 @@ void Game::playGame()
 		if (key == Menu::EXIT)
 			return;
 
-		end_game[PLAYER1] = false;
-		end_game[PLAYER2] = false;
+		end_game[PLAYER1] = end_game[PLAYER2] = false;
 		printBorders();
 		while (!end_game[PLAYER1] && !end_game[PLAYER2]) // game didn't end
 		{
 			new_game = false;
+
+			//input new block to each board, if it is not possible, meaning end of game
 			for (i = 0; i < NUM_OF_PLAYERS; i++)
 				if (!move[i])
 					if(!players[i]->inputNewBlockToBoard())
@@ -176,10 +175,8 @@ void Game::playGame()
 				printBoards();
 			}
 			if (!new_game)
-				//check if block was dropped all the way down
-				for (i = 0; i < NUM_OF_PLAYERS; i++)
-					move[i] = players[i]->moveBlockOnBoard(GameConfig::DOWN);
-			handleTurnEnd(move);
+				handleTurnEnd(move);
+			emptyKBuffer();
 		}
 	}
 	clear_screen();
@@ -204,7 +201,6 @@ void Game::cleanExit()
 void Game::initNewGame()
 {
 	initColor();
-	zeroPlayingBoards();
 	printBorders();
 	players[PLAYER1]->getNextBlock();
 	players[PLAYER2]->getNextBlock();
@@ -229,7 +225,7 @@ int Game::playPlayersTurn(Player** players)
 {
 	char kb = inputKbhit();
 	if (kb == GameConfig::ESC)
-		return Menu::handlePauseMenu(players);
+		return Menu::handleMenu(players, false);
 	players[PLAYER1]->playMove(kb, colored);
 	players[PLAYER2]->playMove(kb, colored);
 	return GameConfig::DO_NOTHING;
@@ -237,11 +233,14 @@ int Game::playPlayersTurn(Player** players)
 
 void Game::handleTurnEnd(bool move[])
 {
-	emptyKBuffer();
-	Sleep(100);
-	for(int i = 0; i<NUM_OF_PLAYERS; i++)
-		if(!move[i])
+	//check if block was dropped all the way down
+	for (int i = 0; i < NUM_OF_PLAYERS; i++)
+	{
+		move[i] = players[i]->gravitate_block();
+		Sleep(50);
+		if (!move[i])
 			handleBomb(move);
+	}
 	handleFullRows();
 	printBoards();
 }

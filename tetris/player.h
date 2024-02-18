@@ -46,6 +46,8 @@ public:
 
 	virtual int playMove(char key, int colored) = 0;
 
+	bool gravitate_block();
+
 };
 
 #endif // !__PLAYER_H

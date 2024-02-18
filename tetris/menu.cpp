@@ -1,43 +1,52 @@
 #include "menu.h"
 
 
-int Menu::handleStartMenu(Player** players)
+int Menu::handleMenu(Player** players, bool start_or_pause)
 {
+	setTextColor((int)GameConfig::Color::WHITE);
+	clear_screen();
 	int key = -1;
 	bool printed = false;
-	std::cout << "(1) Start a new game - Human vs Human\n(2) Start a new game - Human vs Computer\n(3) Start a new game - Computer vs Computer\n(8) Present instrcutions and keys\n(9) EXIT";
+	if(start_or_pause)
+		std::cout << "(1) Start a new game - Human vs Human\n(2) Start a new game - Human vs Computer\n(3) Start a new game - Computer vs Computer\n(8) Present instrcutions and keys\n(9) EXIT";
+	else
+		std::cout << "(1) Start a new game - Human vs Human\n(2) Start a new game - Human vs Computer\n(3) Start a new game - Computer vs Computer\n(4) Continue a paused game\n(8) Present instrcutions and keys\n(9) EXIT";
 	while (true)
 	{
 		if (_kbhit())
-		{
 			key = _getch() - '0';
-			switch (key)
+		switch (key)
+		{
+		case(INSTRUCTIONS):
+			if (!printed)
 			{
-			case(INSTRUCTIONS):
-				if (!printed)
-				{
-					printInstructions();
-					printed = true;
-				}
-
-			case(EXIT):
-				return key;
-				break;
-
-			case(HUMAN_VS_HUMAN):
-			case(COMPUTER_VS_COMPUTER):
-			case(HUMAN_VS_COMPUTER):
-				setPlayers(players, key);
-				key = NEW_GAME;
-				return key;
-				break;
-			};
-
+				printInstructions();
+				printed = true;
+			}
+			break;
+		case(RESUME_GAME):
+		case(EXIT):
+			clear_screen();
+			return key;
+			break;
+		case(HUMAN_VS_HUMAN):
+		case(HUMAN_VS_COMPUTER):
+		case(COMPUTER_VS_COMPUTER):
+			setPlayers(players, key);
+			key = NEW_GAME;
+			return key;
 		}
 	}
 }
+
 void Menu::setPlayers(Player** players, int key)
 {
+	if (players[0] != nullptr)
+	{
+		delete players[0];
+		delete players[1];
+	}
+
 	switch (key)
 	{
 	case(HUMAN_VS_HUMAN):
@@ -47,15 +56,15 @@ void Menu::setPlayers(Player** players, int key)
 		
 	case(HUMAN_VS_COMPUTER):
 		players[0] = new Human();
-		std::cout << "\nPlease choose computer's level:\n";
+		std::cout << "\nPlease choose computer's level (Right Board):\n";
 		players[1] = new Computer(Menu::selectComputerLevel());
 		break;
 		
 
 	case(COMPUTER_VS_COMPUTER):
-		std::cout << "\nPlease choose 1st computer's level:\n";
+		std::cout << "\nPlease choose 1st computer's level (Left Board):\n";
 		players[0] = new Computer(Menu::selectComputerLevel());
-		std::cout << "\nPlease choose 2nd computer's level:\n";
+		std::cout << "\nPlease choose 2nd computer's level (Right Board):\n";
 		players[1] = new Computer(Menu::selectComputerLevel());
 		break;
 	};
@@ -70,41 +79,11 @@ char Menu::selectComputerLevel()
 		if (_kbhit())
 		{
 			computer_level = _getch();
-			if (computer_level == 'a' || computer_level == 'b' || computer_level == 'c')
+			if (computer_level == BEST || computer_level == GOOD || computer_level == NOVICE)
 				return computer_level;
 		}
 	}
 	clear_screen();
-}
-int Menu::handlePauseMenu(Player** players)
-{
-	int key = -1;
-	bool printed = false;
-	setTextColor(GameConfig::WHITE);
-	clear_screen();
-	std::cout << "(1) Start a new game - Human vs Human\n(2) Start a new game - Human vs Computer\n(3) Start a new game - Computer vs Computer\n(8) Present instrcutions and keys\n(9) EXIT";
-	while (true)
-	{
-		if (_kbhit())
-			key = _getch() - '0';
-		if (key == INSTRUCTIONS && !printed)
-		{
-			printInstructions();
-			printed = true;
-		}
-		else if (key == RESUME_GAME || key == EXIT)
-		{
-			clear_screen();
-			break;
-		}
-		else
-		{
-			setPlayers(players, key);
-			key = NEW_GAME;
-		}
-
-	}
-	return key;
 }
 
 void Menu::printInstructions()
