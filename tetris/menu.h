@@ -6,6 +6,8 @@
 #include "computer.h"
 #include "human.h"
 
+class Player;
+
 class Menu
 {
 public:

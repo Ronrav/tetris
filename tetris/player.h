@@ -1,8 +1,7 @@
 #ifndef __PLAYER_H
 #define __PLAYER_H
 #include "board.h"
-#include <vector>
-#include "menu.h"
+
 
 class Player
 {

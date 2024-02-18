@@ -122,7 +122,7 @@ int Computer::countNoHoles()
 void Computer::getNextBlock()
 {
 	this->block.getShape();
-	final_block = inputFinalBlock();
+	inputFinalBlock();
 	
 }
 
@@ -154,18 +154,13 @@ bool Computer::decideIfBestMove()
 	}
 }
 
-Shape Computer::inputFinalBlock()
+void Computer::inputFinalBlock()
 {
-	Shape move;
 	bool is_best = decideIfBestMove();
 	if (is_best)
-		move = findBestMove();
+		this->final_block = findBestMove();
 	else
-		move = getRandomMove();
-	copy = this->block;
-	fitLocation(move, copy);
-	fitRotation(move, copy);
-	this->moves_list.push_back(GameConfig::DROP);
+		this->final_block = getRandomMove();
 
 }
 
@@ -198,16 +193,17 @@ char Computer::getNextMove()
 	int best_x = final_block.getPointByIndex(0).getX();
 
 	if (curr_x < best_x)
-		return GameConfig::RIGHT;
+		return (char)GameConfig::RKeys::RIGHT_LOWER;
 	if (curr_x > best_x)
-		return GameConfig::LEFT;
+		return (char)GameConfig::RKeys::LEFT_LOWER;
 	if (final_block.getRotationState() != block.getRotationState())
-		return GameConfig::ROTATE_CLOCKWISE;
+		return (char)GameConfig::RKeys::ROTATE_CLOCKWISE_LOWER;
+	return (char)GameConfig::RKeys::DROP_LOWER;
 
 }
 int Computer::playMove(char key, int colored)
 {
-	return makeMove(colored, getNextMove());
+	return makeMove(getNextMove(), colored);
 }
 
 

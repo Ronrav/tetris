@@ -137,7 +137,7 @@ void Game::playGame()
 	{
 		key = init(players);
 
-		if (key ==Menu::EXIT)
+		if (key == Menu::EXIT)
 			return;
 
 		end_game[PLAYER1] = false;
@@ -149,44 +149,43 @@ void Game::playGame()
 			for (i = 0; i < NUM_OF_PLAYERS; i++)
 				if (!move[i])
 				{
-					//(*players[i]).makeEmptyList();
 					//generate a piece to each board
 					players[i]->getNextBlock();
 					//add block to board and check if possible
-					if (players[i]->set_block())
+					if (!players[i]->set_block())
 						end_game[i] = true;
 				}
 
 			printBoards();
 			if (isGameEnded(end_game))
 				break;
-		}
 
-		for (int i = 0; i < GameConfig::MAX_MOVES_PER_TURN; i++)
-		{
-			key = playPlayersTurn(players);
-			printBoards();
-			switch (key)
+			for (int i = 0; i < GameConfig::MAX_MOVES_PER_TURN; i++)
 			{
-			case(Menu::EXIT):
-				cleanExit();
-				return;
-				break;
-			case(Menu::RESUME_GAME):
-				printBorders();
-				break;
-			case(Menu::NEW_GAME):
-				new_game = true;
-				initNewGame();
-				break;
+				key = playPlayersTurn(players);
+				printBoards();
+				switch (key)
+				{
+				case(Menu::EXIT):
+					cleanExit();
+					return;
+					break;
+				case(Menu::RESUME_GAME):
+					printBorders();
+					break;
+				case(Menu::NEW_GAME):
+					new_game = true;
+					initNewGame();
+					break;
+				}
+				printBoards();
 			}
-			printBoards();
+			if (!new_game)
+				//check if block was dropped all the way down
+				for (i = 0; i < NUM_OF_PLAYERS; i++)
+					move[i] = players[i]->moveBlockOnBoard(GameConfig::DOWN);
+			handleTurnEnd(move);
 		}
-		if (!new_game)
-			//check if block was dropped all the way down
-			for (i = 0; i < NUM_OF_PLAYERS; i++)
-				move[i] = players[i]->moveBlockOnBoard(GameConfig::DOWN);
-		handleTurnEnd(move);
 	}
 	clear_screen();
 }

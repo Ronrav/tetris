@@ -29,12 +29,12 @@ int Menu::handleStartMenu(Player** players)
 			case(HUMAN_VS_COMPUTER):
 				setPlayers(players, key);
 				key = NEW_GAME;
+				return key;
 				break;
 			};
 
 		}
 	}
-	return key;
 }
 void Menu::setPlayers(Player** players, int key)
 {

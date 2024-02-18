@@ -1,6 +1,5 @@
 #ifndef __COMPUTER_H
 #define __COMPUTER_H
-#include <list>
 #include "Player.h"
 
 class Computer : public Player
@@ -26,15 +25,16 @@ class Computer : public Player
 	int lowestColumn();
 	bool inputNewBlockToBoard();
 	char getNextMove();
+	void inputFinalBlock();
 
 
 public:
 	
 	Computer(char level = 'a') :level(level) {};
 	virtual ~Computer() {};
-	virtual void  getNextBlock() override;
+	virtual void getNextBlock() override;
 	virtual int playMove(char key, int colored) override;
-	//void makeEmptyList() override;
+
 
 	static constexpr char BEST = 'a';
 	static constexpr char GOOD = 'b';

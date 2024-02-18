@@ -1,11 +1,8 @@
 #ifndef __GAME_H
 #define __GAME_H
-#include "board.h"
 #include "utills.h"
 #include <windows.h>
 #include "gameConfig.h"
-#include "human.h"
-#include "computer.h"
 #include "menu.h"
 
 class Game
@@ -14,11 +11,6 @@ class Game
 
 	Player* players[NUM_OF_PLAYERS];
 	static int colored;
-
-	~Game() {
-		delete players[PLAYER1];
-		delete players[PLAYER2];
-	};
 	static void set_colored(int key);
 
 	//Prints the game boards for both players.
@@ -89,6 +81,10 @@ class Game
 public:
 	// Initiates the gameplay loop, handles player input, updates the game state, and checks for game over conditions.
 	void playGame();
+	~Game() {
+		delete players[PLAYER1];
+		delete players[PLAYER2];
+	};
 
 
 
