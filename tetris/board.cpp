@@ -197,7 +197,6 @@ int Board::getHighestColumn()
 
 	int highest_value = -1;
 	int column = -1;
-	bool found_empty;
 	int i, j;
 	for (i = 0; i < GameConfig::BOARD_HEIGHT; i++)
 	{

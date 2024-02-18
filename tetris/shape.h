@@ -81,8 +81,10 @@ public:
 		return points + SIZE_OF_SHAPE;
 	}
 	int getRotationState() const { return this->rotation_state; }
+	
 	const Point& getPointByIndex(unsigned int index) const;
 	
+	//returns a point
 	const Point& getBombSource() const;
 
 

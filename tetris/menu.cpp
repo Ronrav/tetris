@@ -43,8 +43,10 @@ void Menu::setPlayers(Player** players, int key)
 {
 	if (players[0] != nullptr)
 	{
-		delete players[0];
 		delete players[1];
+		players[1] = nullptr;
+		delete players[0];
+		players[0] = nullptr;
 	}
 
 	switch (key)
