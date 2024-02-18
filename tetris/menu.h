@@ -3,7 +3,9 @@
 #define __MENU_H
 #include "utills.h"
 #include "gameConfig.h"
-class Game;
+#include "computer.h"
+#include "human.h"
+
 class Menu
 {
 public:
@@ -12,8 +14,8 @@ public:
 	// Handles the pause menu logic for selecting new game, resuming, instructions, or exit during gameplay.
 	// Returs key, representing the selected option.
 	static char selectComputerLevel();
-	int handlePauseMenu();
-	void setPlayers(Player** players, int key);
+	static int handlePauseMenu(Player** players);
+	static void setPlayers(Player** players, int key);
 	
 	// Prints game instructions for player controls.
 	static void printInstructions();

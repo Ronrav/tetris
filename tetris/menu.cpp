@@ -1,6 +1,5 @@
 #include "menu.h"
-#include "computer.h"
-#include "human.h"
+
 
 int Menu::handleStartMenu(Player** players)
 {
@@ -20,45 +19,32 @@ int Menu::handleStartMenu(Player** players)
 					printInstructions();
 					printed = true;
 				}
+
+			case(EXIT):
+				return key;
+				break;
+
 			case(HUMAN_VS_HUMAN):
-
-				players[0] = new Human();
-				players[1] = new Human();
-				key = NEW_GAME;
-				return key;
-
-			case(HUMAN_VS_COMPUTER):
-
-				players[0] = new Human();
-				std::cout << "\nPlease choose computer's level:\n";
-				players[1] = new Computer(Menu::selectComputerLevel());
-				key = NEW_GAME;
-				return key;
-
 			case(COMPUTER_VS_COMPUTER):
-				std::cout << "\nPlease choose 1st computer's level:\n";
-				players[0] = new Computer(Menu::selectComputerLevel());
-				std::cout << "\nPlease choose 2nd computer's level:\n";
-				players[1] = new Computer(Menu::selectComputerLevel());
+			case(HUMAN_VS_COMPUTER):
+				setPlayers(players, key);
 				key = NEW_GAME;
-				return key;
+				break;
 			};
 
 		}
 	}
+	return key;
 }
 void Menu::setPlayers(Player** players, int key)
 {
 	switch (key)
 	{
-
 	case(HUMAN_VS_HUMAN):
-
 		players[0] = new Human();
 		players[1] = new Human();
 		
 	case(HUMAN_VS_COMPUTER):
-
 		players[0] = new Human();
 		std::cout << "\nPlease choose computer's level:\n";
 		players[1] = new Computer(Menu::selectComputerLevel());
@@ -69,7 +55,6 @@ void Menu::setPlayers(Player** players, int key)
 		players[0] = new Computer(Menu::selectComputerLevel());
 		std::cout << "\nPlease choose 2nd computer's level:\n";
 		players[1] = new Computer(Menu::selectComputerLevel());
-		
 	};
 }
 
@@ -100,7 +85,7 @@ int Menu::handlePauseMenu(Player** players)
 	{
 		if (_kbhit())
 			key = _getch() - '0';
-		if (key ==INSTRUCTIONS && !printed)
+		if (key == INSTRUCTIONS && !printed)
 		{
 			printInstructions();
 			printed = true;
@@ -110,7 +95,12 @@ int Menu::handlePauseMenu(Player** players)
 			clear_screen();
 			break;
 		}
-			
+		else
+		{
+			setPlayers(players, key);
+			key = NEW_GAME;
+		}
+
 	}
 	return key;
 }
