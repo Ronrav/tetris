@@ -22,3 +22,7 @@ int Human::playMove(char key, int colored)
 		return makeMove(key, colored);
 	return 0;
 }
+void Human::getNextBlock()
+{
+	this->block.getShape();
+}

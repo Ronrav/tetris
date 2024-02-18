@@ -25,10 +25,6 @@ public:
 	static constexpr int BOMB_RADIUS = 4;
 	static constexpr int BOMB = -2;
 	static constexpr int WHITE = 15;
-	static constexpr int NEW_GAME = 1;
-	static constexpr int RESUME_GAME = 2;
-	static constexpr int INSTRUCTIONS = 8;
-	static constexpr int EXIT = 9;
 	static constexpr int NO_COLOR = 0;
 	static constexpr int MAX_MOVES_PER_TURN = 10;
 	static constexpr int MADE_MOVE = 10;
@@ -44,6 +40,8 @@ public:
 	static constexpr char DROP = 'x';
 	static constexpr int ESC = 27;
 	static constexpr char DOWN = 'D';
+	static constexpr int ROTATION_STATES = 4;
+	
 
 
 	enum class LKeys {

@@ -7,19 +7,21 @@ void Game::set_colored(int key)
 	colored = key;
 }
 
-int Game::init()
+int Game::init(Player** players)
 {
-
+	//set text color white
+	setTextColor((int)GameConfig::Color::WHITE);
 	clear_screen();
 	hideCursor();
-	int key = Menu::handleStartMenu();
-	if (key != GameConfig::EXIT)
+	int key = Menu::handleStartMenu(players);
+	if (key != Menu::EXIT)
 	{
 		initColor();
 	}
 	return key;
 	
 }
+
 
 void Game::initColor()
 {
@@ -45,8 +47,8 @@ void Game::initColor()
 
 void Game::printBoards() const
 {
-	this->players[PLAYER1].printBoard(colored);
-	this->players[PLAYER2].printBoard(colored);
+	players[PLAYER1]->printBoard(colored);
+	players[PLAYER2]->printBoard(colored);
 }
 
 bool Game::isGameEnded(bool scores[]) const
@@ -103,22 +105,23 @@ void Game::announceTheWinner(int winner) const
 void Game::printBorders() const
 {
 	setTextColor((int)GameConfig::Color::WHITE);
-	this->players[PLAYER1].printBorders();
-	this->players[PLAYER2].printBorders();
+	players[PLAYER1]->printBorders();
+	players[PLAYER2]->printBorders();
 }
 
 void Game::handleFullRows()
 {
-	this->players[PLAYER1].handleFullRows();
-	this->players[PLAYER2].handleFullRows();
+	players[PLAYER1]->handleFullRows();
+	players[PLAYER2]->handleFullRows();
 }
 
 void Game::handleBomb(bool move[])
 {
 	for (int i = 0; i < NUM_OF_PLAYERS; i++)
 	{
+
 		if(!move[i])
-			this->players[i].handle_bomb();
+			(*players[i]).handle_bomb();
 	}
 }
 
@@ -126,15 +129,15 @@ void Game::playGame()
 {
 	srand(time(NULL));
 	char kb;
-	int key, i;
+	int key = 20, i;
 	bool new_game; //true if the game is over 
 	bool end_game[NUM_OF_PLAYERS]; // true if this player lost 
 	bool move[NUM_OF_PLAYERS] = { false, false }; //true if a move was made
 	while (true)
 	{
-		key = init();
+		key = init(players);
 
-		if (key == GameConfig::EXIT)
+		if (key == Menu::EXIT)
 			return;
 
 		end_game[PLAYER1] = false;
@@ -144,60 +147,46 @@ void Game::playGame()
 		{
 			new_game = false;
 			for (i = 0; i < NUM_OF_PLAYERS; i++)
-			{
 				if (!move[i])
-				{
-					//generate a piece to each board
-					players[i].getNextBlock();
-					//add block to board and check if possible
-					if (!players[i].set_block())
+					if(!players[i]->inputNewBlockToBoard())
 						end_game[i] = true;
-				}
-			}
+
 			printBoards();
 			if (isGameEnded(end_game))
 				break;
-			
+
 			for (int i = 0; i < GameConfig::MAX_MOVES_PER_TURN; i++)
 			{
-				kb = inputKbhit();
-				key = players[PLAYER1].playMove(kb, colored);
-				if (!key)
-					key = players[PLAYER2].playMove(kb, colored);
+				key = playPlayersTurn(players);
 				printBoards();
-
-				if (key == GameConfig::EXIT)
+				switch (key)
 				{
+				case(Menu::EXIT):
 					cleanExit();
 					return;
-				}
-				else if (key == GameConfig::RESUME_GAME)
+					break;
+				case(Menu::RESUME_GAME):
 					printBorders();
-				else if (key == GameConfig::NEW_GAME)
-				{
+					break;
+				case(Menu::NEW_GAME):
 					new_game = true;
 					initNewGame();
 					break;
 				}
-				Sleep(10);
 				printBoards();
 			}
 			if (!new_game)
+				//check if block was dropped all the way down
 				for (i = 0; i < NUM_OF_PLAYERS; i++)
-					move[i] = players[i].moveBlockOnBoard(GameConfig::DOWN);
-			emptyKBuffer();
-			Sleep(100);
-			if (!move[PLAYER1] || !move[PLAYER2])
-			{
-				handleBomb(move);
-				handleFullRows();
-			}
-			printBoards();
-
+					move[i] = players[i]->moveBlockOnBoard(GameConfig::DOWN);
+			handleTurnEnd(move);
 		}
 	}
 	clear_screen();
 }
+
+
+			
 char Game::inputKbhit()
 {
 	if (!_kbhit())
@@ -217,15 +206,44 @@ void Game::initNewGame()
 	initColor();
 	zeroPlayingBoards();
 	printBorders();
-	players[PLAYER1].getNextBlock();
-	players[PLAYER2].getNextBlock();
+	players[PLAYER1]->getNextBlock();
+	players[PLAYER2]->getNextBlock();
 }
 
 
 void Game::zeroPlayingBoards()
 {
-	this->players[PLAYER1].ZeroPlayingBoard();
-	this->players[PLAYER2].ZeroPlayingBoard();
+	players[PLAYER1]->ZeroPlayingBoard();
+	players[PLAYER2]->ZeroPlayingBoard();
 
 }
+
+bool Game::isKeyBrakeGame(char key)
+{
+	if (key == Menu::EXIT || key == Menu::RESUME_GAME || Menu::NEW_GAME)
+		return true;
+	return false;
+}
+
+int Game::playPlayersTurn(Player** players)
+{
+	char kb = inputKbhit();
+	if (kb == GameConfig::ESC)
+		return Menu::handlePauseMenu(players);
+	players[PLAYER1]->playMove(kb, colored);
+	players[PLAYER2]->playMove(kb, colored);
+	return GameConfig::DO_NOTHING;
+}
+
+void Game::handleTurnEnd(bool move[])
+{
+	emptyKBuffer();
+	Sleep(100);
+	for(int i = 0; i<NUM_OF_PLAYERS; i++)
+		if(!move[i])
+			handleBomb(move);
+	handleFullRows();
+	printBoards();
+}
+
 

@@ -1,8 +1,8 @@
 #ifndef __PLAYER_H
 #define __PLAYER_H
 #include "board.h"
-#include <vector>
-#include "menu.h"
+
+
 class Player
 {
 protected:
@@ -10,11 +10,12 @@ protected:
 	Shape block;
 
 public:
-
+	
 	Player() { block.getShape(); }
+	virtual ~Player() {};
 	void printBoard(int colored) const;
 	void printBorders() const;
-	void getNextBlock();
+	virtual void getNextBlock() = 0;
 
 
 	//Gets the direction of movment.
@@ -41,9 +42,9 @@ public:
 	
 	int makeMove(char key, int colored);
 
-	void moveBlockToLeftmost(Shape& shape) const;
+	bool inputNewBlockToBoard();
 
-	Shape getCopyBlock();
+	virtual int playMove(char key, int colored) = 0;
 
 };
 

@@ -1,24 +1,21 @@
 #ifndef __GAME_H
 #define __GAME_H
-#include "board.h"
 #include "utills.h"
 #include <windows.h>
 #include "gameConfig.h"
 #include "menu.h"
-#include "human.h"
-#include "computer.h"
 
 class Game
 {
 	static constexpr int NUM_OF_PLAYERS = 2;
-	Computer players[NUM_OF_PLAYERS];
-	static int colored;
 
+	Player* players[NUM_OF_PLAYERS];
+	static int colored;
 	static void set_colored(int key);
 
 	//Prints the game boards for both players.
 	void printBoards() const;
-
+	
 
 	// Checks if the game has ended based on the players' scores. 
 	//It gets the scores array. and returns "true" if the game has ended. 
@@ -28,7 +25,7 @@ class Game
 
 	//  Initializes the game, handles start menu, and initializes the game board.
 	// Returs key, representing the selected option.
-	int init();
+	int init(Player** player);
 
 
 	//Gets the player number who won or TIE for a tie, 
@@ -51,13 +48,14 @@ class Game
 
 	void zeroPlayingBoards();
 
-	void inputKbhit(char* input);
+	char inputKbhit();
 
 	void initNewGame();
 
 	void cleanExit();
-	char inputKbhit();
-	
+	int playPlayersTurn(Player** players);
+	bool isKeyBrakeGame(char key);
+	void handleTurnEnd(bool move[]);
 
 	static constexpr int PLAYER1 = 0;
 	static constexpr int PLAYER2 = 1;
@@ -66,7 +64,7 @@ class Game
 	static constexpr int WITH_COLOR = 1;
 	static constexpr int MAX_KEYS_IN_BUFFER = 10;
 
-	
+
 
 	enum class LKeys {
 		LEFT_LOWER = 'a', RIGHT_LOWER = 'd', ROTATE_CLOCKWISE_LOWER = 's', ROTATE_COUNTERCLOCKWISE_LOWER = 'w', DROP_LOWER = 'x',
@@ -83,11 +81,15 @@ class Game
 public:
 	// Initiates the gameplay loop, handles player input, updates the game state, and checks for game over conditions.
 	void playGame();
+	~Game() {
+		delete players[PLAYER1];
+		delete players[PLAYER2];
+	};
 
 
-	
-	
-};
 
 #endif
+};
+
+
 
