@@ -1,6 +1,6 @@
 #include "computer.h"
 
-Shape Computer:: findBestMove()
+Shape Computer::findBestMove()
 {
 	if (block.getShapeType() == GameConfig::BOMB)
 		return calculateBombBestMove();
@@ -29,7 +29,7 @@ Shape Computer::calculateBestMove()
 			this->block.rotateClockWise();
 
 		moveBlockToLeftmost();
-
+		flag = true;
 		while (flag) 
 		{
 			const Shape shape_saver2 = this->block;
@@ -59,6 +59,7 @@ Shape Computer::calculateBombBestMove()
 {
 	const Shape saver = block;
 	Shape best_move;
+	Board board_saver = playing_board;
 	int highest_column = playing_board.getHighestColumn();
 	int diff_x = block.getBombSource().getX() - highest_column;
 	char direction = GameConfig::LEFT;
@@ -76,6 +77,7 @@ Shape Computer::calculateBombBestMove()
 	dropNoPrint();
 	best_move = block;
 	block = saver;
+	playing_board = board_saver;
 	return best_move;
 }
 
@@ -98,7 +100,7 @@ int Computer::lowestColumn()
 		if (curr_y > min_hight)
 			min_hight = curr_y;
 	}
-	return (3 * curr_y);
+	return (4 * curr_y);
 }
 int Computer::countNoHoles()
 {
@@ -192,13 +194,12 @@ char Computer::getNextMove()
 	int curr_x = block.getPointByIndex(0).getX();
 	int best_x = final_block.getPointByIndex(0).getX();
 
+	if (final_block.getRotationState() != block.getRotationState())
+		return (char)GameConfig::RKeys::ROTATE_CLOCKWISE_LOWER;
 	if (curr_x < best_x)
 		return (char)GameConfig::RKeys::RIGHT_LOWER;
 	if (curr_x > best_x)
 		return (char)GameConfig::RKeys::LEFT_LOWER;
-	bool flag = (final_block.getRotationState() != block.getRotationState());
-	if (flag)
-		return (char)GameConfig::RKeys::ROTATE_CLOCKWISE_LOWER;
 	return (char)GameConfig::RKeys::DROP_LOWER;
 
 }

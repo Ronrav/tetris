@@ -18,7 +18,6 @@ void Shape::setShapeType()
 		this->shape_type =  GameConfig::BOMB;
 	else
 		this->shape_type = getRandom(1, NUM_OF_SHAPES); //return random shape type between ordinary shapes
-
 }
 
 

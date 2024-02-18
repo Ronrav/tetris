@@ -18,8 +18,6 @@ public:
 	virtual void getNextBlock() = 0;
 
 
-
-
 	//Gets the direction of movment.
 	//Moves the block in the specified direction on the board.
 	//return 'true' if the block was moved.

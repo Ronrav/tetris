@@ -148,13 +148,8 @@ void Game::playGame()
 			new_game = false;
 			for (i = 0; i < NUM_OF_PLAYERS; i++)
 				if (!move[i])
-				{
-					//generate a piece to each board
-					players[i]->getNextBlock();
-					//add block to board and check if possible
-					if (!players[i]->set_block())
+					if(!players[i]->inputNewBlockToBoard())
 						end_game[i] = true;
-				}
 
 			printBoards();
 			if (isGameEnded(end_game))
