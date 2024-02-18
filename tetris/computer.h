@@ -24,10 +24,9 @@ class Computer : public Player
 	int calculateScore();
 	bool decideIfBestMove();
 	int lowestColumn();
-	bool fitRotation();
-	bool fitLocation();
 	bool inputNewBlockToBoard();
-	//void inputMovesVector();
+	char getNextMove();
+
 
 public:
 	

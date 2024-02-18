@@ -44,6 +44,7 @@ class Board
 public:
 
 	Board();
+	~Board();
 
 	//Checks if a specific coordinate is on the board and if its free.
 	bool checkIfFreeCoord(int _x, int _y) const;

@@ -43,10 +43,10 @@ public:
 
 	void ZeroPlayingBoard();
 	
-	virtual int makeMove(char key, int colored);
-
+	int makeMove(char key, int colored);
 
 	bool inputNewBlockToBoard();
+
 	virtual int playMove(char key, int colored) = 0;
 
 };
