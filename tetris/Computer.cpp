@@ -192,42 +192,22 @@ Shape Computer::getRandomMove()
 	return move;
 }
 
-bool Computer::fitRotation()
+char Computer::getNextMove()
 {
-	bool moved = false;
-	if (final_block.getRotationState() != block.getRotationState())
-		moved = moveBlockOnBoard(GameConfig::ROTATE_CLOCKWISE);
-
-	return moved;
-}
-
-bool Computer::fitLocation()
-{
-	
 	int curr_x = block.getPointByIndex(0).getX();
 	int best_x = final_block.getPointByIndex(0).getX();
-	bool moved = false; = GameConfig::DO_NOTHING;
-
 	if (curr_x < best_x)
-		moved = moveBlockOnBoard(GameConfig::RIGHT);
-	
+		return GameConfig::RIGHT;
+	if (curr_x > best_x)
+		return GameConfig::LEFT;
+	if (final_block.getRotationState() != block.getRotationState())
+		return GameConfig::ROTATE_CLOCKWISE;
 
-	else if (curr_x > best_x)
-		moved = moveBlockOnBoard(GameConfig::LEFT);
-	
-	return moved;
 }
-
 int Computer::playMove(char key, int colored)
 {
-	
-	int out_key = makeMove(colored);
-	moves_list.pop_front();
-	return out_key;
+	return makeMove(colored, getNextMove());
 }
 
-/*/void Computer::makeEmptyList()
-{
-	this->moves_list.clear();
-}
+
 
