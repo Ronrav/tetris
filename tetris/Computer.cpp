@@ -196,6 +196,7 @@ char Computer::getNextMove()
 {
 	int curr_x = block.getPointByIndex(0).getX();
 	int best_x = final_block.getPointByIndex(0).getX();
+
 	if (curr_x < best_x)
 		return GameConfig::RIGHT;
 	if (curr_x > best_x)

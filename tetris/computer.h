@@ -32,8 +32,8 @@ public:
 	
 	Computer(char level = 'a') :level(level) {};
 	virtual ~Computer() {};
-	void  getNextBlock() override;
-	int playMove(char key, int colored) override;
+	virtual void  getNextBlock() override;
+	virtual int playMove(char key, int colored) override;
 	//void makeEmptyList() override;
 
 	static constexpr char BEST = 'a';

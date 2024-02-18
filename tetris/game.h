@@ -8,7 +8,6 @@
 #include "computer.h"
 #include "menu.h"
 
-
 class Game
 {
 	static constexpr int NUM_OF_PLAYERS = 2;
@@ -16,7 +15,10 @@ class Game
 	Player* players[NUM_OF_PLAYERS];
 	static int colored;
 
-	//~Game() { };
+	~Game() {
+		delete players[PLAYER1];
+		delete players[PLAYER2];
+	};
 	static void set_colored(int key);
 
 	//Prints the game boards for both players.
@@ -31,7 +33,7 @@ class Game
 
 	//  Initializes the game, handles start menu, and initializes the game board.
 	// Returs key, representing the selected option.
-	int init();
+	int init(Player** player);
 
 
 	//Gets the player number who won or TIE for a tie, 
@@ -59,7 +61,7 @@ class Game
 	void initNewGame();
 
 	void cleanExit();
-	int playPlayersTurn();
+	int playPlayersTurn(Player** players);
 	bool isKeyBrakeGame(char key);
 	void handleTurnEnd(bool move[]);
 
