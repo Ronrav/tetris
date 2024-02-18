@@ -196,7 +196,8 @@ char Computer::getNextMove()
 		return (char)GameConfig::RKeys::RIGHT_LOWER;
 	if (curr_x > best_x)
 		return (char)GameConfig::RKeys::LEFT_LOWER;
-	if (final_block.getRotationState() != block.getRotationState())
+	bool flag = (final_block.getRotationState() != block.getRotationState());
+	if (flag)
 		return (char)GameConfig::RKeys::ROTATE_CLOCKWISE_LOWER;
 	return (char)GameConfig::RKeys::DROP_LOWER;
 

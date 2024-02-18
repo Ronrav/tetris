@@ -43,11 +43,13 @@ void Menu::setPlayers(Player** players, int key)
 	case(HUMAN_VS_HUMAN):
 		players[0] = new Human();
 		players[1] = new Human();
+		break;
 		
 	case(HUMAN_VS_COMPUTER):
 		players[0] = new Human();
 		std::cout << "\nPlease choose computer's level:\n";
 		players[1] = new Computer(Menu::selectComputerLevel());
+		break;
 		
 
 	case(COMPUTER_VS_COMPUTER):
@@ -55,6 +57,7 @@ void Menu::setPlayers(Player** players, int key)
 		players[0] = new Computer(Menu::selectComputerLevel());
 		std::cout << "\nPlease choose 2nd computer's level:\n";
 		players[1] = new Computer(Menu::selectComputerLevel());
+		break;
 	};
 }
 
