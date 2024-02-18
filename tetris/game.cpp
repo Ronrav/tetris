@@ -169,6 +169,7 @@ void Game::playGame()
 					break;
 				case(Menu::NEW_GAME):
 					new_game = true;
+					move[PLAYER1] = move[PLAYER2] = false;
 					initNewGame();
 					break;
 				}
@@ -200,9 +201,6 @@ void Game::initNewGame()
 {
 	initColor();
 	printBorders();
-	players[PLAYER1]->inputNewBlockToBoard();
-	players[PLAYER2]->inputNewBlockToBoard();
-	printBoards();
 }
 
 int Game::playPlayersTurn(Player** players)
