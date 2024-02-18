@@ -43,14 +43,19 @@ public:
 	//returns 'true' if the block has seccesfully set.
 	bool set_block();
 
+	//handles bomb explosion
 	void handle_bomb();
 
+	//zero board to empty
 	void ZeroPlayingBoard();
 	
+	//receives a key and a performes a move accordingly
 	int makeMove(char key, int colored);
 
+	//generates a new block and tries to place it on the board. returns false if board does nto have room for a new block
 	bool inputNewBlockToBoard();
 
+	//moves player block one spot down
 	bool gravitate_block();
 
 };

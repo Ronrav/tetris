@@ -37,7 +37,9 @@ class Board
 		return board[p.getY()][p.getX()];
 	}
 
+	//returns bomb explosion radius by reference
 	void getBombPerimeters(int& x, int& y, int source_x, int source_y) const;
+
 
 	bool isPointFreeOnBoard(const Point& p);
 
@@ -73,12 +75,16 @@ public:
 	//returns 'true' if the block has seccesfully set.
 	bool set_block(const Shape& block);
 
+	//deletes all sqaures in bomb radius on board
 	void handle_bomb(const Shape& block);
 
+	//set block's place in board to empty
 	void zeroShapePlace(const Shape& shape);
 
+	//set block's place on board to occupied
 	void applyBlock(const Shape& shape);
 
+	//returns the column number that has the highest number of block parts
 	int getHighestColumn();
 };
 

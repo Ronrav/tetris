@@ -44,14 +44,18 @@ class Game
 	//  Initializes the game board and color settings based on player input.
 	void initColor();
 
+	//check and handles bomb for all players
 	void handleBomb(bool move[]);
 
+	//inputs a kbhit from the user
 	char inputKbhit();
 
 	void initNewGame();
 
 	void cleanExit();
+
 	int playPlayersTurn(Player** players);
+
 	void handleTurnEnd(bool move[]);
 
 	static constexpr int PLAYER1 = 0;
@@ -79,6 +83,7 @@ public:
 	// Initiates the gameplay loop, handles player input, updates the game state, and checks for game over conditions.
 	void playGame();
 	~Game() {
+		
 		delete players[PLAYER1];
 		delete players[PLAYER2];
 	};
