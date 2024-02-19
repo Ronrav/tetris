@@ -24,6 +24,7 @@ Shape Computer::calculateBestMove()
 
 		moveBlockOnBoard(GameConfig::DOWN);
 		moveBlockOnBoard(GameConfig::DOWN);
+		moveBlockOnBoard(GameConfig::DOWN);
 
 		for (int i = 0; i < rotation; i++)
 			this->block.rotateClockWise();
@@ -90,6 +91,7 @@ int Computer::calculateScore()
 	return score;
 
 }
+
 int Computer::lowestColumn()
 {
 	int min_hight = 0;// 0 is the highest y coord on board
@@ -102,6 +104,7 @@ int Computer::lowestColumn()
 	}
 	return (4 * curr_y);
 }
+
 int Computer::countNoHoles()
 {
 	int counter = 0;
@@ -196,6 +199,7 @@ char Computer::getNextMove()
 	return (char)GameConfig::RKeys::DROP_LOWER;
 
 }
+
 int Computer::playMove(char key, int colored)
 {
 	return makeMove(getNextMove(), colored);

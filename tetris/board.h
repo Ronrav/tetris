@@ -85,7 +85,7 @@ public:
 	void applyBlock(const Shape& shape);
 
 	//returns the column number that has the highest number of block parts
-	int getHighestColumn();
+	int getHighestColumn() const;
 };
 
 #endif
