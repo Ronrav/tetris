@@ -173,10 +173,13 @@ Shape Computer::getRandomMove()
 	Shape move = block;
 	const Shape shape_saver = block;
 	const Board board_saver = playing_board;
+	moveBlockOnBoard(GameConfig::DOWN);
+	moveBlockOnBoard(GameConfig::DOWN);
+	moveBlockOnBoard(GameConfig::DOWN);
 	if (block.getShapeType() != GameConfig::BOMB)
 	{
 		for (int i = 0; i < rotation_state; i++)
-			this->block.rotateClockWise();
+			moveBlockOnBoard(GameConfig::ROTATE_CLOCKWISE);
 	}
 	moveBlockToLeftmost();
 	while (flag && counter <= x)
