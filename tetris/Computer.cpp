@@ -83,17 +83,16 @@ Shape Computer::calculateBombBestMove()
 	return best_move;
 }
 
-int Computer::calculateScore()
+int Computer::calculateScore() 
 {
 	int score = 0; 
 	score += 100 * (playing_board.handleFullRows()); 
 	score += countNoHoles();
 	score += lowestColumn();
 	return score;
-
 }
 
-int Computer::lowestColumn()
+int Computer::lowestColumn() const
 {
 	int min_hight = 0;// 0 is the highest y coord on board
 	int curr_y = GameConfig::BOARD_WIDTH;;
@@ -103,10 +102,10 @@ int Computer::lowestColumn()
 		if (curr_y > min_hight)
 			min_hight = curr_y;
 	}
-	return (4 * curr_y);
+	return (COLUMN_GRADE * curr_y);
 }
 
-int Computer::countNoHoles()
+int Computer::countNoHoles() const
 {
 	int counter = 0;
 
@@ -122,7 +121,7 @@ int Computer::countNoHoles()
 		}
 	}
 
-	return (counter * 4);
+	return (counter * HOLES_GRADE);
 }
 
 void Computer::getNextBlock()
@@ -132,19 +131,19 @@ void Computer::getNextBlock()
 	
 }
 
-bool Computer::decideIfBestMove()
+bool Computer::decideIfBestMove() const
 {
 	int random;
 	switch (level)
 	{
 	case (GOOD):
-		random = getRandom(1, 40);
+		random = getRandom(1, B_ERROR);
 		if (random == 1)
 			return false;
 		return true;
 
 	case (NOVICE):
-		random = getRandom(1, 10);
+		random = getRandom(1, C_ERROR);
 		if (random == 1)
 			return false;
 		return true;

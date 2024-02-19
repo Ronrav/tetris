@@ -29,16 +29,16 @@ class Computer : public Player
 	}
 	
 	//function for calculating the best move
-	int countNoHoles();
+	int countNoHoles() const;
 	
 	//function for calculating the best move
 	int calculateScore();
 	
 	//function for calculating the best move
-	bool decideIfBestMove();
+	bool decideIfBestMove() const;
 	
 	//function for calculating the best move
-	int lowestColumn();
+	int lowestColumn() const;
 	
 	//returns a char representing the computers next move according to the final shape member and the current block
 	char getNextMove();
@@ -49,8 +49,10 @@ class Computer : public Player
 	static constexpr char BEST = 'a';
 	static constexpr char GOOD = 'b';
 	static constexpr char NOVICE = 'c';
-
-
+	static constexpr int COLUMN_GRADE = 4;
+	static constexpr int HOLES_GRADE = 3;
+	static constexpr int C_ERROR = 10;
+	static constexpr int B_ERROR = 40;
 public:
 	
 	Computer(char level = BEST) :level(level) {};
