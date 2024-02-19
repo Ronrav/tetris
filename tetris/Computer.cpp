@@ -24,11 +24,13 @@ Shape Computer::calculateBestMove()
 
 		moveBlockOnBoard(GameConfig::DOWN);
 		moveBlockOnBoard(GameConfig::DOWN);
+		moveBlockOnBoard(GameConfig::DOWN);
+		moveBlockOnBoard(GameConfig::DOWN);
 
 		for (int i = 0; i < rotation; i++)
-			this->block.rotateClockWise();
+			moveBlockOnBoard(GameConfig::ROTATE_CLOCKWISE);
 
-		moveBlockToLeftmost();
+		moveBlockToLeftmost(); 
 		flag = true;
 		while (flag) 
 		{
