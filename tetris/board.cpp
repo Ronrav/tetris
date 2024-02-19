@@ -192,7 +192,7 @@ void Board::handle_bomb(const Shape& block)
 			this->board[i][j] = GameConfig::EMPTY;
 }
 
-int Board::getHighestColumn()
+int Board::getHighestColumn() const
 {
 
 	int highest_value = -1;

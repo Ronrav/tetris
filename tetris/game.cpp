@@ -26,12 +26,13 @@ void Game::initColor()
 {
 	//set text color white
 	setTextColor((int)GameConfig::Color::WHITE);
-	int key;
+	int key = -1;
 	clear_screen();
 	std::cout << "\npress 1 for color or 0 for no color\n";
-	key = _getch() - '0';
-	while (key != WITH_COLOR && key != NO_COLOR)
-		key = _getch();
+	
+	do 
+		key = _getch() - '0';
+	while (key != WITH_COLOR && key != NO_COLOR);
 	set_colored(key);
 	clear_screen();
 	Sleep(300);
@@ -114,16 +115,6 @@ void Game::handleFullRows()
 	players[PLAYER2]->handleFullRows();
 }
 
-void Game::handleBomb(bool move[])
-{
-	for (int i = 0; i < NUM_OF_PLAYERS; i++)
-	{
-
-		if(!move[i])
-			players[i]->handle_bomb();
-	}
-}
-
 void Game::playGame()
 {
 	srand(time(NULL));
@@ -170,6 +161,7 @@ void Game::playGame()
 				case(Menu::NEW_GAME):
 					new_game = true;
 					move[PLAYER1] = move[PLAYER2] = false;
+					i = GameConfig::MAX_MOVES_PER_TURN;
 					initNewGame();
 					break;
 				}
@@ -179,11 +171,12 @@ void Game::playGame()
 				handleTurnEnd(move);
 			emptyKBuffer();
 		}
+		std::cout << "finished one game";
 	}
 	clear_screen();
 }
 			
-char Game::inputKbhit()
+char Game::inputKbhit() const
 {
 	if (!_kbhit())
 		return GameConfig::DO_NOTHING;
@@ -191,7 +184,7 @@ char Game::inputKbhit()
 		return _getch();
 }
 
-void Game::cleanExit()
+void Game::cleanExit() const
 {
 	setTextColor((int)GameConfig::Color::WHITE);
 	clear_screen();
@@ -221,7 +214,7 @@ void Game::handleTurnEnd(bool move[])
 		move[i] = players[i]->gravitate_block();
 		Sleep(50);
 		if (!move[i])
-			handleBomb(move);
+			players[i]->handle_bomb();
 	}
 	handleFullRows();
 	printBoards();

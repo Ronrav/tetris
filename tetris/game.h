@@ -44,15 +44,12 @@ class Game
 	//  Initializes the game board and color settings based on player input.
 	void initColor();
 
-	//check and handles bomb for all players
-	void handleBomb(bool move[]);
-
 	//inputs a kbhit from the user
-	char inputKbhit();
+	char inputKbhit() const;
 
 	void initNewGame();
 
-	void cleanExit();
+	void cleanExit() const;
 
 	int playPlayersTurn(Player** players);
 
