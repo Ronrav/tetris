@@ -194,9 +194,6 @@ void Board::handle_bomb(const Shape& block)
 
 int Board::getHighestColumn() const
 {
-
-	int highest_value = -1;
-	int column = -1;
 	int i, j;
 	for (i = 0; i < GameConfig::BOARD_HEIGHT; i++)
 	{
